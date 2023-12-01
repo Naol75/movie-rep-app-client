@@ -4,12 +4,14 @@ import axios from "axios";
 function PopularMoviesPage() {
   const apiKey = import.meta.env.VITE_TMDB_API_KEY;
   const [popularMovies, setPopularMovies] = useState([]);
+  const [page, setPage] = useState(1);
+  const [isPageLoading, setIsPageLoading] = useState(false);
   const roundedRating = (rating) => {
     return parseFloat(rating).toFixed(2);
   };
   
   const getImageUrl = (path) => {
-    const baseUrl = "https://image.tmdb.org/t/p/w400";
+    const baseUrl = "https://image.tmdb.org/t/p/w300";
     return `${baseUrl}${path}`;
   };
   const mapGenreIdsToNames = (genreIds) => {
@@ -40,6 +42,7 @@ function PopularMoviesPage() {
   useEffect(() => {
     const fetchPopularMovies = async () => {
       try {
+        
         const response = await axios.get(
           `https://api.themoviedb.org/3/movie/popular?api_key=${apiKey}&language=en-US&page=1`
         );

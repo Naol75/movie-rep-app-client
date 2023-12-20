@@ -36,10 +36,12 @@ function FiltersComp() {
   };
   const { filters, setFilters } = useFilter();
   const currentYear = new Date().getFullYear();
+
   const handleYearChange = (event) => {
     console.log('Year changed:', event.target.value);
     setFilters((prevFilters) => ({ ...prevFilters, minYear: parseInt(event.target.value) }));
   };
+
   const handleGenreChange = (event) => {
     console.log('Genre changed:', event.target.value);
     setFilters((prevFilters) => ({ ...prevFilters, genre: event.target.value }));
@@ -47,30 +49,34 @@ function FiltersComp() {
 
   return (
     <section className="filters">
-        <div>
-            <label htmlFor="year">Released after</label>
-            <input 
-            type="range"
-            id="year"
-            min='1900'
-            max={currentYear}
-            value={filters.minYear}
-            onChange={handleYearChange}
-            />
-            <span>{filters.minYear}</span>
-        </div>
-        <div>
-          <label htmlFor="genre">Genre</label>
-          <select id="genre" value={filters.genre} onChange={handleGenreChange}>
+      <div>
+        <label htmlFor="year">Released after</label>
+        <select
+          id="year"
+          value={filters.minYear}
+          onChange={handleYearChange}
+        >
+          <option value="">Select Year</option>
+          {[...Array(currentYear - 1900 + 1).keys()].map((year) => (
+            <option key={year} value={year + 1900}>
+              {year + 1900}
+            </option>
+          ))}
+        </select>
+      </div>
+      <div>
+        <label htmlFor="genre">Genre</label>
+        <select id="genre" value={filters.genre} onChange={handleGenreChange}>
+          <option value="">Select Genre</option>
           {Object.values(genreMap).map((genre) => (
-    <option key={genre} value={genre}>
-      {genre}
-    </option>
-  ))}
-          </select>
-        </div>
+            <option key={genre} value={genre}>
+              {genre}
+            </option>
+          ))}
+        </select>
+      </div>
     </section>
-  )
+  );
 }
 
-export default FiltersComp
+export default FiltersComp;

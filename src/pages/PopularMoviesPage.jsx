@@ -83,7 +83,8 @@ function PopularMoviesPage() {
   };
 
   useEffect(() => {
-    setPage(1);
+    
+    console.log('MinYear in filters:', filters.minYear);
     fetchPopularMovies();
   }, [filters]);
   

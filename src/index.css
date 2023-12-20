@@ -1,3 +1,6 @@
+@import url('https://fonts.googleapis.com/css2?family=Tilt+Neon&display=swap');
+
+
 body {
   background: #202020;
   color: white;
@@ -76,9 +79,16 @@ html {
 }
 
 /* Home Page, Popular movies page  */
+
+.loader-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh; /* O ajusta la altura según tus necesidades */
+}
 .grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
   padding-left: 0;
   margin-right: 0;
   position: relative;
@@ -91,8 +101,8 @@ html {
   overflow: hidden;
   margin: 25px auto;
   background: rgba(51, 51, 51, 0.9);
-  width: 80%;
-  max-width: 300px;
+  width: 300px;
+  max-width: 100%;
   font-size: 15px;
   text-wrap: balance;
   transition: all 0.2s ease-in-out;
@@ -111,6 +121,9 @@ html {
 }
 
 .info {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
   padding: 0;
   text-align: center;
   color: white;
@@ -131,19 +144,54 @@ html {
   font-size: 17.55px;
 }
 
+/* New Releases - Movies*/
+.release-date {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-end;
+  justify-content: center;
+  height: 100%;
+}
+
+.neonred {
+  color: whitesmoke;
+  font-size: 17.55px;
+  text-shadow: 0px 0px 10px #ff1e00;
+  letter-spacing: 1.5px;
+}
+
+
 
 @media (max-width: 480px) {
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+    padding-left: 0;
+    margin-right: 0;
+    position: relative;
+    z-index: -1;
+  }
+  
+  .card {
+    border: 1px solid rgba(black, black, black, 0.9);
+    border-radius: 8px;
+    overflow: hidden;
+    margin: 25px auto;
+    background: rgba(51, 51, 51, 0.9);
+    width: 300px;
+    max-width: 80%;
+    font-size: 15px;
+    text-wrap: balance;
+    transition: all 0.2s ease-in-out;
+  }
+
   .form-div {
     height: 60%;
     width: 80%;
     margin: 0;
     margin-top: 9vh;
   }
-  .card {
-    width: 90%;
-    margin-right: auto;
-    margin-left: auto;
-  }
+
 
 
   .navbar {
@@ -172,22 +220,30 @@ html {
 
 
 @media (max-width: 768px) {
+  .card {
+    border: 1px solid rgba(black, black, black, 0.9);
+    border-radius: 8px;
+    overflow: hidden;
+    margin: 25px auto;
+    background: rgba(51, 51, 51, 0.9);
+    width: 300px;
+    max-width: 90%;
+    font-size: 15px;
+    text-wrap: balance;
+    transition: all 0.2s ease-in-out;
+  }
+
   .form-div {
     height: 60%;
     width: 80%;
     margin: 0;
     margin-top: 9vh;
   }
-  .card {
-    width: 90%;
-    margin-right: auto;
-    margin-left: auto;
-  }
+
 
 
   .navbar {
-    padding-left: 35px;
-    padding-right: 35px;
+padding: 17px;
   }
   .navbar-toggler {
     order: -1;
@@ -210,6 +266,11 @@ html {
 
   .logo-img {
     width: 150px;
+  }
+
+  .user-icon-container {
+    margin-left: auto;
+    margin-top: -10px;
   }
 }
 @media (max-width: 1201) {

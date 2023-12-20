@@ -1,0 +1,15 @@
+.filters {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 17px;
+    font-weight: 500;
+    margin-right: 58px;
+    margin-left: 58px;
+}
+
+
+.filters > div {
+    display: flex;
+    gap: 1rem;
+}

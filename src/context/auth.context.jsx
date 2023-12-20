@@ -13,25 +13,33 @@ function AuthWrapper(props) {
     setIsPageLoading(true);
     try {
       const authToken = localStorage.getItem('authToken');
+  
+      console.log('Stored Token:', authToken);
 
-      console.log('Sending Token:', authToken);
-
+      if (!authToken) {
+        console.log('Token is not defined. Aborting verification.');
+        setIsUserActive(false);
+        setIsPageLoading(false);
+        setActiveUserId(null);
+        return;
+      }
+  
       const response = await service.get('auth/verify', {
         headers: {
           Authorization: `Bearer ${authToken}`,
         },
       });
-
+  
       setIsUserActive(true);
       setActiveUserId(response.data._id);
       setIsPageLoading(false);
     } catch (error) {
       console.error('Token Verification Error:', error);
-
+  
       if (error.response && error.response.status === 401) {
         console.log('Unauthorized - Other Issue');
       }
-
+  
       setIsUserActive(false);
       setIsPageLoading(false);
       setActiveUserId(null);
@@ -39,7 +47,8 @@ function AuthWrapper(props) {
   };
 
   useEffect(() => {
-    verifyToken();
+    console.log("AuthWrapper: Before verifyToken")
+     verifyToken();
   }, []);
 
   const passedContext = {

@@ -1,8 +1,8 @@
-import { useEffect, useState } from "react";
 import service from "../services/api";
 import { MoonLoader } from "react-spinners";
+import { useState, useEffect } from "react";
 
-function PopularSeriesPage() {
+function AiringTodayPage() {
   const apiKey = import.meta.env.VITE_TMDB_API_KEY;
   const [popularTvShows, setPopularTvShows] = useState([]);
   const [isPageLoading, setIsPageLoading] = useState(false);
@@ -43,7 +43,7 @@ function PopularSeriesPage() {
 
       setIsPageLoading(true);
       const response = await service.get(
-        `https://api.themoviedb.org/3/tv/popular?api_key=${apiKey}&language=en-US&page=${page}`
+        `https://api.themoviedb.org/3/tv/airing_today?api_key=${apiKey}&language=en-US&page=${page}`
       );
       console.log("API Response:", response.data);
 
@@ -106,13 +106,18 @@ function PopularSeriesPage() {
                   {tvShow.name} {`(${tvShow.first_air_date.substring(0, 4)})`}
                 </h3>
                 <p>{mapGenreIdsToNames(tvShow.genre_ids)}</p>
-                <p className="rating">⭐ {roundedRating(tvShow.vote_average)}</p>
+                <p className="rating">
+                  ⭐ {roundedRating(tvShow.vote_average)}
+                </p>
               </div>
             </div>
           ))}
       </div>
       {isPageLoading && (
-        <div className="loader-container" style={{ textAlign: "center", marginTop: "20px" }}>
+        <div
+          className="loader-container"
+          style={{ textAlign: "center", marginTop: "20px" }}
+        >
           <MoonLoader color="red" size={50} loading={true} />
         </div>
       )}
@@ -120,4 +125,4 @@ function PopularSeriesPage() {
   );
 }
 
-export default PopularSeriesPage;
+export default AiringTodayPage;

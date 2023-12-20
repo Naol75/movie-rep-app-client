@@ -1,16 +1,14 @@
 import { useEffect, useState } from "react";
 import service from "../services/api";
 import { MoonLoader } from "react-spinners";
-import { useFilter } from '../context/filters.context';
+import { isAfter, subMonths } from "date-fns";
 
-function PopularMoviesPage() {
+function NewReleasesPage() {
   const apiKey = import.meta.env.VITE_TMDB_API_KEY;
-  const { filters } = useFilter();
-  const [filteredMovies, setFilteredMovies] = useState([]);
-  const [filtersChanged, setFiltersChanged] = useState(false);
+  const [popularMovies, setPopularMovies] = useState([]);
   const [page, setPage] = useState(1);
   const [isPageLoading, setIsPageLoading] = useState(false);
-  const [renderedMovies, setRenderedMovies] = useState(new Set());
+  const [renderedMovies, setRenderedMovies] = useState(new Set())
 
   const roundedRating = (rating) => parseFloat(rating).toFixed(2);
 
@@ -44,36 +42,29 @@ function PopularMoviesPage() {
     return genreIds.map((genreId) => genreMap[genreId]).join(", ");
   };
 
+
+
   const fetchPopularMovies = async () => {
     try {
+
       setIsPageLoading(true);
-      if (page === 1 || filtersChanged) {
-        setRenderedMovies(new Set());
-      }
       const response = await service.get(
-        `https://api.themoviedb.org/3/movie/popular?api_key=${apiKey}&language=en-US&page=${page}`
+        `https://api.themoviedb.org/3/movie/upcoming?api_key=${apiKey}&language=en-US&page=${page}`
       );
       console.log("API Response:", response.data);
-  
-      const newMovies = response.data.results.filter(
-        (movie) => !renderedMovies.has(movie.id)
-      );
-  
-      setFilteredMovies(newMovies.filter((movie) => {
-        const itemYear = Number(movie.release_date?.substring(0, 4));
-        const itemGenres = mapGenreIdsToNames(movie.genre_ids);
-      
-        return (
-          itemYear >= filters.minYear &&
-          (filters.genre === 'all' || itemGenres.includes(filters.genre))
-        );
-      }));
-  
-      setRenderedMovies((prevRenderedMovies) => new Set([
-        ...prevRenderedMovies,
-        ...newMovies.map((movie) => movie.id),
-      ]));
-  
+
+      const currentDate = new Date();
+      const threeMonthsAgo = subMonths(currentDate, 3);
+
+      const newMovies = response.data.results
+      .filter((movie) => !renderedMovies.has(movie.id))
+      .filter((movie) => isAfter(new Date(movie.release_date), threeMonthsAgo));
+
+      setPopularMovies((prevMovies) => [...prevMovies, ...newMovies]);
+
+      const newRenderedMovieIds = new Set([...renderedMovies, ...newMovies.map((movie) => movie.id)]);
+      setRenderedMovies(newRenderedMovieIds);
+
       setPage((prevPage) => prevPage + 1);
     } catch (error) {
       console.error("Error fetching popular movies:", error);
@@ -83,32 +74,35 @@ function PopularMoviesPage() {
   };
 
   useEffect(() => {
-    setPage(1);
-    fetchPopularMovies();
-  }, [filters]);
-  
-  useEffect(() => {
-    setFiltersChanged(false);
-  }, []);
-  useEffect(() => {
-    setFiltersChanged(true);
-  }, [filters]);
-
-
-  useEffect(() => {
     console.log("Current page:", page);
-  }, [page]);
 
+    const handleScroll = () => {
+      const scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+      const windowHeight = window.innerHeight;
+      const documentHeight = document.documentElement.scrollHeight;
+
+      if (scrollTop + windowHeight >= documentHeight - 800 && !isPageLoading) {
+        fetchPopularMovies();
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, [page, isPageLoading]);
+
+  // Initial fetch
   useEffect(() => {
-    console.log("Filtered Movies:", filteredMovies);
-  }, [filteredMovies]);
+    fetchPopularMovies();
+  }, []);
 
   return (
     <div>
       <div className="grid">
-      {console.log("Number of filtered movies:", filteredMovies.length)}
-        {filteredMovies &&
-          filteredMovies.map((movie) => (
+        {popularMovies &&
+          popularMovies.map((movie) => (
             <div className="card" key={movie.id}>
               <img
                 src={getImageUrl(movie.poster_path)}
@@ -117,10 +111,13 @@ function PopularMoviesPage() {
               />
               <div className="info">
                 <h3>
-                  {movie.title} ({movie.release_date && movie.release_date.substring(0, 4)})
+                  {movie.title}
                 </h3>
                 <p>{mapGenreIdsToNames(movie.genre_ids)}</p>
                 <p className="rating">⭐ {roundedRating(movie.vote_average)}</p>
+                <div className="release-date">
+                <h6 className="neonred">Released On: {`(${movie.release_date})`}</h6>
+                </div>
               </div>
             </div>
           ))}
@@ -134,4 +131,4 @@ function PopularMoviesPage() {
   );
 }
 
-export default PopularMoviesPage;
+export default NewReleasesPage;

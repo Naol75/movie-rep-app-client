@@ -83,7 +83,7 @@ function PopularMoviesPage() {
       const windowHeight = window.innerHeight;
       const documentHeight = document.documentElement.scrollHeight;
   
-      if (scrollTop + windowHeight >= documentHeight - 800 && !isPageLoading) {
+      if (scrollTop + windowHeight >= documentHeight - 750 && !isPageLoading) {
         if (page < maxPages) {
           fetchPopularMovies();
           setPage((prevPage) => prevPage + 1);

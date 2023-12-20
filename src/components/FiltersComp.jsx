@@ -65,12 +65,12 @@ function FiltersComp() {
         </select>
       </div>
       <div>
-        <label htmlFor="genre">Genre</label>
+      <label htmlFor="genre">Genre</label>
         <select id="genre" value={filters.genre} onChange={handleGenreChange}>
           <option value="">Select Genre</option>
-          {Object.values(genreMap).map((genre) => (
-            <option key={genre} value={genre}>
-              {genre}
+          {Object.entries(genreMap).map(([genreId, genreName]) => (
+            <option key={genreId} value={genreId}>
+              {genreName}
             </option>
           ))}
         </select>

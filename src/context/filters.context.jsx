@@ -5,7 +5,7 @@ const FilterContext = createContext();
 export const FilterProvider = ({ children }) => {
   const [filters, setFilters] = useState({
     genre: 'all',
-    minYear: 1900,
+    minYear: 2023,
   });
 
   // Estado para las películas
@@ -14,6 +14,7 @@ export const FilterProvider = ({ children }) => {
   const updateFilters = (newFilters) => {
     setFilters((prevFilters) => ({ ...prevFilters, ...newFilters }));
   };
+
 
   return (
     <FilterContext.Provider value={{ filters, setFilters, updateFilters, movies, setMovies }}>

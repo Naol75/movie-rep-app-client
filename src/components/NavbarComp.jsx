@@ -95,6 +95,9 @@ const NavbarComp = () => {
               Top Rated
             </NavLink>
           </NavDropdown>
+          <Nav.Link href="/discover" style={{ color: "white" }}>
+            DISCOVER
+          </Nav.Link>
           <Nav.Link href="#link" style={{ color: "white" }}>
             MY FAVOURITES
           </Nav.Link>

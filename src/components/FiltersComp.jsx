@@ -1,5 +1,4 @@
 import './Filters.css'
-import { useState, useEffect } from 'react';
 import { useFilter } from '../context/filters.context';
 
 
@@ -34,7 +33,7 @@ function FiltersComp() {
     10768: "War & Politics",
     37: "Western",
   };
-  const { filters, setFilters } = useFilter();
+  const { filters, setFilters} = useFilter();
   const currentYear = new Date().getFullYear();
 
   const handleYearChange = (event) => {

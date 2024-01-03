@@ -1,5 +1,8 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
+import service from "../services/api";
+import { MoonLoader } from "react-spinners";
+
+
 
 function PopularMoviesPage() {
   const apiKey = import.meta.env.VITE_TMDB_API_KEY;
@@ -7,7 +10,8 @@ function PopularMoviesPage() {
   const [page, setPage] = useState(1);
   const [isPageLoading, setIsPageLoading] = useState(false);
   const [renderedMovies, setRenderedMovies] = useState(new Set())
-  const maxPages = 13;
+  const maxPages = 99999;
+
 
   const roundedRating = (rating) => parseFloat(rating).toFixed(2);
 
@@ -50,15 +54,13 @@ function PopularMoviesPage() {
         return
       }
       setIsPageLoading(true);
-      const response = await axios.get(
+      const response = await service.get(
         `https://api.themoviedb.org/3/movie/popular?api_key=${apiKey}&language=en-US&page=${page}`
       );
       console.log("API Response:", response.data);
 
-      const newMovies = response.data.results.filter(
-        (movie) => !renderedMovies.has(movie.id)
-      );
-
+      const newMovies = response.data.results
+      .filter((movie) => !renderedMovies.has(movie.id));
       setPopularMovies((prevMovies) => [...prevMovies, ...newMovies]);
 
       const newRenderedMovieIds = new Set([...renderedMovies, ...newMovies.map((movie) => movie.id)]);
@@ -71,6 +73,8 @@ function PopularMoviesPage() {
       setIsPageLoading(false);
     }
   };
+
+
 
   useEffect(() => {
     console.log("Current page:", page);
@@ -94,10 +98,13 @@ function PopularMoviesPage() {
 
   // Initial fetch
   useEffect(() => {
+    setPopularMovies([]);
+    setRenderedMovies(new Set());
     fetchPopularMovies();
   }, []);
 
   return (
+    <div>
     <div className="grid">
       {popularMovies &&
         popularMovies.map((movie) => (
@@ -113,9 +120,19 @@ function PopularMoviesPage() {
               </h3>
               <p>{mapGenreIdsToNames(movie.genre_ids)}</p>
               <p className="rating">⭐ {roundedRating(movie.vote_average)}</p>
+              <p className="vote-count">({movie.vote_count} Votes)</p>
             </div>
           </div>
         ))}
+    </div>
+    {isPageLoading && (
+        <div
+          className="loader-container"
+          style={{ textAlign: "center", marginTop: "20px" }}
+        >
+          <MoonLoader color="red" size={50} loading={true} />
+        </div>
+      )}
     </div>
   );
 }

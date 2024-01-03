@@ -8,16 +8,37 @@ export const FilterProvider = ({ children }) => {
     minYear: 2023,
   });
 
-  // Estado para las películas
+  const [sortBy, setSortBy] = useState('popularity');
+  const [sortOrder, setSortOrder] = useState('desc');
   const [movies, setMovies] = useState([]);
 
   const updateFilters = (newFilters) => {
     setFilters((prevFilters) => ({ ...prevFilters, ...newFilters }));
   };
 
+  const updateSortBy = (value) => {
+    setSortBy(value);
+  };
+
+  const updateSortOrder = (value) => {
+    setSortOrder(value);
+  };
+
+
+  const contextValue = {
+    filters, 
+    setFilters, 
+    updateFilters, 
+    movies, 
+    setMovies,
+    sortBy,
+    sortOrder,
+    updateSortBy,
+    updateSortOrder,
+  };
 
   return (
-    <FilterContext.Provider value={{ filters, setFilters, updateFilters, movies, setMovies }}>
+    <FilterContext.Provider value={ contextValue }>
       {children}
     </FilterContext.Provider>
   );

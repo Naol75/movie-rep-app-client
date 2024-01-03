@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import service from "../services/api";
 import { MoonLoader } from "react-spinners";
 import { useFilter } from "../context/filters.context";
-import HeaderComp from "../components/HeaderComp";
+import HeaderCompDiscover from "../components/HeaderCompDiscover.jsx";
 
 function PopularMoviesPage() {
   const apiKey = import.meta.env.VITE_TMDB_API_KEY;
@@ -11,7 +11,7 @@ function PopularMoviesPage() {
   const [isPageLoading, setIsPageLoading] = useState(false);
   const [renderedMovies, setRenderedMovies] = useState(new Set());
   const maxPages = 99999;
-  const {filters} = useFilter()
+  const {filters, sortBy, sortOrder} = useFilter()
 
   const roundedRating = (rating) => parseFloat(rating).toFixed(2);
 
@@ -47,20 +47,20 @@ function PopularMoviesPage() {
 
   const fetchPopularMovies = async () => {
     try {
-      if (page > maxPages) {
-        return;
+      if (page === maxPages) {
+        return
       }
   
       setIsPageLoading(true);
       const response = await service.get(
-        `https://api.themoviedb.org/3/discover/movie?api_key=${apiKey}&language=en-US&page=${page}&with_genres=${filters.genre}&primary_release_year=${filters.minYear}`
+        `https://api.themoviedb.org/3/discover/movie?api_key=${apiKey}&language=en-US&page=${page}&with_genres=${filters.genre}&primary_release_year=${filters.minYear}&sort_by=${sortBy}.${sortOrder}&vote_count.gte=10`
       );
   
       console.log("API Response:", response.data);
   
-      const newMovies = response.data.results.filter(
-        (movie) => !renderedMovies.has(movie.id)
-      );
+      const newMovies = response.data.results
+      .filter((movie) => !renderedMovies.has(movie.id))
+
   
       setPopularMovies((prevMovies) => [...prevMovies, ...newMovies]);
   
@@ -85,13 +85,14 @@ function PopularMoviesPage() {
       const documentHeight = document.documentElement.scrollHeight;
   
       if (scrollTop + windowHeight >= documentHeight - 750 && !isPageLoading) {
-        if (page < maxPages) {
-          fetchPopularMovies();
-          setPage((prevPage) => prevPage + 1);
-        }
+        fetchPopularMovies();
       }
     };
     window.addEventListener("scroll", handleScroll);
+
+    if (page === 1) {
+      fetchPopularMovies();
+    }
 
     return () => {
       window.removeEventListener("scroll", handleScroll);
@@ -102,12 +103,13 @@ function PopularMoviesPage() {
   useEffect(() => {
     setPopularMovies([])
     setRenderedMovies(new Set())
-    fetchPopularMovies();
-  }, [filters]);
+    setPage(1)
+    console.log("Fetching movies with orden:", sortBy, sortOrder);
+  }, [filters, sortBy, sortOrder]);
 
   return (
     <div>
-      <HeaderComp />
+      <HeaderCompDiscover />
       <div className="grid">
         {popularMovies &&
           popularMovies.map((movie) => (
@@ -124,6 +126,7 @@ function PopularMoviesPage() {
                 </h3>
                 <p>{mapGenreIdsToNames(movie.genre_ids)}</p>
                 <p className="rating">⭐ {roundedRating(movie.vote_average)}</p>
+                <p className="vote-count">({movie.vote_count} Votes)</p>
               </div>
             </div>
           ))}

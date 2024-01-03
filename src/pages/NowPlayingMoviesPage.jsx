@@ -115,6 +115,7 @@ function NowPlayingPage() {
                   </h3>
                   <p>{mapGenreIdsToNames(movie.genre_ids)}</p>
                   <p className="rating">⭐ {roundedRating(movie.vote_average)}</p>
+                  <p className="vote-count">({movie.vote_count} Votes)</p>
                 </div>
               </div>
             ))}

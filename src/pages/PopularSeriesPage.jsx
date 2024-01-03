@@ -107,6 +107,7 @@ function PopularSeriesPage() {
                 </h3>
                 <p>{mapGenreIdsToNames(tvShow.genre_ids)}</p>
                 <p className="rating">⭐ {roundedRating(tvShow.vote_average)}</p>
+                <p className="vote-count">({tvShow.vote_count} Votes)</p>
               </div>
             </div>
           ))}

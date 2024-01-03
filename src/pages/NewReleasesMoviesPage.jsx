@@ -115,6 +115,7 @@ function NewReleasesPage() {
                 </h3>
                 <p>{mapGenreIdsToNames(movie.genre_ids)}</p>
                 <p className="rating">⭐ {roundedRating(movie.vote_average)}</p>
+                <p className="vote-count">({movie.vote_count} Votes)</p>
                 <div className="release-date">
                 <h6 className="neonred">Released On: {`(${movie.release_date})`}</h6>
                 </div>

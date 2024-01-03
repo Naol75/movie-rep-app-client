@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import service from "../services/api";
 import { MoonLoader } from "react-spinners";
 import { isAfter, subMonths } from "date-fns";
+import '../styles/Card.css'
 
 function NewReleasesPage() {
   const apiKey = import.meta.env.VITE_TMDB_API_KEY;
@@ -12,9 +13,14 @@ function NewReleasesPage() {
 
   const roundedRating = (rating) => parseFloat(rating).toFixed(2);
 
+  const getDefaultImageUrl = () => {
+    
+    return '../assets/clapperboard.png';
+  };
+
   const getImageUrl = (path) => {
     const baseUrl = "https://image.tmdb.org/t/p/w300";
-    return `${baseUrl}${path}`;
+    return path ? `${baseUrl}${path}` : getDefaultImageUrl();
   };
 
   const mapGenreIdsToNames = (genreIds) => {
@@ -103,7 +109,7 @@ function NewReleasesPage() {
       <div className="grid">
         {popularMovies &&
           popularMovies.map((movie) => (
-            <div className="card" key={movie.id}>
+            <div className="card-container" key={movie.id}>
               <img
                 src={getImageUrl(movie.poster_path)}
                 alt={`${movie.title} Poster`}

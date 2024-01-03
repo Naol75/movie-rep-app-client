@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import service from "../services/api";
 import { MoonLoader } from "react-spinners";
+import '../styles/Card.css'
 
 function TopRatedSeriesPage() {
     const apiKey = import.meta.env.VITE_TMDB_API_KEY;
@@ -12,9 +13,14 @@ function TopRatedSeriesPage() {
   
     const roundedRating = (rating) => parseFloat(rating).toFixed(2);
   
+    const getDefaultImageUrl = () => {
+    
+      return '../assets/clapperboard.png';
+    };
+  
     const getImageUrl = (path) => {
-      const baseUrl = "https://image.tmdb.org/t/p/w400";
-      return `${baseUrl}${path}`;
+      const baseUrl = "https://image.tmdb.org/t/p/w300";
+      return path ? `${baseUrl}${path}` : getDefaultImageUrl();
     };
   
     const mapGenreIdsToNames = (genreIds) => {
@@ -95,7 +101,8 @@ function TopRatedSeriesPage() {
         <div className="grid">
           {popularTvShows &&
             popularTvShows.map((tvShow) => (
-              <div className="card" key={tvShow.id}>
+            
+              <div className="card-container" key={tvShow.id}>
                 <img
                   src={getImageUrl(tvShow.poster_path)}
                   alt={`${tvShow.name} Poster`}

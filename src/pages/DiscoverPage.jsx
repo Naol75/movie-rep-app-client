@@ -3,6 +3,7 @@ import service from "../services/api";
 import { MoonLoader } from "react-spinners";
 import { useFilter } from "../context/filters.context";
 import HeaderCompDiscover from "../components/HeaderCompDiscover.jsx";
+import '../styles/Card.css'
 
 function PopularMoviesPage() {
   const apiKey = import.meta.env.VITE_TMDB_API_KEY;
@@ -15,9 +16,14 @@ function PopularMoviesPage() {
 
   const roundedRating = (rating) => parseFloat(rating).toFixed(2);
 
+  const getDefaultImageUrl = () => {
+    
+    return '../assets/clapperboard.png';
+  };
+
   const getImageUrl = (path) => {
     const baseUrl = "https://image.tmdb.org/t/p/w300";
-    return `${baseUrl}${path}`;
+    return path ? `${baseUrl}${path}` : getDefaultImageUrl();
   };
 
   const mapGenreIdsToNames = (genreIds) => {
@@ -44,6 +50,8 @@ function PopularMoviesPage() {
     };
     return genreIds.map((genreId) => genreMap[genreId]).join(", ");
   };
+
+
 
   const fetchPopularMovies = async () => {
     try {
@@ -109,11 +117,16 @@ function PopularMoviesPage() {
 
   return (
     <div>
+      <div className="discover-header">
       <HeaderCompDiscover />
+      </div>
       <div className="grid">
         {popularMovies &&
           popularMovies.map((movie) => (
-            <div className="card" key={movie.id}>
+            <div 
+            className="card-container" 
+            key={movie.id}
+            >
               <img
                 src={getImageUrl(movie.poster_path)}
                 alt={`${movie.title} Poster`}
@@ -130,6 +143,7 @@ function PopularMoviesPage() {
               </div>
             </div>
           ))}
+
       </div>
       {isPageLoading && (
         <div

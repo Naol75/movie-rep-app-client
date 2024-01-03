@@ -1,4 +1,4 @@
-import "./Filters.css";
+import "../styles/Filters.css";
 import { useFilter } from "../context/filters.context";
 
 function FiltersCompDiscover() {

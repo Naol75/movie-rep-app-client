@@ -14,7 +14,9 @@ import AiringTodaySeriesPage from "./pages/AiringTodaySeriesPage";
 import OnTvSeriesPage from "./pages/OnTvSeriesPage";
 import TopRatedSeriesPage from "./pages/TopRatedSeriesPage";
 import DiscoverPage from "./pages/DiscoverPage"
+import IsPrivate from "./components/isPrivate";
 import { FilterProvider } from './context/filters.context';
+import './index.css'
 
 
 
@@ -27,9 +29,18 @@ function App() {
         <NavbarComp/>
         <FilterProvider>
           <Routes>
-            <Route path='/register' element={<RegisterPage/>}/>
-            <Route path='/login' element={<LoginPage/>}/>
-            <Route path='/account' element={<AccountPage/>}/>
+            <Route path='/register' 
+            element={
+
+              <RegisterPage/> 
+ 
+          }/>
+            <Route path='/login'
+             element={
+
+              <LoginPage/>
+             }/>
+            <Route path='/account' element={<IsPrivate><AccountPage/></IsPrivate>}/>
             <Route path='/' element={<PopularMoviesPage />}/>
             <Route path='/movies/popular' element={<PopularMoviesPage/>}/>
             <Route path='/movies/now-playing' element={<NowPlayingMoviesPage />}/>

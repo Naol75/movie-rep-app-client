@@ -1,6 +1,9 @@
 import { useEffect, useState } from "react";
 import service from "../services/api";
 import { MoonLoader } from "react-spinners";
+import { Link } from "react-router-dom";
+import '../styles/Card.css'
+
 
 
 
@@ -14,10 +17,14 @@ function PopularMoviesPage() {
 
 
   const roundedRating = (rating) => parseFloat(rating).toFixed(2);
+  const getDefaultImageUrl = () => {
+    
+    return '../assets/clapperboard.png';
+  };
 
   const getImageUrl = (path) => {
     const baseUrl = "https://image.tmdb.org/t/p/w300";
-    return `${baseUrl}${path}`;
+    return path ? `${baseUrl}${path}` : getDefaultImageUrl();
   };
 
   const mapGenreIdsToNames = (genreIds) => {
@@ -108,21 +115,23 @@ function PopularMoviesPage() {
     <div className="grid">
       {popularMovies &&
         popularMovies.map((movie) => (
-          <div className="card" key={movie.id}>
-            <img
-              src={getImageUrl(movie.poster_path)}
-              alt={`${movie.title} Poster`}
-              className="poster"
-            />
-            <div className="info">
-              <h3>
-                {movie.title} {`(${movie.release_date.substring(0, 4)})`}
-              </h3>
-              <p>{mapGenreIdsToNames(movie.genre_ids)}</p>
-              <p className="rating">⭐ {roundedRating(movie.vote_average)}</p>
-              <p className="vote-count">({movie.vote_count} Votes)</p>
+          <Link className="link" to={`/${movie.id}/movie-details`} key={movie.id}>
+            <div className="card-container">
+              <img
+                src={getImageUrl(movie.poster_path)}
+                alt={`${movie.title} Poster`}
+                className="poster"
+              />
+              <div className="info">
+                <h3>
+                  {movie.title} {`(${movie.release_date.substring(0, 4)})`}
+                </h3>
+                <p>{mapGenreIdsToNames(movie.genre_ids)}</p>
+                <p className="rating">⭐ {roundedRating(movie.vote_average)}</p>
+                <p className="vote-count">({movie.vote_count} Votes)</p>
+              </div>
             </div>
-          </div>
+          </Link>
         ))}
     </div>
     {isPageLoading && (

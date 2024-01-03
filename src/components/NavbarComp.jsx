@@ -58,6 +58,7 @@ const NavbarComp = () => {
   }, []);
 
   return (
+    
     <Navbar expand="lg" className="bg-body-tertiary">
 
         <Navbar.Brand href="/movies/popular" className="navbar-brand">
@@ -68,7 +69,7 @@ const NavbarComp = () => {
       <Navbar.Collapse id="basic-navbar-nav">
         <Nav className="me-auto navbar-nav">
           <NavDropdown title="MOVIES" id="movies-nav-dropdown" style={{ color: "white" }}>
-            <NavLink to="/movies/popular" className="dropdown-item">
+            <NavLink  to="/movies/popular" className="dropdown-item">
               Popular
             </NavLink>
             <NavLink to="/movies/now-playing" className="dropdown-item">

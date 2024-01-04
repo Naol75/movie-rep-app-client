@@ -4,9 +4,11 @@ import Navbar from "react-bootstrap/Navbar";
 import NavDropdown from "react-bootstrap/NavDropdown";
 import logo from "../assets/logo.png";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef, useContext } from "react";
+import { AuthContext } from "../context/auth.context";
 import userIcon from "../assets/user-icon.png";
 import { NavLink } from "react-router-dom";
+
 
 
 const NavbarComp = () => {
@@ -14,6 +16,7 @@ const NavbarComp = () => {
   const [searchVisible, setSearchVisible] = useState(false);
   const [elevation, setElevation] = useState(0);
   const [searchTerm, setSearchTerm] = useState("");
+  const {isUserActive} = useContext(AuthContext);
   const [movieMenuOpen, setMovieMenuOpen] = useState(false);
   const [seriesMenuOpen, setSeriesMenuOpen] = useState(false);
  
@@ -59,7 +62,7 @@ const NavbarComp = () => {
 
   return (
     
-    <Navbar expand="lg" className="bg-body-tertiary">
+    <Navbar expand="lg" className={`bg-body-tertiary ${elevation > 0 ? 'sticky-navbar' : ''}`}>
 
         <Navbar.Brand href="/movies/popular" className="navbar-brand">
           <img className="logo-img" src={logo} alt="logo" />
@@ -102,18 +105,15 @@ const NavbarComp = () => {
           <Nav.Link href="#link" style={{ color: "white" }}>
             MY FAVOURITES
           </Nav.Link>
-          {!showUserIcon && (
-            <NavLink to="/account" style={{ color: "white" }}>
-              MY ACCOUNT
-            </NavLink>
-          )}
         </Nav>
       </Navbar.Collapse>
-      {showUserIcon && (
         <NavLink to="/account" style={{ color: "white" }}>
-          <img className="user-icon" src={userIcon} alt="user-icon" />
+          {isUserActive ? (
+            <img className="user-icon" src={userIcon} alt="user-icon" />
+          ) : (
+            "LOGIN"
+          )}
         </NavLink>
-      )}
     </Navbar>
   );
 };

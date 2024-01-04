@@ -10,14 +10,14 @@ function PopularMoviesPage() {
   const [popularMovies, setPopularMovies] = useState([]);
   const [page, setPage] = useState(1);
   const [isPageLoading, setIsPageLoading] = useState(false);
+  const [isSticky, setIsSticky] = useState(false);
   const [renderedMovies, setRenderedMovies] = useState(new Set());
   const maxPages = 99999;
-  const {filters, sortBy, sortOrder} = useFilter()
+  const { filters, sortBy, sortOrder } = useFilter();
 
   const roundedRating = (rating) => parseFloat(rating).toFixed(2);
 
   const getDefaultImageUrl = () => {
-    
     return '../assets/clapperboard.png';
   };
 
@@ -51,27 +51,25 @@ function PopularMoviesPage() {
     return genreIds.map((genreId) => genreMap[genreId]).join(", ");
   };
 
-
-
   const fetchPopularMovies = async () => {
     try {
       if (page === maxPages) {
-        return
+        return;
       }
-  
+
       setIsPageLoading(true);
       const response = await service.get(
         `https://api.themoviedb.org/3/discover/movie?api_key=${apiKey}&language=en-US&page=${page}&with_genres=${filters.genre}&primary_release_year=${filters.minYear}&sort_by=${sortBy}.${sortOrder}&vote_count.gte=10`
       );
-  
-      console.log("API Response:", response.data);
-  
-      const newMovies = response.data.results
-      .filter((movie) => !renderedMovies.has(movie.id))
 
-  
+      console.log("API Response:", response.data);
+
+      const newMovies = response.data.results.filter(
+        (movie) => !renderedMovies.has(movie.id)
+      );
+
       setPopularMovies((prevMovies) => [...prevMovies, ...newMovies]);
-  
+
       setPage((prevPage) => prevPage + 1);
       setRenderedMovies((prevRenderedMovies) =>
         new Set([...prevRenderedMovies, ...newMovies.map((movie) => movie.id)])
@@ -89,10 +87,15 @@ function PopularMoviesPage() {
     const handleScroll = () => {
       const scrollTop =
         document.documentElement.scrollTop || document.body.scrollTop;
+      setIsSticky(scrollTop > 0);
+
       const windowHeight = window.innerHeight;
       const documentHeight = document.documentElement.scrollHeight;
-  
-      if (scrollTop + windowHeight >= documentHeight - 750 && !isPageLoading) {
+
+      if (
+        scrollTop + windowHeight >= documentHeight - 750 &&
+        !isPageLoading
+      ) {
         fetchPopularMovies();
       }
     };
@@ -109,24 +112,21 @@ function PopularMoviesPage() {
 
   // Initial fetch
   useEffect(() => {
-    setPopularMovies([])
-    setRenderedMovies(new Set())
-    setPage(1)
+    setPopularMovies([]);
+    setRenderedMovies(new Set());
+    setPage(1);
     console.log("Fetching movies with orden:", sortBy, sortOrder);
   }, [filters, sortBy, sortOrder]);
 
   return (
     <div>
-      <div className="discover-header">
-      <HeaderCompDiscover />
+      <div className={`discover-header ${isSticky ? 'sticky-header' : ''}`}>
+        <HeaderCompDiscover />
       </div>
       <div className="grid">
         {popularMovies &&
           popularMovies.map((movie) => (
-            <div 
-            className="card-container" 
-            key={movie.id}
-            >
+            <div className="card-container" key={movie.id}>
               <img
                 src={getImageUrl(movie.poster_path)}
                 alt={`${movie.title} Poster`}
@@ -143,7 +143,6 @@ function PopularMoviesPage() {
               </div>
             </div>
           ))}
-
       </div>
       {isPageLoading && (
         <div

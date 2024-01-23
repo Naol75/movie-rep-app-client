@@ -21,6 +21,7 @@ const DiscoverPage = () => {
   const [isPageLoading, setIsPageLoading] = useState(false);
   const [isSticky, setIsSticky] = useState(false);
   const [userRegion, setUserRegion] = useState("");
+  const [isHovered, setIsHovered] = useState(false);
   const [isFavorited, setIsFavorited] = useState(false);
 
   const roundedRating = (rating) => parseFloat(rating).toFixed(2);
@@ -221,7 +222,20 @@ const DiscoverPage = () => {
       </div>
       <div className="grid">
         {popularMovies.map((movie) => (
-          <div className="card-container" key={movie.id}>
+          <div className="card-container" key={movie.id}   onMouseEnter={() => setIsHovered(true)}
+          onMouseLeave={() => setIsHovered(false)}>
+            <div className="card-overlay">
+            {isHovered && (
+              <div style={{width: "100%", height: "100%", position: "relative"}}>
+    <button
+      className="heart-button"
+      onClick={() => handleAddToFavorites(movie.title)}
+    >
+      <img width={23} src="src/assets/red-heart-icon.png" alt="like-button" />
+    </button>
+    </div>
+  )}
+            </div>
             <Link className="link" to={`/${movie.id}/movie-details`}>
               <img
                 src={getImageUrl(movie.poster_path)}
@@ -238,9 +252,6 @@ const DiscoverPage = () => {
                 <p className="vote-count">({movie.vote_count} Votes)</p>
               </div>
             </Link>
-            <button className="heart-button" onClick={() => handleAddToFavorites(movie.title)}>
-                    <img width={23} src="src/assets/red-heart-icon.png" alt="like-button" />
-            </button>
           </div>
         ))}
       </div>

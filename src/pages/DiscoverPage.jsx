@@ -213,7 +213,7 @@ const DiscoverPage = () => {
     };
 
     fetchData();
-  }, []);
+  }, [filters, sortBy, sortOrder]);
 
   return (
     <div>

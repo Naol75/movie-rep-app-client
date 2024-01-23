@@ -17,11 +17,10 @@ function AccountPage() {
 
   const fetchUserData = async () => {
     try {
-      const authToken = localStorage.getItem('authToken');
+      const authToken = localStorage.getItem("authToken");
 
       if (!authToken) {
-        
-        console.log('No token found. Redirect to login or handle accordingly.');
+        console.log("No token found. Redirect to login or handle accordingly.");
         return;
       }
       const response = await service.get("/auth/getProfile", {
@@ -29,7 +28,7 @@ function AccountPage() {
           Authorization: `Bearer ${authToken}`,
         },
       });
-  
+
       setUserData((prevUserData) => ({
         ...prevUserData,
         name: response.data.user.name,
@@ -162,26 +161,26 @@ function AccountPage() {
             )}
             {errorMessage && <p style={{ color: "red" }}>{errorMessage}</p>}
             <div className="d-flex justify-content-between">
-            <Button
-              type="button"
-              className="bg-dark border border-primary"
-              onClick={() => {
-                if (isEditing) {
-                  handleSave();
-                } else {
-                  handleEdit();
-                }
-              }}
-            >
-              {isEditing ? "Save" : "Edit"}
-            </Button>
-            <Button
-              type="button"
-              className="bg-dark border border-danger"
-              onClick={handleLogOut}
-            >
-              Log Out
-            </Button>
+              <Button
+                type="button"
+                className="bg-dark border border-primary"
+                onClick={() => {
+                  if (isEditing) {
+                    handleSave();
+                  } else {
+                    handleEdit();
+                  }
+                }}
+              >
+                {isEditing ? "Save" : "Edit"}
+              </Button>
+              <Button
+                type="button"
+                className="bg-dark border border-danger"
+                onClick={handleLogOut}
+              >
+                Log Out
+              </Button>
             </div>
           </div>
         </Form>

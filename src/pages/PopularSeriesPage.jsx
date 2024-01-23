@@ -1,7 +1,10 @@
 import { useEffect, useState } from "react";
 import service from "../services/api";
+import clapperboardImage from "../assets/clapperboard.png";
 import { MoonLoader } from "react-spinners";
-import '../styles/Card.css'
+import { Link } from "react-router-dom";
+import ScrollButton from "../components/ScrollButton.jsx";
+import "../styles/Card.css";
 
 function PopularSeriesPage() {
   const apiKey = import.meta.env.VITE_TMDB_API_KEY;
@@ -10,12 +13,10 @@ function PopularSeriesPage() {
   const [renderedSeries, setRenderedSeries] = useState(new Set());
   const [page, setPage] = useState(1);
 
-
   const roundedRating = (rating) => parseFloat(rating).toFixed(2);
 
   const getDefaultImageUrl = () => {
-    
-    return '../assets/clapperboard.png';
+    return clapperboardImage;
   };
 
   const getImageUrl = (path) => {
@@ -46,7 +47,6 @@ function PopularSeriesPage() {
 
   const fetchPopularTvShows = async () => {
     try {
-
       setIsPageLoading(true);
       const response = await service.get(
         `https://api.themoviedb.org/3/tv/popular?api_key=${apiKey}&language=en-US&page=${page}`
@@ -101,28 +101,40 @@ function PopularSeriesPage() {
       <div className="grid">
         {popularTvShows &&
           popularTvShows.map((tvShow) => (
-            <div className="card-container" key={tvShow.id}>
-              <img
-                src={getImageUrl(tvShow.poster_path)}
-                alt={`${tvShow.name} Poster`}
-                className="poster"
-              />
-              <div className="info">
-                <h3>
-                  {tvShow.name} {`(${tvShow.first_air_date.substring(0, 4)})`}
-                </h3>
-                <p>{mapGenreIdsToNames(tvShow.genre_ids)}</p>
-                <p className="rating">⭐ {roundedRating(tvShow.vote_average)}</p>
-                <p className="vote-count">({tvShow.vote_count} Votes)</p>
+            <Link
+              className="link"
+              to={`/${tvShow.id}/tv-show-details`}
+              key={tvShow.id}
+            >
+              <div className="card-container">
+                <img
+                  src={getImageUrl(tvShow.poster_path)}
+                  alt={`${tvShow.name} Poster`}
+                  className="poster"
+                />
+                <div className="info">
+                  <h3>
+                    {tvShow.name} {`(${tvShow.first_air_date.substring(0, 4)})`}
+                  </h3>
+                  <p>{mapGenreIdsToNames(tvShow.genre_ids)}</p>
+                  <p className="rating">
+                    ⭐ {roundedRating(tvShow.vote_average)}
+                  </p>
+                  <p className="vote-count">({tvShow.vote_count} Votes)</p>
+                </div>
               </div>
-            </div>
+            </Link>
           ))}
       </div>
       {isPageLoading && (
-        <div className="loader-container" style={{ textAlign: "center", marginTop: "20px" }}>
+        <div
+          className="loader-container"
+          style={{ textAlign: "center", marginTop: "20px" }}
+        >
           <MoonLoader color="red" size={50} loading={true} />
         </div>
       )}
+            <ScrollButton />
     </div>
   );
 }

@@ -5,7 +5,7 @@ import { MoonLoader } from "react-spinners";
 import { useParams } from "react-router-dom";
 import "../styles/MovieDetails.css";
 
-function MovieDetails() {
+function Details() {
   const apiKey = import.meta.env.VITE_TMDB_API_KEY;
   const ipstackApiKey = import.meta.env.VITE_IPSTACK_API_KEY;
   const apiUrl = `http://api.ipstack.com/check?access_key=${ipstackApiKey}`;
@@ -22,7 +22,7 @@ function MovieDetails() {
     return path ? `${baseUrl}${path}` : getDefaultImageUrl();
   };
 
-  const { movieId } = useParams();
+  const { itemId } = useParams();
 
   const getProviderUrl = (providerName) => {
     const providerMappings = {
@@ -72,13 +72,13 @@ function MovieDetails() {
       setIsPageLoading(true);
       const [movieResponse, videoResponse, watchResponse] = await Promise.all([
         service.get(
-          `https://api.themoviedb.org/3/movie/${movieId}?api_key=${apiKey}&language=en-US`
+          `https://api.themoviedb.org/3/movie/${itemId}?api_key=${apiKey}&language=en-US`
         ),
         service.get(
-          `https://api.themoviedb.org/3/movie/${movieId}/videos?api_key=${apiKey}&language=en-US`
+          `https://api.themoviedb.org/3/movie/${itemId}/videos?api_key=${apiKey}&language=en-US`
         ),
         service.get(
-          `https://api.themoviedb.org/3/movie/${movieId}/watch/providers?api_key=${apiKey}&language=en-US`
+          `https://api.themoviedb.org/3/movie/${itemId}/watch/providers?api_key=${apiKey}&language=en-US`
         ),
       ]);
       console.log("Watch Response Results:", watchResponse.data.results);
@@ -110,7 +110,7 @@ function MovieDetails() {
 
   useEffect(() => {
     fetchMovieInfo();
-  }, [movieId, userRegion]);
+  }, [itemId, userRegion]);
 
   return (
     <div
@@ -215,4 +215,4 @@ function MovieDetails() {
   );
 }
 
-export default MovieDetails;
+export default Details;

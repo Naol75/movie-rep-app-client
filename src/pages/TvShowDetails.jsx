@@ -1,16 +1,16 @@
 import { useEffect, useState } from "react";
 import service from "../services/api";
-import clapperboardImage from "../assets/clapperboard.png";
 import { MoonLoader } from "react-spinners";
 import { useParams } from "react-router-dom";
+import clapperboardImage from "../assets/clapperboard.png";
 import "../styles/MovieDetails.css";
 
-function MovieDetails() {
+function TvShowDetails() {
   const apiKey = import.meta.env.VITE_TMDB_API_KEY;
   const ipstackApiKey = import.meta.env.VITE_IPSTACK_API_KEY;
   const apiUrl = `http://api.ipstack.com/check?access_key=${ipstackApiKey}`;
   const [isPageLoading, setIsPageLoading] = useState(false);
-  const [movieInfo, setMovieInfo] = useState(null);
+  const [tvshowInfo, setTvshowInfo] = useState(null);
   const [trailerKey, setTrailerKey] = useState(null);
   const [userRegion, setUserRegion] = useState("");
   const [streamingProviders, setStreamingProviders] = useState([]);
@@ -22,7 +22,7 @@ function MovieDetails() {
     return path ? `${baseUrl}${path}` : getDefaultImageUrl();
   };
 
-  const { movieId } = useParams();
+  const { tvshowId } = useParams();
 
   const getProviderUrl = (providerName) => {
     const providerMappings = {
@@ -31,21 +31,21 @@ function MovieDetails() {
       "Amazon Prime Video": "https://www.primevideo.com/",
       "Google Play Movies": "https://play.google.com/store/movies",
       "Microsoft Store": "https://www.microsoft.com/en-us/store/movies-and-tv",
-      "YouTube": "https://www.youtube.com/",
+      YouTube: "https://www.youtube.com/",
       "Sky Go": "https://www.sky.com/",
       "Now TV Cinema": "https://www.nowtv.com/",
-      "Vudu": "https://www.vudu.com/",
+      Vudu: "https://www.vudu.com/",
       "Rakuten TV": "https://www.rakuten.tv/",
       "HBO Max": "https://www.hbomax.com/",
-      "HBO": "https://www.hbomax.com/",
+      HBO: "https://www.hbomax.com/",
       "Movistar Plus": "https://ver.movistarplus.es/",
-      "Netflix": "https://www.netflix.com/browse",
+      Netflix: "https://www.netflix.com/browse",
       "Netflix basic with Ads": "https://www.netflix.com/browse",
-      "SkyShowtime": "https://www.skyshowtime.com/",
+      SkyShowtime: "https://www.skyshowtime.com/",
       "MGM Plus": "https://www.mgmplus.com/",
-      "Hulu": "https://www.hulu.com/",
+      Hulu: "https://www.hulu.com/",
       "Disney Plus": "https://www.disneyplus.com/",
-      "Filmin": "https://www.filmin.es/",
+      Filmin: "https://www.filmin.es/",
       "Filmin Plus": "https://www.filmin.es/",
     };
 
@@ -67,24 +67,23 @@ function MovieDetails() {
     fetchUserLocation();
   }, []);
 
-  const fetchMovieInfo = async () => {
+  const fetchSeriesInfo = async () => {
     try {
       setIsPageLoading(true);
-      const [movieResponse, videoResponse, watchResponse] = await Promise.all([
+      const [tvShowResponse, videoResponse, watchResponse] = await Promise.all([
         service.get(
-          `https://api.themoviedb.org/3/movie/${movieId}?api_key=${apiKey}&language=en-US`
+          `https://api.themoviedb.org/3/tv/${tvshowId}?api_key=${apiKey}&language=en-US`
         ),
         service.get(
-          `https://api.themoviedb.org/3/movie/${movieId}/videos?api_key=${apiKey}&language=en-US`
+          `https://api.themoviedb.org/3/tv/${tvshowId}/videos?api_key=${apiKey}&language=en-US`
         ),
         service.get(
-          `https://api.themoviedb.org/3/movie/${movieId}/watch/providers?api_key=${apiKey}&language=en-US`
+          `https://api.themoviedb.org/3/tv/${tvshowId}/watch/providers?api_key=${apiKey}&language=en-US`
         ),
       ]);
       console.log("Watch Response Results:", watchResponse.data.results);
 
       const userProviders = watchResponse.data.results[userRegion];
-      console.log("streaming providers after fetching", userProviders)
 
       if (userProviders) {
         const flatrateProviders = userProviders.flatrate || [];
@@ -100,7 +99,7 @@ function MovieDetails() {
       if (trailer) {
         setTrailerKey(trailer.key);
       }
-      setMovieInfo(movieResponse.data);
+      setTvshowInfo(tvShowResponse.data);
     } catch (error) {
       console.error("Error fetching movie info", error);
     } finally {
@@ -109,15 +108,16 @@ function MovieDetails() {
   };
 
   useEffect(() => {
-    fetchMovieInfo();
-  }, [movieId, userRegion]);
+    fetchSeriesInfo();
+    console.log(streamingProviders);
+  }, [tvshowId, userRegion]);
 
   return (
     <div
       className="background-image cover-background"
       style={{
-        backgroundImage: movieInfo
-          ? `url(${getBackdropUrl(movieInfo.backdrop_path)})`
+        backgroundImage: tvshowInfo
+          ? `url(${getBackdropUrl(tvshowInfo.backdrop_path)})`
           : "",
         backgroundSize: "cover",
         backgroundPosition: "center",
@@ -126,22 +126,22 @@ function MovieDetails() {
       {isPageLoading ? (
         <MoonLoader color="red" size={50} loading={true} />
       ) : (
-        movieInfo && (
+        tvshowInfo && (
           <div className="movie-details">
             <div className="movie-content-container">
               <div className="movie-left-content">
                 <div className="h1-container">
-                  <h1>{movieInfo.title.toUpperCase()}</h1>
+                  <h1>{tvshowInfo.name.toUpperCase()}</h1>
                 </div>
-                <h2>({movieInfo.release_date.substring(0, 4)})</h2>
+                <h2>({tvshowInfo.first_air_date.substring(0, 4)})</h2>
                 <div className="overview">
-                  <p>{movieInfo.overview}</p>
+                  <p>{tvshowInfo.overview}</p>
                 </div>
                 <div className="rating-container">
                   <p className="rating">
-                    ⭐ {roundedRating(movieInfo.vote_average)}
+                    ⭐ {roundedRating(tvshowInfo.vote_average)}
                   </p>
-                  <p className="vote-count">({movieInfo.vote_count} Votes)</p>
+                  <p className="vote-count">({tvshowInfo.vote_count} Votes)</p>
                 </div>
                 <div className="providers-container">
                   {streamingProviders && streamingProviders.length > 0 ? (
@@ -187,21 +187,33 @@ function MovieDetails() {
                       allowFullScreen
                     ></iframe>
                     <div className="movie-info">
-                      <p>Duration: {movieInfo.runtime} min</p>
+                      {tvshowInfo.number_of_seasons > 1 ? (
+                        <p>{tvshowInfo.number_of_seasons} seasons</p>
+                      ) : (
+                        <p>{tvshowInfo.number_of_episodes} episodes</p>
+                      )}
                       <p>
                         Original Language:{" "}
-                        {movieInfo.original_language.toUpperCase()}
+                        {tvshowInfo.original_language.toUpperCase()}
                       </p>
                     </div>
                   </div>
                 ) : (
                   <>
-                    <img src={clapperboardImage} alt="ClapperBoard" style={{width: "20vw"}}/>
-                    <div className="movie-info" style={{gap: "1.8vw"}}>
-                      <p>Duration: {movieInfo.runtime} min</p>
+                    <img
+                      src={clapperboardImage}
+                      alt="ClapperBoard"
+                      style={{ width: "25vw" }}
+                    />
+                    <div className="no-trailer">
+                      {tvshowInfo.number_of_seasons > 1 ? (
+                        <p>{tvshowInfo.number_of_seasons} seasons</p>
+                      ) : (
+                        <p>{tvshowInfo.number_of_episodes} episodes</p>
+                      )}
                       <p>
                         Original Language:{" "}
-                        {movieInfo.original_language.toUpperCase()}
+                        {tvshowInfo.original_language.toUpperCase()}
                       </p>
                     </div>
                   </>
@@ -215,4 +227,4 @@ function MovieDetails() {
   );
 }
 
-export default MovieDetails;
+export default TvShowDetails;

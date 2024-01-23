@@ -1,30 +1,33 @@
-import { useEffect, useState } from "react";
-import service from "../services/api";
+import { useEffect, useState, useContext } from "react";
 import { MoonLoader } from "react-spinners";
 import { useFilter } from "../context/filters.context";
 import HeaderCompDiscover from "../components/HeaderCompDiscover.jsx";
-import '../styles/Card.css'
+import { Link } from "react-router-dom";
+import ScrollButton from "../components/ScrollButton.jsx";
+import service from "../services/api";
+import clapperboardImage from "../assets/clapperboard.png";
+import "../styles/Card.css";
+import { AuthContext } from "../context/auth.context";
 
-function PopularMoviesPage() {
+const DiscoverPage = () => {
   const apiKey = import.meta.env.VITE_TMDB_API_KEY;
+  const ipstackApiKey = import.meta.env.VITE_IPSTACK_API_KEY;
+  const authContext = useContext(AuthContext);
+  const { activeUserId } = authContext;
+  const apiUrl = `http://api.ipstack.com/check?access_key=${ipstackApiKey}`;
+  const { filters, sortBy, sortOrder } = useFilter();
   const [popularMovies, setPopularMovies] = useState([]);
   const [page, setPage] = useState(1);
   const [isPageLoading, setIsPageLoading] = useState(false);
   const [isSticky, setIsSticky] = useState(false);
-  const [renderedMovies, setRenderedMovies] = useState(new Set());
-  const maxPages = 99999;
-  const { filters, sortBy, sortOrder } = useFilter();
+  const [userRegion, setUserRegion] = useState("");
+  const [isFavorited, setIsFavorited] = useState(false);
 
   const roundedRating = (rating) => parseFloat(rating).toFixed(2);
 
-  const getDefaultImageUrl = () => {
-    return '../assets/clapperboard.png';
-  };
-
-  const getImageUrl = (path) => {
-    const baseUrl = "https://image.tmdb.org/t/p/w300";
-    return path ? `${baseUrl}${path}` : getDefaultImageUrl();
-  };
+  const getDefaultImageUrl = () => clapperboardImage;
+  const getImageUrl = (path) =>
+    path ? `https://image.tmdb.org/t/p/w300${path}` : getDefaultImageUrl();
 
   const mapGenreIdsToNames = (genreIds) => {
     const genreMap = {
@@ -51,82 +54,175 @@ function PopularMoviesPage() {
     return genreIds.map((genreId) => genreMap[genreId]).join(", ");
   };
 
-  const fetchPopularMovies = async () => {
+  const fetchUserLocation = async () => {
     try {
-      if (page === maxPages) {
-        return;
+      const response = await fetch(apiUrl);
+      const data = await response.json();
+      setUserRegion(data.country_code);
+      console.log(userRegion);
+    } catch (error) {
+      console.error("Error fetching user location by IP:", error);
+    }
+  };
+
+  const handleAddToFavorites = async (movieTitle) => {
+    try {
+      console.log("User id:", activeUserId);
+      const favoritesResponse = await service.get("/movies/getAllFavourites", {
+        params: { userId: activeUserId },
+      });
+  
+      if (favoritesResponse.status === 200) {
+        const currentFavorites = favoritesResponse.data.favouriteItems;
+        const isAlreadyFavorited = currentFavorites.includes(movieTitle.toLowerCase());
+  
+        if (isAlreadyFavorited) {
+          console.log("Movie title already in favs:", movieTitle)
+          await handleDeleteFromFavorites(movieTitle);
+        } else {
+          const response = await service.post("/movies/addToFavourites", {
+            userId: activeUserId,
+            movieTitle: movieTitle,
+          });
+  
+          if (response.status === 200) {
+            setIsFavorited(true);
+          }
+        }
       }
+    } catch (error) {
+      console.error("Error al agregar o quitar película de favoritos", error);
+    }
+  };
+  const handleDeleteFromFavorites = async (movieTitle) => {
+    try {
+      console.log("Deleting from favorites:", movieTitle);
+      const response = await service.post("movies/deleteFromFavourites", {
+        userId: activeUserId,
+        movieTitle: movieTitle,
+      });
+  
+      console.log("Response from delete request:", response);
+  
+      if (response.status === 200) {
+        setIsFavorited(false);
+      }
+    } catch (error) {
+      console.error("Error al quitar película de favoritos", error);
+    }
+  };
 
-      setIsPageLoading(true);
+  useEffect(() => {
+    console.log("User id:", activeUserId);
+  }, []);
+
+  const fetchPopularMoviesOnFiltersChange = async () => {
+    try {
+      console.log("Current Filters:", filters);
       const response = await service.get(
-        `https://api.themoviedb.org/3/discover/movie?api_key=${apiKey}&language=en-US&page=${page}&with_genres=${filters.genre}&primary_release_year=${filters.minYear}&sort_by=${sortBy}.${sortOrder}&vote_count.gte=10`
+        `https://api.themoviedb.org/3/discover/movie?api_key=${apiKey}&language=en-US&page=${page}&with_genres=${filters.genre}&primary_release_year=${filters.minYear}&sort_by=${sortBy}.${sortOrder}&vote_count.gte=10&watch_region=${userRegion}&with_watch_providers=${filters.streamingProvider}`
       );
-
       console.log("API Response:", response.data);
+      setPopularMovies((prevMovies) => {
+        const uniqueMovies = response.data.results.filter(
+          (newMovie) =>
+            !prevMovies.some((prevMovie) => prevMovie.id === newMovie.id)
+        );
 
-      const newMovies = response.data.results.filter(
-        (movie) => !renderedMovies.has(movie.id)
-      );
-
-      setPopularMovies((prevMovies) => [...prevMovies, ...newMovies]);
-
-      setPage((prevPage) => prevPage + 1);
-      setRenderedMovies((prevRenderedMovies) =>
-        new Set([...prevRenderedMovies, ...newMovies.map((movie) => movie.id)])
-      );
+        return [...prevMovies, ...uniqueMovies];
+      });
     } catch (error) {
       console.error("Error fetching popular movies:", error);
     } finally {
       setIsPageLoading(false);
     }
   };
+  const fetchPopularMoviesOnScroll = async () => {
+    try {
+      setIsPageLoading(true);
+      console.log("Current Filters:", filters);
+      const response = await service.get(
+        `https://api.themoviedb.org/3/discover/movie?api_key=${apiKey}&language=en-US&page=${page}&with_genres=${filters.genre}&primary_release_year=${filters.minYear}&sort_by=${sortBy}.${sortOrder}&vote_count.gte=10&watch_region=${userRegion}&with_watch_providers=${filters.streamingProvider}`
+      );
+      console.log("API Response:", response.data);
+      setPopularMovies((prevMovies) => {
+        const uniqueMovies = response.data.results.filter(
+          (newMovie) =>
+            !prevMovies.some((prevMovie) => prevMovie.id === newMovie.id)
+        );
+
+        return [...prevMovies, ...uniqueMovies];
+      });
+    } catch (error) {
+      console.error("Error fetching popular movies:", error);
+    } finally {
+      setIsPageLoading(false);
+      setPage((prevPage) => prevPage + 1);
+    }
+  };
+
+  const handleInitialFetch = async () => {
+    try {
+      await fetchUserLocation();
+      await fetchPopularMoviesOnFiltersChange();
+    } catch (error) {
+      console.error("Error fetching user location by IP:", error);
+    }
+  };
+
+  const handleScroll = () => {
+    const scrollTop =
+      document.documentElement.scrollTop || document.body.scrollTop;
+    setIsSticky(scrollTop > 0);
+
+    const windowHeight = window.innerHeight;
+    const documentHeight = document.documentElement.scrollHeight;
+
+    if (scrollTop + windowHeight >= documentHeight - 750 && !isPageLoading) {
+      fetchPopularMoviesOnScroll();
+    }
+  };
 
   useEffect(() => {
-    console.log("Current page:", page);
+    handleInitialFetch();
+  }, []);
 
-    const handleScroll = () => {
-      const scrollTop =
-        document.documentElement.scrollTop || document.body.scrollTop;
-      setIsSticky(scrollTop > 0);
-
-      const windowHeight = window.innerHeight;
-      const documentHeight = document.documentElement.scrollHeight;
-
-      if (
-        scrollTop + windowHeight >= documentHeight - 750 &&
-        !isPageLoading
-      ) {
-        fetchPopularMovies();
-      }
-    };
+  useEffect(() => {
     window.addEventListener("scroll", handleScroll);
-
-    if (page === 1) {
-      fetchPopularMovies();
-    }
 
     return () => {
       window.removeEventListener("scroll", handleScroll);
     };
   }, [page, isPageLoading]);
 
-  // Initial fetch
   useEffect(() => {
-    setPopularMovies([]);
-    setRenderedMovies(new Set());
-    setPage(1);
-    console.log("Fetching movies with orden:", sortBy, sortOrder);
-  }, [filters, sortBy, sortOrder]);
+    const fetchData = async () => {
+      setIsPageLoading(true);
+      setPage(1);
+      setPopularMovies([]);
+      window.scrollTo(0, 0);
+
+      try {
+        await fetchPopularMoviesOnFiltersChange();
+      } catch (error) {
+        console.error("Error fetching popular movies:", error);
+      } finally {
+        setIsPageLoading(false);
+      }
+    };
+
+    fetchData();
+  }, []);
 
   return (
     <div>
-      <div className={`discover-header ${isSticky ? 'sticky-header' : ''}`}>
+      <div className={`discover-header ${isSticky ? "sticky-header" : ""}`}>
         <HeaderCompDiscover />
       </div>
       <div className="grid">
-        {popularMovies &&
-          popularMovies.map((movie) => (
-            <div className="card-container" key={movie.id}>
+        {popularMovies.map((movie) => (
+          <div className="card-container" key={movie.id}>
+            <Link className="link" to={`/${movie.id}/movie-details`}>
               <img
                 src={getImageUrl(movie.poster_path)}
                 alt={`${movie.title} Poster`}
@@ -141,8 +237,12 @@ function PopularMoviesPage() {
                 <p className="rating">⭐ {roundedRating(movie.vote_average)}</p>
                 <p className="vote-count">({movie.vote_count} Votes)</p>
               </div>
-            </div>
-          ))}
+            </Link>
+            <button className="heart-button" onClick={() => handleAddToFavorites(movie.title)}>
+                    <img width={23} src="src/assets/red-heart-icon.png" alt="like-button" />
+            </button>
+          </div>
+        ))}
       </div>
       {isPageLoading && (
         <div
@@ -152,8 +252,9 @@ function PopularMoviesPage() {
           <MoonLoader color="red" size={50} loading={true} />
         </div>
       )}
+      <ScrollButton />
     </div>
   );
-}
+};
 
-export default PopularMoviesPage;
+export default DiscoverPage;

@@ -5,16 +5,21 @@ const FilterContext = createContext();
 export const FilterProvider = ({ children }) => {
   const [filters, setFilters] = useState({
     genre: 'all',
-    minYear: 2023,
+    minYear: 'All',
+    streamingProvider: 'all',
   });
 
   const [sortBy, setSortBy] = useState('popularity');
   const [sortOrder, setSortOrder] = useState('desc');
-  const [movies, setMovies] = useState([]);
+  const [streamingProvider, setStreamingProvider] = useState('all');
 
-  const updateFilters = (newFilters) => {
-    setFilters((prevFilters) => ({ ...prevFilters, ...newFilters }));
+  const updateStreamingProvider = (value) => {
+    setFilters((prevFilters) => ({
+      ...prevFilters,
+      streamingProvider: value,
+    }));
   };
+
 
   const updateSortBy = (value) => {
     setSortBy(value);
@@ -28,9 +33,8 @@ export const FilterProvider = ({ children }) => {
   const contextValue = {
     filters, 
     setFilters, 
-    updateFilters, 
-    movies, 
-    setMovies,
+    streamingProvider, 
+    updateStreamingProvider,
     sortBy,
     sortOrder,
     updateSortBy,

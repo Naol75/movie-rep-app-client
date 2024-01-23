@@ -44,16 +44,16 @@ export default function LoginPage() {
             <label htmlFor="username" className="text-white">
               Username
             </label>
-              <Form.Control
-                type="text"
-                required
-                className="pl-3 mb-3 mt-2 pr-2 py-2 username-icon bg-dark rounded text-white"
-                id="username"
-                name="username"
-                value={formData.username}
-                onChange={handleChange}
-                style={{textIndent: 24}}
-              />
+            <Form.Control
+              type="text"
+              required
+              className="pl-3 mb-3 mt-2 pr-2 py-2 username-icon bg-dark rounded text-white"
+              id="username"
+              name="username"
+              value={formData.username}
+              onChange={handleChange}
+              style={{ textIndent: 24 }}
+            />
           </div>
           <div className="mb-3">
             <label htmlFor="password" className="text-white">
@@ -67,7 +67,7 @@ export default function LoginPage() {
               name="password"
               value={formData.password}
               onChange={handleChange}
-              style={{textIndent: 27}}
+              style={{ textIndent: 27 }}
             />
           </div>
           {errorMessage && <p style={{ color: "red" }}>{errorMessage}</p>}

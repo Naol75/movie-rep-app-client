@@ -3,10 +3,11 @@
     align-items: center;
     justify-content: space-between;
     gap: 50px;
+    padding-top: 10px;
     font-size: 17px;
     font-weight: 500;
-    margin-left: 35px;
-    margin-right: 35px;
+    margin-left: 43px;
+    margin-right: 40px;
 }
 
 
@@ -14,3 +15,13 @@
     display: flex;
     gap: 1rem;
 }
+
+select {
+        background: rgba(0, 0, 0, 0.3);
+        color: #fff;
+        text-shadow: 0 1px 0 rgba(0, 0, 0, 0.4);
+}
+
+select option {
+    background-color: rgba(0, 0, 0, 0.4);
+    }

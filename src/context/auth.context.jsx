@@ -29,9 +29,12 @@ function AuthWrapper(props) {
           Authorization: `Bearer ${authToken}`,
         },
       });
+
+      console.log('API Response:', response.data);
+console.log('User ID from response:', response.data.userId);
   
       setIsUserActive(true);
-      setActiveUserId(response.data._id);
+      setActiveUserId(response.data.userId);
       setIsPageLoading(false);
     } catch (error) {
       console.error('Token Verification Error:', error);

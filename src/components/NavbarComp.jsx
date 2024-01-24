@@ -175,9 +175,11 @@ const NavbarComp = () => {
           <Nav.Link href="/discover" style={{ color: "white" }}>
             DISCOVER
           </Nav.Link>
+          {isUserActive && (
           <Nav.Link href="/my-favourites" style={{ color: "white" }}>
             MY FAVOURITES
           </Nav.Link>
+          )}
           <div className="search-bar" onMouseLeave={handleMouseLeave}>
             <img
               className="search-icon"

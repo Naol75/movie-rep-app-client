@@ -202,12 +202,18 @@ html, body, #root {
   opacity: 1;
 }
 
-.heart-button {
+.heart-container {
   position: absolute;
-  margin: 50%;
-  all: unset;
+  top: 50%;
+  left: 50%;
+  z-index: 1;
   transform: translate(-50%, -50%);
-  all: unset;
+}
+
+.heart-button {
+  transform: translate(-50%, -50%);
+  background: none;
+  border: none;
   opacity: 0;
   transition: opacity 0.3s ease;
 }

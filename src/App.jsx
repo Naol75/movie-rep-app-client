@@ -20,6 +20,7 @@ import DiscoverPage from "./pages/DiscoverPage";
 import FavouritesPage from "./pages/FavouritesPage";
 import IsPrivate from "./components/isPrivate";
 import { FilterProvider } from './context/filters.context';
+import { FavoritesProvider } from "./context/favorites.context";
 import './index.css'
 
 
@@ -30,6 +31,7 @@ function App() {
 
         <NavbarComp/>
         <FilterProvider>
+        <FavoritesProvider>
           <Routes>
             <Route path='/register' 
             element={
@@ -55,11 +57,12 @@ function App() {
             <Route path='/series/top-rated' element={<TopRatedSeriesPage />}/>
             <Route path='/:tvshowId/tv-show-details' element={<TvShowDetails />}/>
             <Route path="/discover" element={<DiscoverPage/>}/>
-            <Route path="/my-favourites" element={<FavouritesPage/>}/>
+            <Route path="/my-favourites" element={<IsPrivate><FavouritesPage/></IsPrivate>}/>
             <Route path='/:itemId/details' element={<Details/>}/>
             <Route path="/error" element={<ErrorPage />} />
             <Route path="*" element={<NotFoundPage />} />
           </Routes>
+          </FavoritesProvider>
           </FilterProvider>
     </>
   )

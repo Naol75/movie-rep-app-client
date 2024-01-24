@@ -7,7 +7,9 @@ import ScrollButton from "../components/ScrollButton.jsx";
 import service from "../services/api";
 import clapperboardImage from "../assets/clapperboard.png";
 import "../styles/Card.css";
+import LikeButton from "../components/LikeButton.jsx";
 import { AuthContext } from "../context/auth.context";
+import { useFavoritesContext } from "../context/favorites.context";
 
 const DiscoverPage = () => {
   const apiKey = import.meta.env.VITE_TMDB_API_KEY;
@@ -22,6 +24,8 @@ const DiscoverPage = () => {
   const [isSticky, setIsSticky] = useState(false);
   const [userRegion, setUserRegion] = useState("");
   const [isHovered, setIsHovered] = useState(false);
+  const { favoriteMovies, addToFavorites, removeFromFavorites } =
+    useFavoritesContext();
   const [isFavorited, setIsFavorited] = useState(false);
 
   const roundedRating = (rating) => parseFloat(rating).toFixed(2);
@@ -55,6 +59,9 @@ const DiscoverPage = () => {
     return genreIds.map((genreId) => genreMap[genreId]).join(", ");
   };
 
+  const isMovieFavorited = (movieTitle) =>
+    favoriteMovies.includes(movieTitle.toLowerCase());
+
   const fetchUserLocation = async () => {
     try {
       const response = await fetch(apiUrl);
@@ -67,51 +74,22 @@ const DiscoverPage = () => {
   };
 
   const handleAddToFavorites = async (movieTitle) => {
+    console.log("Click en Agregar a Favoritos");
     try {
-      console.log("User id:", activeUserId);
-      const favoritesResponse = await service.get("/movies/getAllFavourites", {
-        params: { userId: activeUserId },
-      });
-  
-      if (favoritesResponse.status === 200) {
-        const currentFavorites = favoritesResponse.data.favouriteItems;
-        const isAlreadyFavorited = currentFavorites.includes(movieTitle.toLowerCase());
-  
-        if (isAlreadyFavorited) {
-          console.log("Movie title already in favs:", movieTitle)
-          await handleDeleteFromFavorites(movieTitle);
-        } else {
-          const response = await service.post("/movies/addToFavourites", {
-            userId: activeUserId,
-            movieTitle: movieTitle,
-          });
-  
-          if (response.status === 200) {
-            setIsFavorited(true);
-          }
-        }
+      if (isMovieFavorited(movieTitle)) {
+        console.log("Movie title already in favs:", movieTitle);
+        await removeFromFavorites(movieTitle);
+      } else {
+        await addToFavorites(movieTitle);
       }
     } catch (error) {
       console.error("Error al agregar o quitar película de favoritos", error);
     }
   };
-  const handleDeleteFromFavorites = async (movieTitle) => {
-    try {
-      console.log("Deleting from favorites:", movieTitle);
-      const response = await service.post("movies/deleteFromFavourites", {
-        userId: activeUserId,
-        movieTitle: movieTitle,
-      });
-  
-      console.log("Response from delete request:", response);
-  
-      if (response.status === 200) {
-        setIsFavorited(false);
-      }
-    } catch (error) {
-      console.error("Error al quitar película de favoritos", error);
-    }
-  };
+
+  useEffect(() => {
+    console.log("Favorite movies:", favoriteMovies);
+  }, [favoriteMovies]);
 
   useEffect(() => {
     console.log("User id:", activeUserId);
@@ -222,19 +200,29 @@ const DiscoverPage = () => {
       </div>
       <div className="grid">
         {popularMovies.map((movie) => (
-          <div className="card-container" key={movie.id}   onMouseEnter={() => setIsHovered(true)}
-          onMouseLeave={() => setIsHovered(false)}>
+          <div
+            className="card-container"
+            key={movie.id}
+            onMouseEnter={() => setIsHovered(true)}
+            onMouseLeave={() => setIsHovered(false)}
+          >
             <div className="card-overlay">
-            {isHovered && (
-              <div style={{width: "100%", height: "100%", position: "relative"}}>
-    <button
-      className="heart-button"
-      onClick={() => handleAddToFavorites(movie.title)}
-    >
-      <img width={23} src="src/assets/red-heart-icon.png" alt="like-button" />
-    </button>
-    </div>
-  )}
+              <div className="heart-container">
+                <LikeButton
+                  className="heart-button"
+                  movieTitle={movie.title}
+                  onClick={() => handleAddToFavorites(movie.title)}
+                />
+              </div>
+              {isHovered && (
+                <div
+                  style={{
+                    width: "100%",
+                    height: "100%",
+                    position: "relative",
+                  }}
+                ></div>
+              )}
             </div>
             <Link className="link" to={`/${movie.id}/movie-details`}>
               <img

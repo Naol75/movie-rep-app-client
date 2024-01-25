@@ -1,17 +1,36 @@
 import '../styles/LikeButton.css';
-import { useState } from 'react';
+import { useFavoritesContext } from "../context/favorites.context";
+import { useEffect, useState } from 'react';
 
-const LikeButton = ( {onClick, movieTitle} ) => {
+const LikeButton = ({ onClick, movieTitle }) => {
+  const { favoritedMovies, addToFavorites, removeFromFavorites } = useFavoritesContext();
   const [isChecked, setIsChecked] = useState(false);
 
+  useEffect(() => {
+    setIsChecked(favoritedMovies.includes(movieTitle.toLowerCase()));
+  }, [favoritedMovies, movieTitle]);
+
   const handleCheckboxChange = () => {
-    setIsChecked(!isChecked);
+    const updatedValue = !isChecked;
+    setIsChecked(updatedValue);
+
+    if (updatedValue) {
+      addToFavorites(movieTitle);
+    } else {
+      removeFromFavorites(movieTitle);
+    }
   };
 
   return (
-      <div onClick={onClick}>
-        <input type="checkbox" id="checkbox" checked={isChecked} onChange={handleCheckboxChange}/>
-        <svg id="heart-svg" viewBox="467 392 58 57" xmlns="http://www.w3.org/2000/svg">
+    <div onClick={handleCheckboxChange}>
+      <input
+        type="checkbox"
+        id="checkbox"
+        checked={isChecked}
+        readOnly
+      />
+    <label htmlFor="checkbox">
+      <svg id="heart-svg" viewBox="467 392 58 57" xmlns="http://www.w3.org/2000/svg">
         <g id="Group" fill="none" transform="translate(467 392)">
           <path d="M29.144 20.773c-.063-.13-4.227-8.67-11.44-2.59C7.63 28.795 28.94 43.256 29.143 43.394c.204-.138 21.513-14.6 11.44-25.213-7.214-6.08-11.377 2.46-11.44 2.59z" id="heart" fill="#AAB8C2"/>
           <circle id="main-circ" fill="#E2264D" opacity="0" cx="29.5" cy="29.5" r="1.5"/>
@@ -52,6 +71,7 @@ const LikeButton = ( {onClick, movieTitle} ) => {
           </g>
         </g>
       </svg>
+    </label>
       </div>
   );
 };

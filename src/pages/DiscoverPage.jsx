@@ -207,22 +207,18 @@ const DiscoverPage = () => {
             onMouseLeave={() => setIsHovered(false)}
           >
             <div className="card-overlay">
-              <div className="heart-container">
+              <div className="overview-in-overlay">
+                <p>{movie.overview}</p>
+                </div>
+                <div className="heart-container">
+              </div>
                 <LikeButton
+                  key={movie.title}
                   className="heart-button"
                   movieTitle={movie.title}
                   onClick={() => handleAddToFavorites(movie.title)}
+                  isFavorited={isMovieFavorited(movie.title)}
                 />
-              </div>
-              {isHovered && (
-                <div
-                  style={{
-                    width: "100%",
-                    height: "100%",
-                    position: "relative",
-                  }}
-                ></div>
-              )}
             </div>
             <Link className="link" to={`/${movie.id}/movie-details`}>
               <img

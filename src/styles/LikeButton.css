@@ -1,117 +1,102 @@
-
-svg{
-  cursor:pointer; overflow:visible; width:60px;
-  #heart{transform-origin:center; animation:animateHeartOut .3s linear forwards;}
-  #main-circ{transform-origin:29.5px 29.5px;}
+svg {
+  cursor: pointer;
+  overflow: visible;
+  width: 60px;
 }
 
-#checkbox{display:none;}
-
-#checkbox:checked + label svg{
-    #heart{transform:scale(.2); fill:#E2264D; animation:animateHeart .3s linear forwards .25s;}
-    #main-circ{transition:all 2s; animation:animateCircle .3s linear forwards; opacity:1;}
-    #grp1{
-      opacity:1; transition:.1s all .3s;
-      #oval1{
-        transform:scale(0) translate(0, -30px);
-        transform-origin:0 0 0;
-        transition:.5s transform .3s;}
-      #oval2{
-        transform:scale(0) translate(10px, -50px);
-        transform-origin:0 0 0;
-        transition:1.5s transform .3s;}
-    }
-    #grp2{
-      opacity:1; transition:.1s all .3s;
-      #oval1{
-        transform:scale(0) translate(30px, -15px); 
-        transform-origin:0 0 0;
-        transition:.5s transform .3s;}
-      #oval2{
-        transform:scale(0) translate(60px, -15px); 
-        transform-origin:0 0 0;
-        transition:1.5s transform .3s;}
-    }
-    #grp3{
-      opacity:1; transition:.1s all .3s;
-      #oval1{
-        transform:scale(0) translate(30px, 0px);
-        transform-origin:0 0 0;
-        transition:.5s transform .3s;}
-      #oval2{
-        transform:scale(0) translate(60px, 10px);
-        transform-origin:0 0 0;
-        transition:1.5s transform .3s;}
-    }
-    #grp4{
-      opacity:1; transition:.1s all .3s;
-      #oval1{
-        transform:scale(0) translate(30px, 15px);
-        transform-origin:0 0 0;
-        transition:.5s transform .3s;}
-      #oval2{
-        transform:scale(0) translate(40px, 50px);
-        transform-origin:0 0 0;
-        transition:1.5s transform .3s;}
-    }
-    #grp5{
-      opacity:1; transition:.1s all .3s;
-      #oval1{
-        transform:scale(0) translate(-10px, 20px);
-        transform-origin:0 0 0;
-        transition:.5s transform .3s;}
-      #oval2{
-        transform:scale(0) translate(-60px, 30px);
-        transform-origin:0 0 0;
-        transition:1.5s transform .3s;}
-    }
-    #grp6{
-      opacity:1; transition:.1s all .3s;
-      #oval1{
-        transform:scale(0) translate(-30px, 0px);
-        transform-origin:0 0 0;
-        transition:.5s transform .3s;}
-      #oval2{
-        transform:scale(0) translate(-60px, -5px);
-        transform-origin:0 0 0;
-        transition:1.5s transform .3s;}
-    }
-    #grp7{
-      opacity:1; transition:.1s all .3s;
-      #oval1{
-        transform:scale(0) translate(-30px, -15px);
-        transform-origin:0 0 0;
-        transition:.5s transform .3s;}
-      #oval2{
-        transform:scale(0) translate(-55px, -30px);
-        transform-origin:0 0 0;
-        transition:1.5s transform .3s;}
-    }
-    #grp2{opacity:1; transition:.1s opacity .3s;}
-    #grp3{opacity:1; transition:.1s opacity .3s;}
-    #grp4{opacity:1; transition:.1s opacity .3s;}
-    #grp5{opacity:1; transition:.1s opacity .3s;}
-    #grp6{opacity:1; transition:.1s opacity .3s;}
-    #grp7{opacity:1; transition:.1s opacity .3s;}
+#heart {
+  transform-origin: center;
+  animation: animateHeartOut 0.3s linear forwards;
 }
 
-@keyframes animateCircle{
-  40%{transform:scale(10); opacity:1; fill:#DD4688;}
-  55%{transform:scale(11); opacity:1; fill:#D46ABF;}
-  65%{transform:scale(12); opacity:1; fill:#CC8EF5;}
-  75%{transform:scale(13); opacity:1; fill:transparent; stroke:#CC8EF5; stroke-width:.5;}
-  85%{transform:scale(17); opacity:1; fill:transparent; stroke:#CC8EF5; stroke-width:.2;}
-  95%{transform:scale(18); opacity:1; fill:transparent; stroke:#CC8EF5; stroke-width:.1;}
-  100%{transform:scale(19); opacity:1; fill:transparent; stroke:#CC8EF5; stroke-width:0;}
+#main-circ {
+  transform-origin: 29.5px 29.5px;
 }
 
-@keyframes animateHeart{
-  0%{transform:scale(.2);}
-  40%{transform:scale(1.2);}
-  100%{transform:scale(1);}
+#checkbox {
+  display: none;
 }
 
-@keyframes animateHeartOut{
-  0%{transform:scale(1.4);}
-  100%{transform:scale(1);}
+#checkbox:checked + label svg {
+  #heart {
+    transform: scale(1);
+    fill: #E2264D;
+    animation: animateHeart 0.3s linear forwards 0.05s; /* Ajuste en el retraso */
+  }
+  #main-circ {
+    transition: all 2s;
+    animation: animateCircle 0.3s linear forwards;
+    opacity: 1;
+  }
+
+  #grp1,
+  #grp2,
+  #grp3,
+  #grp4,
+  #grp5,
+  #grp6,
+  #grp7 {
+    opacity: 1;
+    transition: 0.1s all 0.3s;
+  }
+
+  #grp2,
+  #grp3,
+  #grp4,
+  #grp5,
+  #grp6,
+  #grp7 {
+    opacity: 1;
+    transition: 0.1s opacity 0.3s;
+  }
+}
+
+/* Nuevas reglas para las serpentinas */
+#checkbox:checked + label svg #main-circ {
+  animation: animateCircleOut 0.3s linear forwards 0.02s;
+}
+
+#checkbox:checked + label svg #grp1,
+#checkbox:checked + label svg #grp2,
+#checkbox:checked + label svg #grp3,
+#checkbox:checked + label svg #grp4,
+#checkbox:checked + label svg #grp5,
+#checkbox:checked + label svg #grp6,
+#checkbox:checked + label svg #grp7 {
+  opacity: 0;
+}
+
+@keyframes animateCircleOut {
+  0% {
+    transform: scale(19);
+    opacity: 1;
+    fill: transparent;
+    stroke: #CC8EF5;
+    stroke-width: 0;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 0;
+  }
+}
+
+@keyframes animateHeart {
+  0% {
+    transform: scale(1);
+  }
+  40% {
+    transform: scale(1.2);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes animateHeartOut {
+  0% {
+    transform: scale(1.4);
+  }
+  100% {
+    transform: scale(1);
+  }
 }

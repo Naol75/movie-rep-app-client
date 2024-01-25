@@ -12,6 +12,7 @@ export const FavoritesProvider = ({ children }) => {
   const authContext = useContext(AuthContext);
   const { activeUserId } = authContext;
   const [favoriteMovies, setFavoriteMovies] = useState([]);
+  const [favoritedMovies, setFavoritedMovies] = useState([]);
   const [isFavorited, setIsFavorited] = useState(false);
   const [loadingFavorites, setLoadingFavorites] = useState(true)
 
@@ -21,15 +22,17 @@ export const FavoritesProvider = ({ children }) => {
       const favoritesResponse = await service.get("/movies/getAllFavourites", {
         params: { userId: activeUserId },
       });
-      setFavoriteMovies(favoritesResponse);
-      console.log(favoriteMovies)
+  
       if (favoritesResponse.status === 200) {
-        const currentFavorites = favoritesResponse.data.favouriteItems;
+        const currentFavorites = favoritesResponse.data.favouriteItems || [];
         const isAlreadyFavorited = currentFavorites.includes(movieTitle.toLowerCase());
   
         if (isAlreadyFavorited) {
-          console.log("Movie title already in favs:", movieTitle)
+          console.log("Movie title already in favs:", movieTitle);
           await removeFromFavorites(movieTitle);
+          setFavoritedMovies((prevFavoritedMovies) =>
+            prevFavoritedMovies.filter((title) => title !== movieTitle.toLowerCase())
+          );
         } else {
           const response = await service.post("/movies/addToFavourites", {
             userId: activeUserId,
@@ -37,7 +40,7 @@ export const FavoritesProvider = ({ children }) => {
           });
   
           if (response.status === 200) {
-            setIsFavorited(true);
+            setFavoritedMovies((prevFavoritedMovies) => [...prevFavoritedMovies, movieTitle.toLowerCase()]);
           }
         }
       }
@@ -68,6 +71,7 @@ export const FavoritesProvider = ({ children }) => {
     loadingFavorites,
     addToFavorites,
     removeFromFavorites,
+    favoritedMovies,
   };
 
   return (

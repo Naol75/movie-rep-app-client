@@ -59,9 +59,7 @@ export const FavoritesProvider = ({ children }) => {
       console.log("Response from delete request:", response);
   
       if (response.status === 200) {
-        const currentFavorites = response.data.favouriteItems || [];
-        const isStillFavorited = currentFavorites.includes(movieTitle.toLowerCase());
-        setIsFavorited(isStillFavorited);
+        setIsFavorited(false);
       }
     } catch (error) {
       console.error("Error al quitar película de favoritos", error);

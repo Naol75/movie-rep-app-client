@@ -25,9 +25,11 @@ export const FavoritesProvider = ({ children }) => {
   
       if (favoritesResponse.status === 200) {
         const currentFavorites = favoritesResponse.data.favouriteItems || [];
-        const isAlreadyFavorited = currentFavorites.includes(movieTitle.toLowerCase());
+        if (currentFavorites.includes(movieTitle.toLowerCase())) {
+          setIsFavorited(true)
+        }
   
-        if (isAlreadyFavorited) {
+        if (isFavorited) {
           console.log("Movie title already in favs:", movieTitle);
           await removeFromFavorites(movieTitle);
           setFavoritedMovies((prevFavoritedMovies) =>
@@ -67,11 +69,7 @@ export const FavoritesProvider = ({ children }) => {
   };
 
   const contextValue = {
-    favoriteMovies,
-    loadingFavorites,
-    addToFavorites,
-    removeFromFavorites,
-    favoritedMovies,
+
   };
 
   return (

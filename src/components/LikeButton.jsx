@@ -6,27 +6,12 @@ const LikeButton = ({ onClick, movieTitle }) => {
   const { favoritedMovies, addToFavorites, removeFromFavorites } = useFavoritesContext();
   const [isChecked, setIsChecked] = useState(false);
 
-  useEffect(() => {
-    setIsChecked(favoritedMovies.includes(movieTitle.toLowerCase()));
-  }, [favoritedMovies, movieTitle]);
-
-  const handleCheckboxChange = () => {
-    const updatedValue = !isChecked;
-    setIsChecked(updatedValue);
-
-    if (updatedValue) {
-      addToFavorites(movieTitle);
-    } else {
-      removeFromFavorites(movieTitle);
-    }
-  };
 
   return (
-    <div onClick={handleCheckboxChange}>
+    <div>
       <input
         type="checkbox"
         id="checkbox"
-        checked={isChecked}
         readOnly
       />
     <label htmlFor="checkbox">

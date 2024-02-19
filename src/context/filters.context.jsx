@@ -4,9 +4,9 @@ const FilterContext = createContext();
 
 export const FilterProvider = ({ children }) => {
   const [filters, setFilters] = useState({
-    genre: 'all',
-    minYear: 'All',
-    streamingProvider: 'all',
+    genre: '',
+    minYear: '',
+    streamingProvider: '',
   });
 
   const [sortBy, setSortBy] = useState('popularity');

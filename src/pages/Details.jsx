@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import service from "../services/api";
-import clapperboardImage from "../assets/clapperboard.png";
+import clapperboardImage from "../assets/clapperboard.png";meta.env
 import { MoonLoader } from "react-spinners";
 import { useParams } from "react-router-dom";
 import "../styles/MovieDetails.css";

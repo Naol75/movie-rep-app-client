@@ -5,6 +5,7 @@ import HeaderCompDiscover from "../components/HeaderCompDiscover.jsx";
 import { Link } from "react-router-dom";
 import service from "../services/api";
 import clapperboardImage from "../assets/clapperboard.png";
+import LikeButton from "../components/LikeButton.jsx";
 import "../styles/Card.css";
 import { AuthContext } from "../context/auth.context";
 
@@ -13,6 +14,7 @@ function FavouritesPage() {
   const apiKey = import.meta.env.VITE_TMDB_API_KEY;
   const authContext = useContext(AuthContext);
   const { activeUserId } = authContext;
+  const [isHovered, setIsHovered] = useState(false);
   const [items, setItems] = useState([])
   const [isPageLoading, setIsPageLoading] = useState(false);
 
@@ -48,7 +50,7 @@ function FavouritesPage() {
       10752: "War",
       37: "Western",
     };
-    return genreIds.map((genreId) => genreMap[genreId]).join(", ");
+    return genreIds ? genreIds.map((genreId) => genreMap[genreId]).join(", ") : "";
   };
 
   useEffect(() => {
@@ -56,6 +58,7 @@ function FavouritesPage() {
       try {
         const userId = activeUserId;
         const response = await service.get("/movies/getAllFavourites", { params: { userId } });
+        console.log("Response from getAllFavourites:", response.data);
         if (response.status === 200) {
           const favouriteItems = response.data.favouriteItems;
           console.log("Titles:", favouriteItems);
@@ -69,11 +72,13 @@ function FavouritesPage() {
 
     const fetchItemsData = async (titles) => {
       try {
+        console.log("Titles received for fetching data:", titles);
         if (titles) {
           const itemsDataPromises = titles.map(async (title) => {
             const response = await service.get(
               `https://api.themoviedb.org/3/search/multi?query=${title}&api_key=${apiKey}`
             );
+            console.log("response:", response.data.results)
             return response.data.results[0];
           });
           const itemsDataResults = await Promise.all(itemsDataPromises);
@@ -97,20 +102,41 @@ function FavouritesPage() {
         <HeaderCompDiscover />
       </div>
       <div className="grid">
-        { items && items.length > 0 && items.map((item) => (
-          <Link className="link" to={`/${item.id}/details`} key={item.id}>
-            <div className="card-container" key={item.id}>
-              <img src={getImageUrl(item.poster_path)} alt={`${item.title} Poster`} className="poster" />
+      {items.map((movie) => (
+          <div
+            className="card-container"
+            key={movie.id}
+            onMouseEnter={() => setIsHovered(true)}
+            onMouseLeave={() => setIsHovered(false)}
+          >
+            <div className="card-overlay">
+              <div className="overview-in-overlay">
+                <p>{movie.overview}</p>
+                </div>
+                <div className="heart-container">
+              </div>
+                <LikeButton
+                  className="heart-button"
+                  movieTitle={movie.title}
+                />
+    </div>
+            <Link className="link" to={`/${movie.id}/movie-details`}>
+              <img
+                src={getImageUrl(movie.poster_path)}
+                alt={`${movie.title} Poster`}
+                className="poster"
+              />
               <div className="info">
                 <h3>
-                  {item.title} ({item.release_date && item.release_date.substring(0, 4)})
+                  {movie.title} (
+                  {movie.release_date && movie.release_date.substring(0, 4)})
                 </h3>
-                <p>{mapGenreIdsToNames(item.genre_ids)}</p>
-                <p className="rating">⭐ {roundedRating(item.vote_average)}</p>
-                <p className="vote-count">({item.vote_count} Votes)</p>
+                <p>{mapGenreIdsToNames(movie.genre_ids)}</p>
+                <p className="rating">⭐ {roundedRating(movie.vote_average)}</p>
+                <p className="vote-count">({movie.vote_count} Votes)</p>
               </div>
-            </div>
-          </Link>
+            </Link>
+          </div>
         ))}
       </div>
       {isPageLoading && (

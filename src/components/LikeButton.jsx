@@ -2,16 +2,31 @@ import '../styles/LikeButton.css';
 import { useFavoritesContext } from "../context/favorites.context";
 import { useEffect, useState } from 'react';
 
-const LikeButton = ({ onClick, movieTitle }) => {
+const LikeButton = ({ movieTitle }) => {
   const { favoritedMovies, addToFavorites, removeFromFavorites } = useFavoritesContext();
   const [isChecked, setIsChecked] = useState(false);
 
+  useEffect(() => {
+    setIsChecked(favoritedMovies.includes(movieTitle));
+  }, [favoritedMovies, movieTitle]);
 
+  const clickOnButton = async () => {
+    try {
+      if (isChecked) {
+        await removeFromFavorites(movieTitle);
+      } else {
+        await addToFavorites(movieTitle);
+      }
+    } catch (error) {
+      console.error("Error al agregar o quitar película de favoritos", error);
+    }
+  };
   return (
-    <div>
+    <div onClick={clickOnButton}>
       <input
         type="checkbox"
         id="checkbox"
+        checked={isChecked}
         readOnly
       />
     <label htmlFor="checkbox">

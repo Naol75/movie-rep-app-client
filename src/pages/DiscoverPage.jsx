@@ -59,8 +59,6 @@ const DiscoverPage = () => {
     return genreIds.map((genreId) => genreMap[genreId]).join(", ");
   };
 
-  const isMovieFavorited = (movieTitle) =>
-    favoriteMovies.includes(movieTitle.toLowerCase());
 
   const fetchUserLocation = async () => {
     try {
@@ -73,19 +71,6 @@ const DiscoverPage = () => {
     }
   };
 
-  const handleAddToFavorites = async (movieTitle) => {
-    console.log("Click en Agregar a Favoritos");
-    try {
-      if (isMovieFavorited(movieTitle)) {
-        console.log("Movie title already in favs:", movieTitle);
-        await removeFromFavorites(movieTitle);
-      } else {
-        await addToFavorites(movieTitle);
-      }
-    } catch (error) {
-      console.error("Error al agregar o quitar película de favoritos", error);
-    }
-  };
 
   useEffect(() => {
     console.log("Favorite movies:", favoriteMovies);
@@ -199,7 +184,7 @@ const DiscoverPage = () => {
         <HeaderCompDiscover />
       </div>
       <div className="grid">
-        {popularMovies.map((movie) => (
+      {popularMovies.map((movie) => (
           <div
             className="card-container"
             key={movie.id}
@@ -213,13 +198,10 @@ const DiscoverPage = () => {
                 <div className="heart-container">
               </div>
                 <LikeButton
-                  key={movie.title}
                   className="heart-button"
                   movieTitle={movie.title}
-                  onClick={() => handleAddToFavorites(movie.title)}
-                  isFavorited={isMovieFavorited(movie.title)}
                 />
-            </div>
+    </div>
             <Link className="link" to={`/${movie.id}/movie-details`}>
               <img
                 src={getImageUrl(movie.poster_path)}

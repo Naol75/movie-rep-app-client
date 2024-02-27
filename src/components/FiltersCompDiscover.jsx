@@ -106,7 +106,6 @@ function FiltersCompDiscover() {
     updateSortOrder(e.target.value);
   };
 
-  console.log("Current Filters:", filters);
 
   return (
     <section className="filters">

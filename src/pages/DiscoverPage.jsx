@@ -23,10 +23,10 @@ const DiscoverPage = () => {
   const [isPageLoading, setIsPageLoading] = useState(false);
   const [isSticky, setIsSticky] = useState(false);
   const [userRegion, setUserRegion] = useState("");
+  const [isChecked, setIsChecked] = useState(false)
   const [isHovered, setIsHovered] = useState(false);
-  const { favoriteMovies, addToFavorites, removeFromFavorites } =
+  const { favoritedMovies, isMovieFavorited, addToFavorites, removeFromFavorites } =
     useFavoritesContext();
-  const [isFavorited, setIsFavorited] = useState(false);
 
   const roundedRating = (rating) => parseFloat(rating).toFixed(2);
 
@@ -73,13 +73,15 @@ const DiscoverPage = () => {
 
 
   useEffect(() => {
-    console.log("Favorite movies:", favoriteMovies);
-  }, [favoriteMovies]);
+    console.log("Favorite movies:", favoritedMovies);
+  }, [favoritedMovies]);
 
   useEffect(() => {
     console.log("User id:", activeUserId);
   }, []);
 
+
+  
   const fetchPopularMoviesOnFiltersChange = async () => {
     try {
       console.log("Current Filters:", filters);
@@ -185,7 +187,8 @@ const DiscoverPage = () => {
       </div>
       <div className="grid">
       {popularMovies.map((movie) => (
-          <div
+        <div
+        onClick={() => console.log(movie.id)}
             className="card-container"
             key={movie.id}
             onMouseEnter={() => setIsHovered(true)}
@@ -197,10 +200,12 @@ const DiscoverPage = () => {
                 </div>
                 <div className="heart-container">
               </div>
-                <LikeButton
-                  className="heart-button"
-                  movieTitle={movie.title}
-                />
+              <LikeButton
+  className="heart-button"
+  movieId={movie.id}
+  addToFavorites={addToFavorites}
+  removeFromFavorites={removeFromFavorites}
+/>
     </div>
             <Link className="link" to={`/${movie.id}/movie-details`}>
               <img

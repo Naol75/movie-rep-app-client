@@ -8,6 +8,7 @@ import clapperboardImage from "../assets/clapperboard.png";
 import LikeButton from "../components/LikeButton.jsx";
 import "../styles/Card.css";
 import { AuthContext } from "../context/auth.context";
+import { useFavoritesContext } from "../context/favorites.context.jsx";
 
 
 function FavouritesPage() {
@@ -17,6 +18,9 @@ function FavouritesPage() {
   const [isHovered, setIsHovered] = useState(false);
   const [items, setItems] = useState([])
   const [isPageLoading, setIsPageLoading] = useState(false);
+  const { addToFavorites, removeFromFavorites, favoritedMovies } =
+  useFavoritesContext();
+
 
   const roundedRating = (rating) => parseFloat(rating).toFixed(2);
   const getDefaultImageUrl = () => {
@@ -70,16 +74,16 @@ function FavouritesPage() {
       }
     };
 
-    const fetchItemsData = async (titles) => {
+    const fetchItemsData = async (id) => {
       try {
-        console.log("Titles received for fetching data:", titles);
-        if (titles) {
-          const itemsDataPromises = titles.map(async (title) => {
+        console.log("Titles received for fetching data:", id);
+        if (id) {
+          const itemsDataPromises = id.map(async (id) => {
             const response = await service.get(
-              `https://api.themoviedb.org/3/search/multi?query=${title}&api_key=${apiKey}`
+              `https://api.themoviedb.org/3/movie/${id}?api_key=${apiKey}`
             );
-            console.log("response:", response.data.results)
-            return response.data.results[0];
+            console.log("response:", response.data)
+            return response.data;
           });
           const itemsDataResults = await Promise.all(itemsDataPromises);
           setItems(itemsDataResults);
@@ -92,7 +96,9 @@ function FavouritesPage() {
     };
 
     fetchFavouriteItems();
-  }, [activeUserId, apiKey]);
+  }, [activeUserId, apiKey, favoritedMovies]);
+
+  
 
 
 
@@ -115,10 +121,12 @@ function FavouritesPage() {
                 </div>
                 <div className="heart-container">
               </div>
-                <LikeButton
-                  className="heart-button"
-                  movieTitle={movie.title}
-                />
+              <LikeButton
+  className="heart-button"
+  movieId={movie.id}
+  addToFavorites={addToFavorites}
+  removeFromFavorites={removeFromFavorites}
+/>
     </div>
             <Link className="link" to={`/${movie.id}/movie-details`}>
               <img

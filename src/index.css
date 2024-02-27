@@ -225,7 +225,7 @@ font-size: 0.9rem;
   margin-top: 1rem;
 }
 .heart-button {
-  transform: translate(-50%, -50%);
+  transform: translate(-3%, -50%);
   background: none;
   border: none;
   opacity: 0;

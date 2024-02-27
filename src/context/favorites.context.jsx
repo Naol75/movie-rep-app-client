@@ -14,16 +14,22 @@ export const FavoritesProvider = ({ children }) => {
   const [favoritedMovies, setFavoritedMovies] = useState([]);
   const [loadingFavorites, setLoadingFavorites] = useState(true);
 
+
+  const isMovieFavorited = (movieId) => {
+    return favoritedMovies.includes(movieId);
+  };
+
   useEffect(() => {
     const fetchFavorites = async () => {
       try {
-        setLoadingFavorites(true);
+        if (activeUserId) 
+          setLoadingFavorites(true);
         const favoritesResponse = await service.get("/movies/getAllFavourites", {
           params: { userId: activeUserId },
         });
   
         if (favoritesResponse.status === 200) {
-          const currentFavorites = favoritesResponse.data.favouriteItems || [];
+          const currentFavorites = favoritesResponse.data.favouriteItems;
           setFavoritedMovies(currentFavorites);
         }
       } catch (error) {
@@ -32,22 +38,22 @@ export const FavoritesProvider = ({ children }) => {
         setLoadingFavorites(false);
       }
     };
-
+  
     fetchFavorites();
   }, [activeUserId]);
 
-  const addToFavorites = async (movieTitle) => {
+  const addToFavorites = async (movieId) => {
     try {
-      console.log("Añadiendo a favoritos:", movieTitle);
+      console.log("Añadiendo a favoritos:", movieId);
       const response = await service.post("/movies/addToFavourites", {
         userId: activeUserId,
-        movieTitle: movieTitle,
+        movieId: movieId,
       });
 
       if (response.status === 200) {
         setFavoritedMovies((prevFavoritedMovies) => [
           ...prevFavoritedMovies,
-          movieTitle,
+          movieId,
         ]);
       }
     } catch (error) {
@@ -55,17 +61,17 @@ export const FavoritesProvider = ({ children }) => {
     }
   };
 
-  const removeFromFavorites = async (movieTitle) => {
+  const removeFromFavorites = async (movieId) => {
     try {
-      console.log("Quitando de favoritos:", movieTitle);
+      console.log("Quitando de favoritos:", movieId);
       const response = await service.post("/movies/deleteFromFavourites", {
         userId: activeUserId,
-        movieTitle: movieTitle,
+        movieId: movieId,
       });
 
       if (response.status === 200) {
         setFavoritedMovies((prevFavoritedMovies) =>
-          prevFavoritedMovies.filter((title) => title !== movieTitle)
+          prevFavoritedMovies.filter((id) => id != movieId)
         );
       }
     } catch (error) {
@@ -75,10 +81,12 @@ export const FavoritesProvider = ({ children }) => {
 
   const contextValue = {
     favoritedMovies,
+    setFavoritedMovies,
     loadingFavorites,
     addToFavorites,
     removeFromFavorites,
-  };
+    isMovieFavorited
+    };
 
   return (
     <FavoritesContext.Provider value={contextValue}>

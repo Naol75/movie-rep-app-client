@@ -1,48 +1,18 @@
 import service from "../services/api";
 import { MoonLoader } from "react-spinners";
 import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
-import clapperboardImage from "../assets/clapperboard.png";
 import "../styles/Card.css";
+import { useFavoritesContext } from "../context/favorites.context";
+import SeriesCard from "../components/SeriesCard.jsx";
 
 function AiringTodayPage() {
   const apiKey = import.meta.env.VITE_TMDB_API_KEY;
+  const { addToFavorites, removeFromFavorites } =
+  useFavoritesContext();
   const [popularTvShows, setPopularTvShows] = useState([]);
   const [isPageLoading, setIsPageLoading] = useState(false);
   const [renderedSeries, setRenderedSeries] = useState(new Set());
   const [page, setPage] = useState(1);
-
-  const roundedRating = (rating) => parseFloat(rating).toFixed(2);
-
-  const getDefaultImageUrl = () => {
-    return clapperboardImage;
-  };
-
-  const getImageUrl = (path) => {
-    const baseUrl = "https://image.tmdb.org/t/p/w300";
-    return path ? `${baseUrl}${path}` : getDefaultImageUrl();
-  };
-
-  const mapGenreIdsToNames = (genreIds) => {
-    const genreMap = {
-      10759: "Action & Adventure",
-      16: "Animation",
-      35: "Comedy",
-      80: "Crime",
-      99: "Documentary",
-      18: "Drama",
-      10751: "Family",
-      10762: "Kids",
-      9648: "Mystery",
-      10763: "News",
-      10764: "Reality",
-      10765: "Sci-Fi & Fantasy",
-      10766: "Soap",
-      10767: "Talk",
-      10768: "War & Politics",
-    };
-    return genreIds.map((genreId) => genreMap[genreId]).join(", ");
-  };
 
   const fetchPopularTvShows = async () => {
     try {
@@ -97,34 +67,11 @@ function AiringTodayPage() {
 
   return (
     <div>
-      <div className="grid">
-        {popularTvShows &&
-          popularTvShows.map((tvShow) => (
-            <Link
-              className="link"
-              to={`/${tvShow.id}/tv-show-details`}
-              key={tvShow.id}
-            >
-              <div className="card-container">
-                <img
-                  src={getImageUrl(tvShow.poster_path)}
-                  alt={`${tvShow.name} Poster`}
-                  className="poster"
-                />
-                <div className="info">
-                  <h3>
-                    {tvShow.name} {`(${tvShow.first_air_date.substring(0, 4)})`}
-                  </h3>
-                  <p>{mapGenreIdsToNames(tvShow.genre_ids)}</p>
-                  <p className="rating">
-                    ⭐ {roundedRating(tvShow.vote_average)}
-                  </p>
-                  <p className="vote-count">({tvShow.vote_count} Votes)</p>
-                </div>
-              </div>
-            </Link>
-          ))}
-      </div>
+      <SeriesCard
+      items={popularTvShows}
+      addToFavorites={addToFavorites}
+      removeFromFavorites={removeFromFavorites}
+      />
       {isPageLoading && (
         <div
           className="loader-container"

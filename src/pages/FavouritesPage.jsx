@@ -36,14 +36,21 @@ function FavouritesPage() {
       }
     };
 
-    const fetchItemsData = async (id) => {
+    const fetchItemsData = async (ids) => {
       try {
-        console.log("Titles received for fetching data:", id);
-        if (id) {
-          const itemsDataPromises = id.map(async (id) => {
-            const response = await service.get(
-              `https://api.themoviedb.org/3/movie/${id}?api_key=${apiKey}`
-            );
+        console.log("IDs received for fetching data:", ids);
+        if (ids) {
+          const itemsDataPromises = ids.map(async (id) => {
+            let response;
+            if (id.length > 5) {
+              response = await service.get(
+                `https://api.themoviedb.org/3/movie/${id}?api_key=${apiKey}`
+              );
+            } else {
+              response = await service.get(
+                `https://api.themoviedb.org/3/tv/${id}?api_key=${apiKey}`
+              );
+            }
             console.log("response:", response.data)
             return response.data;
           });

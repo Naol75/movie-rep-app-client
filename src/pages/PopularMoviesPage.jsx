@@ -4,7 +4,7 @@ import { MoonLoader } from "react-spinners";
 import ScrollButton from "../components/ScrollButton.jsx";
 import "../styles/Card.css";
 import { useFavoritesContext } from "../context/favorites.context";
-import MovieCard from "../components/MovieCard.jsx";
+import Card from "../components/Card.jsx";
 
 
 function PopularMoviesPage() {
@@ -73,7 +73,7 @@ function PopularMoviesPage() {
 
   return (
     <div>
-            <MovieCard
+            <Card
       items={popularMovies}
       addToFavorites={addToFavorites}
       removeFromFavorites={removeFromFavorites}

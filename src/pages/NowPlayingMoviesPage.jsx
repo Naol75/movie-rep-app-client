@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import service from "../services/api";
 import { MoonLoader } from "react-spinners";
-import MovieCard from "../components/MovieCard.jsx";
+import Card from "../components/Card.jsx";
 import ScrollButton from "../components/ScrollButton.jsx";
 import { useFavoritesContext } from "../context/favorites.context.jsx";
 import "../styles/Card.css";
@@ -66,7 +66,7 @@ function NowPlayingPage() {
 
   return (
     <div>
-           <MovieCard
+           <Card
       items={popularMovies}
       addToFavorites={addToFavorites}
       removeFromFavorites={removeFromFavorites}

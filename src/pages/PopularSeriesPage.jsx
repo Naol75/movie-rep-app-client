@@ -3,8 +3,8 @@ import service from "../services/api";
 import { MoonLoader } from "react-spinners";
 import ScrollButton from "../components/ScrollButton.jsx";
 import { useFavoritesContext } from "../context/favorites.context";
-import SeriesCard from "../components/SeriesCard.jsx";
 import "../styles/Card.css";
+import Card from "../components/Card.jsx";
 
 function PopularSeriesPage() {
   const apiKey = import.meta.env.VITE_TMDB_API_KEY;
@@ -68,7 +68,7 @@ function PopularSeriesPage() {
 
   return (
     <div>
-            <SeriesCard
+            <Card
       items={popularTvShows}
       addToFavorites={addToFavorites}
       removeFromFavorites={removeFromFavorites}

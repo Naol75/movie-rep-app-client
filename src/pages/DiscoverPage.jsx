@@ -7,7 +7,7 @@ import service from "../services/api";
 import "../styles/Card.css";
 import { AuthContext } from "../context/auth.context";
 import { useFavoritesContext } from "../context/favorites.context";
-import MovieCard from "../components/MovieCard.jsx";
+import Card from "../components/Card.jsx";
 
 const DiscoverPage = () => {
   const apiKey = import.meta.env.VITE_TMDB_API_KEY;
@@ -145,7 +145,7 @@ const DiscoverPage = () => {
       <div className={`discover-header ${isSticky ? "sticky-header" : ""}`}>
         <HeaderCompDiscover />
       </div>
-      <MovieCard
+      <Card
       items={popularMovies}
       addToFavorites={addToFavorites}
       removeFromFavorites={removeFromFavorites}

@@ -4,7 +4,7 @@ import { MoonLoader } from "react-spinners";
 import ScrollButton from "../components/ScrollButton.jsx";
 import "../styles/Card.css";
 import { useFavoritesContext } from "../context/favorites.context";
-import MovieCard from "../components/MovieCard.jsx";
+import Card from "../components/Card.jsx";
 
 function TopRated() {
   const apiKey = import.meta.env.VITE_TMDB_API_KEY;
@@ -79,7 +79,7 @@ function TopRated() {
 
   return (
     <div>
-            <MovieCard
+            <Card
       items={popularMovies}
       addToFavorites={addToFavorites}
       removeFromFavorites={removeFromFavorites}

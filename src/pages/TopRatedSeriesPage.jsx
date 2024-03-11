@@ -3,7 +3,7 @@ import service from "../services/api";
 import { MoonLoader } from "react-spinners";
 import ScrollButton from "../components/ScrollButton.jsx";
 import { useFavoritesContext } from "../context/favorites.context";
-import SeriesCard from "../components/SeriesCard.jsx";
+import Card from "../components/Card.jsx";
 import "../styles/Card.css";
 
 function TopRatedSeriesPage() {
@@ -69,7 +69,7 @@ function TopRatedSeriesPage() {
 
   return (
     <div>
-      <SeriesCard
+      <Card
       items={popularTvShows}
       addToFavorites={addToFavorites}
       removeFromFavorites={removeFromFavorites}

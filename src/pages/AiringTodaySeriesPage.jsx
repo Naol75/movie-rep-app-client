@@ -3,7 +3,7 @@ import { MoonLoader } from "react-spinners";
 import { useState, useEffect } from "react";
 import "../styles/Card.css";
 import { useFavoritesContext } from "../context/favorites.context";
-import SeriesCard from "../components/SeriesCard.jsx";
+import Card from "../components/Card.jsx";
 
 function AiringTodayPage() {
   const apiKey = import.meta.env.VITE_TMDB_API_KEY;
@@ -67,7 +67,7 @@ function AiringTodayPage() {
 
   return (
     <div>
-      <SeriesCard
+      <Card
       items={popularTvShows}
       addToFavorites={addToFavorites}
       removeFromFavorites={removeFromFavorites}

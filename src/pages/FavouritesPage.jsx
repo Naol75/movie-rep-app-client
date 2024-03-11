@@ -5,7 +5,7 @@ import service from "../services/api";
 import "../styles/Card.css";
 import { AuthContext } from "../context/auth.context";
 import { useFavoritesContext } from "../context/favorites.context.jsx";
-import MovieCard from "../components/MovieCard.jsx";
+import Card from "../components/Card.jsx";
 
 
 function FavouritesPage() {
@@ -76,7 +76,7 @@ function FavouritesPage() {
       <div className="discover-header">
         <HeaderCompDiscover />
       </div>
-      <MovieCard
+      <Card
       items={items}
       addToFavorites={addToFavorites}
       removeFromFavorites={removeFromFavorites}

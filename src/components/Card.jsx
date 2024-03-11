@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import LikeButton from "../components/LikeButton.jsx";
+import LikeButton from "./LikeButton.jsx";
 import "../styles/LikeButton.css";
 import "../styles/Card.css";
 import clapperboardImage from "../assets/clapperboard.png";
@@ -7,7 +7,7 @@ import { useState } from "react";
 import { AuthContext } from "../context/auth.context.jsx";
 import { useContext } from "react";
 
-function MovieCard({
+function Card({
   items,
   addToFavorites,
   removeFromFavorites,
@@ -34,6 +34,7 @@ function MovieCard({
 
   const mapGenreIdsToNames = (genreIds) => {
     const genreMap = {
+      10759: "Action & Adventure",
       28: "Action",
       12: "Adventure",
       16: "Animation",
@@ -45,10 +46,16 @@ function MovieCard({
       14: "Fantasy",
       36: "History",
       27: "Horror",
+      10762: "Kids",
+      10763: "News",
       10402: "Music",
       9648: "Mystery",
+      10764: "Reality",
       10749: "Romance",
       878: "Science Fiction",
+      10765: "Sci-Fi & Fantasy",
+      10766: "Soap",
+      10767: "Talk",
       10770: "TV Movie",
       53: "Thriller",
       10752: "War",
@@ -85,10 +92,17 @@ function MovieCard({
             />
             {hoveredMovieId !== movie.id && (
               <div className="info">
+                {movie.title ? (
                 <h3>
                   {movie.title} (
                   {movie.release_date && movie.release_date.substring(0, 4)})
+                </h3>) : (
+                  <h3>
+                  {movie.name} (
+                  {movie.first_air_date && movie.first_air_date.substring(0, 4)})
                 </h3>
+                )}
+
                 {movie.genre_ids ? (
                   <p id="genres">{mapGenreIdsToNames(movie.genre_ids)}</p>
                 ) : (
@@ -122,4 +136,4 @@ function MovieCard({
   );
 }
 
-export default MovieCard;
+export default Card;

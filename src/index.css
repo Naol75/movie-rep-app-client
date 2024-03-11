@@ -203,6 +203,7 @@ html, body, #root {
 }
 
 .overview-in-overlay {
+  color: white;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -225,7 +226,7 @@ font-size: 0.9rem;
   margin-top: 1rem;
 }
 .heart-button {
-  transform: translate(-3%, -50%);
+  transform: translate(-5%, -50%);
   background: none;
   border: none;
   opacity: 0;

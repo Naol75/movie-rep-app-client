@@ -4,11 +4,6 @@ svg {
   width: 60px;
 }
 
-.heart-button {
-  cursor: pointer;
-  overflow: visible;
-  width: 60px;
-}
 
 #heart {
   transform-origin: center;

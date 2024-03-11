@@ -1,54 +1,21 @@
 import { useEffect, useState } from "react";
 import service from "../services/api";
 import { MoonLoader } from "react-spinners";
-import clapperboardImage from "../assets/clapperboard.png";
+import MovieCard from "../components/MovieCard.jsx";
 import { isAfter, subMonths } from "date-fns";
-import { Link } from "react-router-dom";
+import { useFavoritesContext } from "../context/favorites.context";
 import ScrollButton from "../components/ScrollButton.jsx";
 import "../styles/Card.css";
 
 function NewReleasesPage() {
   const apiKey = import.meta.env.VITE_TMDB_API_KEY;
+  const { addToFavorites, removeFromFavorites } =
+  useFavoritesContext();
   const [popularMovies, setPopularMovies] = useState([]);
   const [page, setPage] = useState(1);
   const [isPageLoading, setIsPageLoading] = useState(false);
   const [renderedMovies, setRenderedMovies] = useState(new Set());
 
-  const roundedRating = (rating) => parseFloat(rating).toFixed(2);
-
-  const getDefaultImageUrl = () => {
-    return clapperboardImage;
-  };
-
-  const getImageUrl = (path) => {
-    const baseUrl = "https://image.tmdb.org/t/p/w300";
-    return path ? `${baseUrl}${path}` : getDefaultImageUrl();
-  };
-
-  const mapGenreIdsToNames = (genreIds) => {
-    const genreMap = {
-      28: "Action",
-      12: "Adventure",
-      16: "Animation",
-      35: "Comedy",
-      80: "Crime",
-      99: "Documentary",
-      18: "Drama",
-      10751: "Family",
-      14: "Fantasy",
-      36: "History",
-      27: "Horror",
-      10402: "Music",
-      9648: "Mystery",
-      10749: "Romance",
-      878: "Science Fiction",
-      10770: "TV Movie",
-      53: "Thriller",
-      10752: "War",
-      37: "Western",
-    };
-    return genreIds.map((genreId) => genreMap[genreId]).join(", ");
-  };
 
   const fetchPopularMovies = async () => {
     try {
@@ -111,37 +78,12 @@ function NewReleasesPage() {
 
   return (
     <div>
-      <div className="grid">
-        {popularMovies &&
-          popularMovies.map((movie) => (
-            <Link
-              className="link"
-              to={`/${movie.id}/movie-details`}
-              key={movie.id}
-            >
-              <div className="card-container">
-                <img
-                  src={getImageUrl(movie.poster_path)}
-                  alt={`${movie.title} Poster`}
-                  className="poster"
-                />
-                <div className="info">
-                  <h3>{movie.title}</h3>
-                  <p>{mapGenreIdsToNames(movie.genre_ids)}</p>
-                  <p className="rating">
-                    ⭐ {roundedRating(movie.vote_average)}
-                  </p>
-                  <p className="vote-count">({movie.vote_count} Votes)</p>
-                  <div className="release-date">
-                    <h6 className="neonred">
-                      Released On: {`(${movie.release_date})`}
-                    </h6>
-                  </div>
-                </div>
-              </div>
-            </Link>
-          ))}
-      </div>
+      <MovieCard
+            items={popularMovies}
+            addToFavorites={addToFavorites}
+            removeFromFavorites={removeFromFavorites}
+            showReleaseDate={true}
+      />
       {isPageLoading && (
         <div
           className="loader-container"

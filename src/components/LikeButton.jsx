@@ -11,6 +11,7 @@ const LikeButton = ({ movieId, addToFavorites, removeFromFavorites, updateFavori
     setLiked(isMovieFavorited(movieId.toString()));
   }, [movieId, isMovieFavorited]);
 
+
   const handleClick = async () => {
     console.log("id sent to backend", movieId);
     if (liked) {

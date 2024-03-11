@@ -2,14 +2,12 @@ import { useEffect, useState, useContext } from "react";
 import { MoonLoader } from "react-spinners";
 import { useFilter } from "../context/filters.context";
 import HeaderCompDiscover from "../components/HeaderCompDiscover.jsx";
-import { Link } from "react-router-dom";
 import ScrollButton from "../components/ScrollButton.jsx";
 import service from "../services/api";
-import clapperboardImage from "../assets/clapperboard.png";
 import "../styles/Card.css";
-import LikeButton from "../components/LikeButton.jsx";
 import { AuthContext } from "../context/auth.context";
 import { useFavoritesContext } from "../context/favorites.context";
+import MovieCard from "../components/MovieCard.jsx";
 
 const DiscoverPage = () => {
   const apiKey = import.meta.env.VITE_TMDB_API_KEY;
@@ -23,42 +21,8 @@ const DiscoverPage = () => {
   const [isPageLoading, setIsPageLoading] = useState(false);
   const [isSticky, setIsSticky] = useState(false);
   const [userRegion, setUserRegion] = useState("");
-  const [isChecked, setIsChecked] = useState(false)
-  const [isHovered, setIsHovered] = useState(false);
-  const { favoritedMovies, isMovieFavorited, addToFavorites, removeFromFavorites } =
+  const { addToFavorites, removeFromFavorites } =
     useFavoritesContext();
-
-  const roundedRating = (rating) => parseFloat(rating).toFixed(2);
-
-  const getDefaultImageUrl = () => clapperboardImage;
-  const getImageUrl = (path) =>
-    path ? `https://image.tmdb.org/t/p/w300${path}` : getDefaultImageUrl();
-
-  const mapGenreIdsToNames = (genreIds) => {
-    const genreMap = {
-      28: "Action",
-      12: "Adventure",
-      16: "Animation",
-      35: "Comedy",
-      80: "Crime",
-      99: "Documentary",
-      18: "Drama",
-      10751: "Family",
-      14: "Fantasy",
-      36: "History",
-      27: "Horror",
-      10402: "Music",
-      9648: "Mystery",
-      10749: "Romance",
-      878: "Science Fiction",
-      10770: "TV Movie",
-      53: "Thriller",
-      10752: "War",
-      37: "Western",
-    };
-    return genreIds.map((genreId) => genreMap[genreId]).join(", ");
-  };
-
 
   const fetchUserLocation = async () => {
     try {
@@ -71,10 +35,6 @@ const DiscoverPage = () => {
     }
   };
 
-
-  useEffect(() => {
-    console.log("Favorite movies:", favoritedMovies);
-  }, [favoritedMovies]);
 
   useEffect(() => {
     console.log("User id:", activeUserId);
@@ -185,47 +145,11 @@ const DiscoverPage = () => {
       <div className={`discover-header ${isSticky ? "sticky-header" : ""}`}>
         <HeaderCompDiscover />
       </div>
-      <div className="grid">
-      {popularMovies.map((movie) => (
-        <div
-        onClick={() => console.log(movie.id)}
-            className="card-container"
-            key={movie.id}
-            onMouseEnter={() => setIsHovered(true)}
-            onMouseLeave={() => setIsHovered(false)}
-          >
-            <div className="card-overlay">
-              <div className="overview-in-overlay">
-                <p>{movie.overview}</p>
-                </div>
-                <div className="heart-container">
-              </div>
-              <LikeButton
-  className="heart-button"
-  movieId={movie.id}
-  addToFavorites={addToFavorites}
-  removeFromFavorites={removeFromFavorites}
-/>
-    </div>
-            <Link className="link" to={`/${movie.id}/movie-details`}>
-              <img
-                src={getImageUrl(movie.poster_path)}
-                alt={`${movie.title} Poster`}
-                className="poster"
-              />
-              <div className="info">
-                <h3>
-                  {movie.title} (
-                  {movie.release_date && movie.release_date.substring(0, 4)})
-                </h3>
-                <p>{mapGenreIdsToNames(movie.genre_ids)}</p>
-                <p className="rating">⭐ {roundedRating(movie.vote_average)}</p>
-                <p className="vote-count">({movie.vote_count} Votes)</p>
-              </div>
-            </Link>
-          </div>
-        ))}
-      </div>
+      <MovieCard
+      items={popularMovies}
+      addToFavorites={addToFavorites}
+      removeFromFavorites={removeFromFavorites}
+      />
       {isPageLoading && (
         <div
           className="loader-container"

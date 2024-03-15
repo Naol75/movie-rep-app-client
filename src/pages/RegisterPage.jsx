@@ -19,7 +19,6 @@ function RegisterPage() {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -30,7 +29,6 @@ function RegisterPage() {
       Object.keys(formData).forEach((key) => {
         formDataToSend.append(key, formData[key]);
       });
-
 
       console.log("formDataToSend before sending:", formDataToSend);
       console.log("FormData before sending:", formData);
@@ -49,10 +47,7 @@ function RegisterPage() {
   return (
     <div className="d-flex align-items-center justify-content-center vh-50">
       <div className="border form-div text-card-foreground shadow-sm bg-dark p-3 rounded">
-        <Form
-          onSubmit={handleSubmit}
-          className="my-4 mt-2 p-3"
-        >
+        <Form onSubmit={handleSubmit} className="my-4 mt-2 p-3">
           <div className="mb-3">
             <label htmlFor="name" className="text-white">
               Name

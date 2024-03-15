@@ -1,5 +1,110 @@
 .card-container {
-    position: relative;
+  position: relative;
+  border-radius: 8px;
+  overflow: hidden;
+  margin: 25px auto;
+  background: rgba(51, 51, 51, 0.9);
+  width: 300px;
+  max-width: 100%;
+  font-size: 15px;
+  text-wrap: balance;
+  transition: transform 0.2s ease-in-out;
+}
+
+.card-container:hover {
+  transform: scale(1.08);
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+
+#genres {
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+.poster {
+  width: 100%;
+  height: auto;
+  border-bottom: 1px solid black;
+}
+
+.poster.hovered {
+  transition: transform 3s ease;
+}
+
+.info {
+  display: flex;
+  padding-top: 20px;
+  padding-bottom: 20px;
+  flex-direction: column;
+  justify-content: space-between;
+  text-align: center;
+  color: white;
+}
+
+.info p {
+  padding: 0;
+  font-size: 0.9rem;
+}
+.info > .rating {
+  padding-bottom: 0;
+  margin-bottom: 12px;
+  margin-right: 0.7rem;
+}
+
+.info h3 {
+  padding-left: 0.4rem;
+  margin-top: 0;
+  font-size: 19px;
+}
+
+.vote-count {
+  margin: 0;
+}
+
+@media (max-width: 480px) {
+  .card-container {
+    border: 1px solid rgba(black, black, black, 0.9);
+    border-radius: 8px;
+    overflow: hidden;
+    margin: 25px auto;
+    background: rgba(51, 51, 51, 0.9);
+    width: 300px;
+    max-width: 80%;
+    font-size: 15px;
+    text-wrap: balance;
+    transition: all 0.2s ease-in-out;
+  }
+
+  .card-container:hover {
+    transform: scale(1.1) !important;
+    cursor: pointer;
+  }
+}
+
+@media (max-width: 768px) {
+  .card-container {
+    border: 1px solid rgba(black, black, black, 0.9);
+    border-radius: 8px;
+    overflow: hidden;
+    margin: 25px auto;
+    background: rgba(51, 51, 51, 0.9);
+    width: 300px;
+    max-width: 90%;
+    font-size: 15px;
+    text-wrap: balance;
+    transition: all 0.2s ease-in-out;
+  }
+
+  .card-container:hover {
+    transform: scale(1.1) !important;
+    cursor: pointer;
+  }
+}
+
+@media (max-width: 1201) {
+  .card-container {
+    border: 1px solid rgba(black, black, black, 0.9);
     border-radius: 8px;
     overflow: hidden;
     margin: 25px auto;
@@ -8,119 +113,120 @@
     max-width: 100%;
     font-size: 15px;
     text-wrap: balance;
-    transition: transform 0.2s ease-in-out;
-  }
-  
-.card-container:hover {
-    transform: scale(1.08);
-    cursor: pointer;
     transition: all 0.2s ease-in-out;
   }
 
-  
+  .card-container:hover {
+    transform: scale(1.1);
+    cursor: pointer;
+  }
+}
 
-  #genres {
-    padding-left: 5px;
-    padding-right: 5px;
-  }
+/* FavouriteCard */
 
-  .poster {
-    width: 100%;
-    height: auto;
-    border-bottom: 1px solid black;
-  }
-  
-  .poster.hovered {
-    transition: transform 3s ease;
-  }
-  
-  .info {
-    display: flex;
-    padding-top: 20px;
-    padding-bottom: 20px;
-    flex-direction: column;
-    justify-content: space-between;
-    text-align: center;
-    color: white;
-  }
-  
-  .info p {
-    padding: 0;
-    font-size: 0.9rem;
-  }
-  .info > .rating {
-    padding-bottom: 0;
-    margin-bottom: 12px;
-    margin-right: 0.7rem;
-  }
-  
-  .info h3 {
-    padding-left: 0.4rem;
-    margin-top: 0;
-    font-size: 19px;
-  }
 
-  .vote-count {
-    margin: 0;
-  }
+.favourite-grid {
+  margin-top: 5%;
+  margin-left: 1.9%;
+  display: flex;
+  flex-wrap: wrap;
+}
 
-  @media (max-width: 480px) {
-    .card-container {
-      border: 1px solid rgba(black, black, black, 0.9);
-      border-radius: 8px;
-      overflow: hidden;
-      margin: 25px auto;
-      background: rgba(51, 51, 51, 0.9);
-      width: 300px;
-      max-width: 80%;
-      font-size: 15px;
-      text-wrap: balance;
-      transition: all 0.2s ease-in-out;
-    }
+.poster-overlay-container {
+  position: relative;
+}
 
-    .card-container:hover {
-      transform: scale(1.1) !important;
-      cursor: pointer;
-    }
-  }
 
-  @media (max-width: 768px) {
-    .card-container {
-      border: 1px solid rgba(black, black, black, 0.9);
-      border-radius: 8px;
-      overflow: hidden;
-      margin: 25px auto;
-      background: rgba(51, 51, 51, 0.9);
-      width: 300px;
-      max-width: 90%;
-      font-size: 15px;
-      text-wrap: balance;
-      transition: all 0.2s ease-in-out;
-    }
+.card-overlay-favourite {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.726);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
 
-    .card-container:hover {
-      transform: scale(1.1) !important;
-      cursor: pointer;
-    }
-  }
+.card-container-favourite:hover .card-overlay-favourite {
+  opacity: 1;
+}
 
-  @media (max-width: 1201) {
-    .card-container {
-      border: 1px solid rgba(black, black, black, 0.9);
-      border-radius: 8px;
-      overflow: hidden;
-      margin: 25px auto;
-      background: rgba(51, 51, 51, 0.9);
-      width: 300px;
-      max-width: 100%;
-      font-size: 15px;
-      text-wrap: balance;
-      transition: all 0.2s ease-in-out;
-    }
+.card-container-favourite:hover .heart-button {
+  opacity: 1;
+}
 
-    .card-container:hover {
-      transform: scale(1.1);
-      cursor: pointer;
-    }
-  }
+
+
+.heart-button-favourite {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: none;
+  border: none;
+  transition: opacity 0.3s ease;
+}
+
+
+.card-container-favourite {
+  display: flex;
+  max-width: 20%;
+  min-width: 440px;
+  max-height: 270px;
+  margin: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  overflow: hidden;
+}
+
+.flex-center-container {
+  position: relative;
+  padding: 1%;
+  background-color: rgba(49, 49, 49, 0.9);
+  color: rgb(151 151 151);
+  justify-content: space-between;
+  align-items: center;
+}
+
+.poster-container-favourite {
+  position: relative;
+}
+
+
+
+.poster-favourite {
+  width: 180px;
+  height: auto;
+}
+
+.info-container-favourite {
+  font-size: 0.2em;
+  padding: 10px;
+  text-align: center;
+}
+.info-container-favourite > h5 {
+  position: absolute;
+  top: 2px;
+  color: white;
+}
+.info-container-favourite > p {
+  padding-top: 3%;
+  font-size: 0.8rem;
+}
+.info-container-favourite .link {
+  color: white;
+}
+.info-container-favourite .rating {
+  color: white;
+  position: absolute;
+  bottom: 15%;
+  right: 38%;
+}
+
+
+
+
+
+
 

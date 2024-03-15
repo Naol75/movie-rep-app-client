@@ -45,10 +45,16 @@ const DiscoverPage = () => {
   const fetchPopularMoviesOnFiltersChange = async () => {
     try {
       console.log("Current Filters:", filters);
-      const response = await service.get(
-        `https://api.themoviedb.org/3/discover/movie?api_key=${apiKey}&language=en-US&page=${page}&with_genres=${filters.genre}&primary_release_year=${filters.minYear}&sort_by=${sortBy}.${sortOrder}&vote_count.gte=10&watch_region=${userRegion}&with_watch_providers=${filters.streamingProvider}`
-      );
-      console.log("API Response:", response.data);
+      let response;
+      if (userRegion !== "ES") {
+        response = await service.get(
+          `https://api.themoviedb.org/3/discover/movie?api_key=${apiKey}&language=en-US&page=${page}&with_genres=${filters.genre}&primary_release_year=${filters.minYear}&sort_by=${sortBy}.${sortOrder}&vote_count.gte=10&watch_region=${userRegion}&with_watch_providers=${filters.streamingProvider}`
+        );
+      } else {
+        response = await service.get(
+          `https://api.themoviedb.org/3/discover/movie?api_key=${apiKey}&language=es-ES&page=${page}&with_genres=${filters.genre}&primary_release_year=${filters.minYear}&sort_by=${sortBy}.${sortOrder}&vote_count.gte=10&watch_region=${userRegion}&with_watch_providers=${filters.streamingProvider}`
+        );
+      }
       setPopularMovies((prevMovies) => {
         const uniqueMovies = response.data.results.filter(
           (newMovie) =>
@@ -67,10 +73,16 @@ const DiscoverPage = () => {
     try {
       setIsPageLoading(true);
       console.log("Current Filters:", filters);
-      const response = await service.get(
-        `https://api.themoviedb.org/3/discover/movie?api_key=${apiKey}&language=en-US&page=${page}&with_genres=${filters.genre}&primary_release_year=${filters.minYear}&sort_by=${sortBy}.${sortOrder}&vote_count.gte=10&watch_region=${userRegion}&with_watch_providers=${filters.streamingProvider}`
-      );
-      console.log("API Response:", response.data);
+      let response;
+      if (userRegion !== "ES") {
+        response = await service.get(
+          `https://api.themoviedb.org/3/discover/movie?api_key=${apiKey}&language=en-US&page=${page}&with_genres=${filters.genre}&primary_release_year=${filters.minYear}&sort_by=${sortBy}.${sortOrder}&vote_count.gte=10&watch_region=${userRegion}&with_watch_providers=${filters.streamingProvider}`
+        );
+      } else {
+        response = await service.get(
+          `https://api.themoviedb.org/3/discover/movie?api_key=${apiKey}&language=es-ES&page=${page}&with_genres=${filters.genre}&primary_release_year=${filters.minYear}&sort_by=${sortBy}.${sortOrder}&vote_count.gte=10&watch_region=${userRegion}&with_watch_providers=${filters.streamingProvider}`
+        );
+      }
       setPopularMovies((prevMovies) => {
         const uniqueMovies = response.data.results.filter(
           (newMovie) =>

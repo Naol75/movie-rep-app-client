@@ -6,7 +6,6 @@
   position: relative;
 }
 
-
 .movie-details {
   display: flex;
   flex-direction: column;
@@ -58,9 +57,7 @@
 }
 
 p {
-
   font-size: 0.95vw;
-
 }
 
 .overview {

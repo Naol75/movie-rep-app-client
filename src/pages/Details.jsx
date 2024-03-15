@@ -31,21 +31,21 @@ function Details() {
       "Amazon Prime Video": "https://www.primevideo.com/",
       "Google Play Movies": "https://play.google.com/store/movies",
       "Microsoft Store": "https://www.microsoft.com/en-us/store/movies-and-tv",
-      "YouTube": "https://www.youtube.com/",
+      YouTube: "https://www.youtube.com/",
       "Sky Go": "https://www.sky.com/",
       "Now TV Cinema": "https://www.nowtv.com/",
-      "Vudu": "https://www.vudu.com/",
+      Vudu: "https://www.vudu.com/",
       "Rakuten TV": "https://www.rakuten.tv/",
       "HBO Max": "https://www.hbomax.com/",
-      "HBO": "https://www.hbomax.com/",
+      HBO: "https://www.hbomax.com/",
       "Movistar Plus": "https://ver.movistarplus.es/",
-      "Netflix": "https://www.netflix.com/browse",
+      Netflix: "https://www.netflix.com/browse",
       "Netflix basic with Ads": "https://www.netflix.com/browse",
-      "SkyShowtime": "https://www.skyshowtime.com/",
+      SkyShowtime: "https://www.skyshowtime.com/",
       "MGM Plus": "https://www.mgmplus.com/",
-      "Hulu": "https://www.hulu.com/",
+      Hulu: "https://www.hulu.com/",
       "Disney Plus": "https://www.disneyplus.com/",
-      "Filmin": "https://www.filmin.es/",
+      Filmin: "https://www.filmin.es/",
       "Filmin Plus": "https://www.filmin.es/",
     };
 
@@ -84,7 +84,7 @@ function Details() {
       console.log("Watch Response Results:", watchResponse.data.results);
 
       const userProviders = watchResponse.data.results[userRegion];
-      console.log("streaming providers after fetching", userProviders)
+      console.log("streaming providers after fetching", userProviders);
 
       if (userProviders) {
         const flatrateProviders = userProviders.flatrate || [];
@@ -196,8 +196,12 @@ function Details() {
                   </div>
                 ) : (
                   <>
-                    <img src={clapperboardImage} alt="ClapperBoard" style={{width: "20vw"}}/>
-                    <div className="movie-info" style={{gap: "1.8vw"}}>
+                    <img
+                      src={clapperboardImage}
+                      alt="ClapperBoard"
+                      style={{ width: "20vw" }}
+                    />
+                    <div className="movie-info" style={{ gap: "1.8vw" }}>
                       <p>Duration: {movieInfo.runtime} min</p>
                       <p>
                         Original Language:{" "}

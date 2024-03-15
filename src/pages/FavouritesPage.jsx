@@ -5,25 +5,25 @@ import service from "../services/api";
 import "../styles/Card.css";
 import { AuthContext } from "../context/auth.context";
 import { useFavoritesContext } from "../context/favorites.context.jsx";
-import Card from "../components/Card.jsx";
-
+import FavouriteCard from "../components/FavouriteCard.jsx";
 
 function FavouritesPage() {
   const apiKey = import.meta.env.VITE_TMDB_API_KEY;
   const authContext = useContext(AuthContext);
   const { activeUserId } = authContext;
   const [isHovered, setIsHovered] = useState(false);
-  const [items, setItems] = useState([])
+  const [items, setItems] = useState([]);
   const [isPageLoading, setIsPageLoading] = useState(false);
   const { addToFavorites, removeFromFavorites, favoritedMovies } =
-  useFavoritesContext();
-
+    useFavoritesContext();
 
   useEffect(() => {
     const fetchFavouriteItems = async () => {
       try {
         const userId = activeUserId;
-        const response = await service.get("/movies/getAllFavourites", { params: { userId } });
+        const response = await service.get("/movies/getAllFavourites", {
+          params: { userId },
+        });
         console.log("Response from getAllFavourites:", response.data);
         if (response.status === 200) {
           const favouriteItems = response.data.favouriteItems;
@@ -51,7 +51,7 @@ function FavouritesPage() {
                 `https://api.themoviedb.org/3/tv/${id}?api_key=${apiKey}`
               );
             }
-            console.log("response:", response.data)
+            console.log("response:", response.data);
             return response.data;
           });
           const itemsDataResults = await Promise.all(itemsDataPromises);
@@ -67,22 +67,21 @@ function FavouritesPage() {
     fetchFavouriteItems();
   }, [activeUserId, apiKey, favoritedMovies]);
 
-  
-
-
-
   return (
     <div>
       <div className="discover-header">
         <HeaderCompDiscover />
       </div>
-      <Card
-      items={items}
-      addToFavorites={addToFavorites}
-      removeFromFavorites={removeFromFavorites}
+      <FavouriteCard
+        items={items}
+        addToFavorites={addToFavorites}
+        removeFromFavorites={removeFromFavorites}
       />
       {isPageLoading && (
-        <div className="loader-container" style={{ textAlign: "center", marginTop: "20px" }}>
+        <div
+          className="loader-container"
+          style={{ textAlign: "center", marginTop: "20px" }}
+        >
           <MoonLoader color="red" size={50} loading={true} />
         </div>
       )}

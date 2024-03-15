@@ -4,7 +4,6 @@ svg {
   width: 60px;
 }
 
-
 #heart {
   transform-origin: center;
   animation: animateHeartOut 0.3s linear forwards;
@@ -21,7 +20,7 @@ svg {
 #checkbox:checked + label svg {
   #heart {
     transform: scale(1);
-    fill: #E2264D;
+    fill: #e2264d;
     animation: animateHeart 0.3s linear forwards 0.05s; /* Ajuste en el retraso */
   }
   #main-circ {
@@ -72,7 +71,7 @@ svg {
     transform: scale(19);
     opacity: 1;
     fill: transparent;
-    stroke: #CC8EF5;
+    stroke: #cc8ef5;
     stroke-width: 0;
   }
   100% {

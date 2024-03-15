@@ -1,12 +1,11 @@
-import FiltersComp from './FiltersComp.jsx'
+import FiltersComp from "./FiltersComp.jsx";
 
 function HeaderComp() {
   return (
     <header>
-      <FiltersComp/>
+      <FiltersComp />
     </header>
-
-  )
+  );
 }
 
-export default HeaderComp
+export default HeaderComp;

@@ -77,8 +77,11 @@ const NavbarComp = () => {
       const response = await service.get(
         `https://api.themoviedb.org/3/search/multi?query=${searchTerm}&api_key=${apiKey}&page=${page}`
       );
-      console.log("Fetched results:", response.data.results);  
-      setSearchResults((prevResults) => [...prevResults, ...response.data.results]);
+      console.log("Fetched results:", response.data.results);
+      setSearchResults((prevResults) => [
+        ...prevResults,
+        ...response.data.results,
+      ]);
     } catch (error) {
       console.error("Error fetching movie info:", error);
     } finally {
@@ -86,7 +89,6 @@ const NavbarComp = () => {
       setIsLoadingResults(false);
     }
   };
-
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -103,7 +105,6 @@ const NavbarComp = () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [searchVisible]);
-
 
   const handleResize = () => {
     const screenWidth = window.innerWidth;
@@ -176,9 +177,9 @@ const NavbarComp = () => {
             DISCOVER
           </Nav.Link>
           {isUserActive && (
-          <Nav.Link href="/my-favourites" style={{ color: "white" }}>
-            MY FAVOURITES
-          </Nav.Link>
+            <Nav.Link href="/my-favourites" style={{ color: "white" }}>
+              MY FAVOURITES
+            </Nav.Link>
           )}
           <div className="search-bar" onMouseLeave={handleMouseLeave}>
             <img
@@ -199,31 +200,36 @@ const NavbarComp = () => {
                   autoFocus
                   spellCheck="false"
                 />
-      {searchResults.length > 0 && (
-        <div ref={inputRef} id="searched-items-display">
-          {searchResults.map((item) => (
-            <Link
-            to={`/${item.id}/details`}
-              className="searched-item-link"
-              key={item.id}
-            >
-              <div className="list-item">
-                <img
-                  src={getImageUrl(item.poster_path)}
-                  alt={item.title}
-                  className="searched-item-image"
-                />
-                <p className="searched-item-title">{item.title || item.original_title || item.name}</p>
-              </div>
-            </Link>
-          ))}
-                {isPageLoading && (
-        <div className="loader-container" style={{ textAlign: "center", marginTop: "20px" }}>
-          <MoonLoader color="red" size={50} loading={true} />
-        </div>
-      )}
-        </div>
-      )}
+                {searchResults.length > 0 && (
+                  <div ref={inputRef} id="searched-items-display">
+                    {searchResults.map((item) => (
+                      <Link
+                        to={`/${item.id}/details`}
+                        className="searched-item-link"
+                        key={item.id}
+                      >
+                        <div className="list-item">
+                          <img
+                            src={getImageUrl(item.poster_path)}
+                            alt={item.title}
+                            className="searched-item-image"
+                          />
+                          <p className="searched-item-title">
+                            {item.title || item.original_title || item.name}
+                          </p>
+                        </div>
+                      </Link>
+                    ))}
+                    {isPageLoading && (
+                      <div
+                        className="loader-container"
+                        style={{ textAlign: "center", marginTop: "20px" }}
+                      >
+                        <MoonLoader color="red" size={50} loading={true} />
+                      </div>
+                    )}
+                  </div>
+                )}
               </div>
             )}
           </div>

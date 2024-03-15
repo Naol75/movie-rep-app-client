@@ -1,6 +1,5 @@
-@import url('https://fonts.googleapis.com/css2?family=Tilt+Neon&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@500&display=swap');
-
+@import url("https://fonts.googleapis.com/css2?family=Tilt+Neon&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@500&display=swap");
 
 body {
   background: #202020;
@@ -17,7 +16,9 @@ html {
   height: 100%;
 }
 
-html, body, #root {
+html,
+body,
+#root {
   margin: 0;
   padding: 0;
   width: 100%;
@@ -34,11 +35,11 @@ html, body, #root {
   width: 40px;
 }
 
-.me-auto, .login-btn {
+.me-auto,
+.login-btn {
   padding-top: 2px;
   margin-right: 7px;
 }
-
 
 .navbar-toggle,
 .navbar-toggler-icon {
@@ -57,7 +58,7 @@ html, body, #root {
 
 .navbar {
   background-color: #202020 !important;
-  font-family: 'Inter', Courier, monospace;
+  font-family: "Inter", Courier, monospace;
   position: fixed;
   top: 0;
   width: 100%;
@@ -79,8 +80,6 @@ html, body, #root {
 .nav-link {
   color: white !important;
 }
-
-
 
 .search-bar {
   display: flex;
@@ -158,23 +157,18 @@ html, body, #root {
   width: 10px;
 }
 
-
 #searched-items-display::-webkit-scrollbar-track {
   background: #202020;
 }
-
 
 #searched-items-display::-webkit-scrollbar-thumb {
   background-color: #646464;
   border-radius: 5px;
 }
 
-
 #searched-items-display::-webkit-scrollbar-thumb:hover {
   background-color: #434343;
 }
-
-
 
 .discover-header {
   margin-bottom: 15px;
@@ -216,7 +210,7 @@ html, body, #root {
   padding-top: 40px;
   padding-right: 10px;
   padding-left: 20px;
-font-size: 0.9rem;
+  font-size: 0.9rem;
 }
 
 .card-container:hover .card-overlay {
@@ -241,11 +235,9 @@ font-size: 0.9rem;
   transition: opacity 0.3s ease;
 }
 
-
 .card-container:hover .heart-button {
   opacity: 1;
 }
-
 
 /* Login Page */
 
@@ -286,7 +278,6 @@ font-size: 0.9rem;
   z-index: 999;
 }
 
-
 /* New Releases - Movies*/
 .release-date {
   padding-top: 15px;
@@ -316,12 +307,11 @@ font-size: 0.9rem;
   align-items: center;
   gap: 15px;
 }
-.providers-container p{
+.providers-container p {
   text-shadow: 1px 1px 2px red;
   font-size: 1vw;
   letter-spacing: 1px;
 }
-
 
 .providers {
   display: flex;
@@ -340,7 +330,6 @@ font-size: 0.9rem;
 
 /* Providers Filter Header */
 
-
 .providers-header {
   display: flex;
   flex-direction: row;
@@ -351,7 +340,7 @@ font-size: 0.9rem;
 .provider-logo-header {
   width: 60px;
   border-radius: 20%;
-  transition: all .05s ease-in-out;
+  transition: all 0.05s ease-in-out;
 }
 .provider-logo-header:hover {
   cursor: pointer;
@@ -359,7 +348,7 @@ font-size: 0.9rem;
 }
 
 .selected {
-  box-shadow: 0px 0px 3px 3px rgba(255, 51, 0, 0.801)
+  box-shadow: 0px 0px 3px 3px rgba(255, 51, 0, 0.801);
 }
 
 @media (max-width: 480px) {
@@ -371,7 +360,6 @@ font-size: 0.9rem;
     position: relative;
     z-index: 1;
   }
-  
 
   .form-div {
     height: 60%;
@@ -380,13 +368,10 @@ font-size: 0.9rem;
     margin-top: 9vh;
   }
 
-
-
   .navbar {
     padding-left: 35px;
     padding-right: 35px;
   }
-
 
   .navbar-brand {
     margin: 0;
@@ -406,9 +391,7 @@ font-size: 0.9rem;
   }
 }
 
-
 @media (max-width: 768px) {
-
   .form-div {
     height: 60%;
     width: 80%;
@@ -416,10 +399,8 @@ font-size: 0.9rem;
     margin-top: 9vh;
   }
 
-
-
   .navbar {
-padding: 17px;
+    padding: 17px;
   }
   .navbar-toggler {
     order: -1;
@@ -453,11 +434,9 @@ padding: 17px;
   .form-div {
     height: 60%;
     width: 80%;
-
   }
   .navbar {
     padding-left: 35px;
     padding-right: 35px;
   }
 }
-

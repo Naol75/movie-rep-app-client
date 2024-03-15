@@ -1,17 +1,17 @@
-import { createContext, useContext, useState } from 'react';
+import { createContext, useContext, useState } from "react";
 
 const FilterContext = createContext();
 
 export const FilterProvider = ({ children }) => {
   const [filters, setFilters] = useState({
-    genre: '',
-    minYear: '',
-    streamingProvider: '',
+    genre: "",
+    minYear: "",
+    streamingProvider: "",
   });
 
-  const [sortBy, setSortBy] = useState('popularity');
-  const [sortOrder, setSortOrder] = useState('desc');
-  const [streamingProvider, setStreamingProvider] = useState('all');
+  const [sortBy, setSortBy] = useState("popularity");
+  const [sortOrder, setSortOrder] = useState("desc");
+  const [streamingProvider, setStreamingProvider] = useState("all");
 
   const updateStreamingProvider = (value) => {
     setFilters((prevFilters) => ({
@@ -19,7 +19,6 @@ export const FilterProvider = ({ children }) => {
       streamingProvider: value,
     }));
   };
-
 
   const updateSortBy = (value) => {
     setSortBy(value);
@@ -29,11 +28,10 @@ export const FilterProvider = ({ children }) => {
     setSortOrder(value);
   };
 
-
   const contextValue = {
-    filters, 
-    setFilters, 
-    streamingProvider, 
+    filters,
+    setFilters,
+    streamingProvider,
     updateStreamingProvider,
     sortBy,
     sortOrder,
@@ -42,7 +40,7 @@ export const FilterProvider = ({ children }) => {
   };
 
   return (
-    <FilterContext.Provider value={ contextValue }>
+    <FilterContext.Provider value={contextValue}>
       {children}
     </FilterContext.Provider>
   );
@@ -51,7 +49,7 @@ export const FilterProvider = ({ children }) => {
 export const useFilter = () => {
   const context = useContext(FilterContext);
   if (!context) {
-    throw new Error('useFilter must be used inside FilterProvider');
+    throw new Error("useFilter must be used inside FilterProvider");
   }
   return context;
 };

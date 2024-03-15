@@ -42,27 +42,38 @@ function FiltersCompDiscover() {
     "Disney Plus": 337,
     "HBO Max": 384,
     "Movistar Plus": 149,
-    "Netflix": 8,
-    "SkyShowtime": 1773,
+    Netflix: 8,
+    SkyShowtime: 1773,
   };
 
   const fetchProvidersInfo = async () => {
     try {
-      const response = await service.get(`https://api.themoviedb.org/3/watch/providers/movie?api_key=${apiKey}&language=en-US`);
+      const response = await service.get(
+        `https://api.themoviedb.org/3/watch/providers/movie?api_key=${apiKey}&language=en-US`
+      );
       setProviders(response.data.results);
     } catch (error) {
       console.error("Error fetching providers info", error);
     }
-  }
+  };
 
   useEffect(() => {
     fetchProvidersInfo();
   }, []);
 
-  const filteredProviders = providers.filter(provider => provider.provider_name in providerNameToId && provider.provider_id != 9);
+  const filteredProviders = providers.filter(
+    (provider) =>
+      provider.provider_name in providerNameToId && provider.provider_id != 9
+  );
 
   const {
-    filters, setFilters, sortBy, sortOrder, updateStreamingProvider, updateSortBy, updateSortOrder
+    filters,
+    setFilters,
+    sortBy,
+    sortOrder,
+    updateStreamingProvider,
+    updateSortBy,
+    updateSortOrder,
   } = useFilter();
   const currentYear = new Date().getFullYear();
 
@@ -70,17 +81,13 @@ function FiltersCompDiscover() {
     const sameProvider = filters.streamingProvider === providerId;
     console.log("New Streaming Provider:", providerId);
     console.log("Current Filters before update:", filters);
-    if(!sameProvider) {
-
+    if (!sameProvider) {
       updateStreamingProvider(providerId);
-    }
-    else {
-      updateStreamingProvider('all');
-
+    } else {
+      updateStreamingProvider("all");
     }
     console.log("Current Filters after update:", filters);
   };
-
 
   const handleYearChange = (event) => {
     console.log("Year changed:", event.target.value);
@@ -106,7 +113,6 @@ function FiltersCompDiscover() {
     updateSortOrder(e.target.value);
   };
 
-
   return (
     <section className="filters">
       <div>
@@ -131,18 +137,24 @@ function FiltersCompDiscover() {
         </select>
       </div>
       <div className="providers-container-header">
-          <div className="providers-header">
-            {filteredProviders.map(provider => (
-              <img 
+        <div className="providers-header">
+          {filteredProviders.map((provider) => (
+            <img
               key={provider.provider_id}
               src={`https://image.tmdb.org/t/p/original${provider.logo_path}`}
               alt={provider.provider_name}
-              onClick={() => handleStreamingProviderChange(provider.provider_id)}
-              className={filters.streamingProvider === provider.provider_id ? "selected provider-logo-header" : "provider-logo-header"}
-               />
-            ))}
-            </div>
+              onClick={() =>
+                handleStreamingProviderChange(provider.provider_id)
+              }
+              className={
+                filters.streamingProvider === provider.provider_id
+                  ? "selected provider-logo-header"
+                  : "provider-logo-header"
+              }
+            />
+          ))}
         </div>
+      </div>
       <div>
         <label>Sort By:</label>
         <select value={sortBy} onChange={handleSortByChange}>

@@ -1,12 +1,11 @@
-import FiltersCompDiscover from './FiltersCompDiscover.jsx'
+import FiltersCompDiscover from "./FiltersCompDiscover.jsx";
 
 function HeaderCompDiscover() {
   return (
     <header>
-      <FiltersCompDiscover/>
+      <FiltersCompDiscover />
     </header>
-
-  )
+  );
 }
 
-export default HeaderCompDiscover
+export default HeaderCompDiscover;

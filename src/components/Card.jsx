@@ -7,12 +7,7 @@ import { useState } from "react";
 import { AuthContext } from "../context/auth.context.jsx";
 import { useContext } from "react";
 
-function Card({
-  items,
-  addToFavorites,
-  removeFromFavorites,
-  showReleaseDate,
-}) {
+function Card({ items, addToFavorites, removeFromFavorites, showReleaseDate }) {
   const authContext = useContext(AuthContext);
   const { activeUserId } = authContext;
   const [hoveredMovieId, setHoveredMovieId] = useState(null);
@@ -29,8 +24,6 @@ function Card({
   const getDefaultImageUrl = () => clapperboardImage;
   const getImageUrl = (path) =>
     path ? `https://image.tmdb.org/t/p/w500${path}` : getDefaultImageUrl();
-
-    
 
   const mapGenreIdsToNames = (genreIds) => {
     const genreMap = {
@@ -93,14 +86,17 @@ function Card({
             {hoveredMovieId !== movie.id && (
               <div className="info">
                 {movie.title ? (
-                <h3>
-                  {movie.title} (
-                  {movie.release_date && movie.release_date.substring(0, 4)})
-                </h3>) : (
                   <h3>
-                  {movie.name} (
-                  {movie.first_air_date && movie.first_air_date.substring(0, 4)})
-                </h3>
+                    {movie.title} (
+                    {movie.release_date && movie.release_date.substring(0, 4)})
+                  </h3>
+                ) : (
+                  <h3>
+                    {movie.name} (
+                    {movie.first_air_date &&
+                      movie.first_air_date.substring(0, 4)}
+                    )
+                  </h3>
                 )}
 
                 {movie.genre_ids ? (

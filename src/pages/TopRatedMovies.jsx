@@ -9,12 +9,10 @@ import Card from "../components/Card.jsx";
 function TopRated() {
   const apiKey = import.meta.env.VITE_TMDB_API_KEY;
   const [popularMovies, setPopularMovies] = useState([]);
-  const { addToFavorites, removeFromFavorites } =
-  useFavoritesContext();
+  const { addToFavorites, removeFromFavorites } = useFavoritesContext();
   const [page, setPage] = useState(1);
   const [isPageLoading, setIsPageLoading] = useState(false);
   const [renderedMovies, setRenderedMovies] = useState(new Set());
-
 
   const fetchPopularMovies = async () => {
     try {
@@ -28,12 +26,12 @@ function TopRated() {
         (movie) => !renderedMovies.has(movie.id)
       );
 
-
       setPopularMovies((prevMovies) => {
         const uniqueMovies = response.data.results.filter(
-          (newMovie) => !prevMovies.some((prevMovie) => prevMovie.id === newMovie.id)
+          (newMovie) =>
+            !prevMovies.some((prevMovie) => prevMovie.id === newMovie.id)
         );
-  
+
         return [...prevMovies, ...uniqueMovies];
       });
 
@@ -79,10 +77,10 @@ function TopRated() {
 
   return (
     <div>
-            <Card
-      items={popularMovies}
-      addToFavorites={addToFavorites}
-      removeFromFavorites={removeFromFavorites}
+      <Card
+        items={popularMovies}
+        addToFavorites={addToFavorites}
+        removeFromFavorites={removeFromFavorites}
       />
       {isPageLoading && (
         <div
@@ -92,7 +90,7 @@ function TopRated() {
           <MoonLoader color="red" size={50} loading={true} />
         </div>
       )}
-            <ScrollButton />
+      <ScrollButton />
     </div>
   );
 }

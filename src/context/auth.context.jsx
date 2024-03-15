@@ -1,6 +1,6 @@
-import { createContext, useEffect, useState } from 'react';
-import service from '../services/api';
-import { MoonLoader } from 'react-spinners';
+import { createContext, useEffect, useState } from "react";
+import service from "../services/api";
+import { MoonLoader } from "react-spinners";
 
 const AuthContext = createContext();
 
@@ -12,37 +12,37 @@ function AuthWrapper(props) {
   const verifyToken = async () => {
     setIsPageLoading(true);
     try {
-      const authToken = localStorage.getItem('authToken');
-  
-      console.log('Stored Token:', authToken);
+      const authToken = localStorage.getItem("authToken");
+
+      console.log("Stored Token:", authToken);
 
       if (!authToken) {
-        console.log('Token is not defined. Aborting verification.');
+        console.log("Token is not defined. Aborting verification.");
         setIsUserActive(false);
         setIsPageLoading(false);
         setActiveUserId(null);
         return;
       }
-  
-      const response = await service.get('auth/verify', {
+
+      const response = await service.get("auth/verify", {
         headers: {
           Authorization: `Bearer ${authToken}`,
         },
       });
 
-      console.log('API Response:', response.data);
-console.log('User ID from response:', response.data.userId);
-  
+      console.log("API Response:", response.data);
+      console.log("User ID from response:", response.data.userId);
+
       setIsUserActive(true);
       setActiveUserId(response.data.userId);
       setIsPageLoading(false);
     } catch (error) {
-      console.error('Token Verification Error:', error);
-  
+      console.error("Token Verification Error:", error);
+
       if (error.response && error.response.status === 401) {
-        console.log('Unauthorized - Other Issue');
+        console.log("Unauthorized - Other Issue");
       }
-  
+
       setIsUserActive(false);
       setIsPageLoading(false);
       setActiveUserId(null);
@@ -50,8 +50,8 @@ console.log('User ID from response:', response.data.userId);
   };
 
   useEffect(() => {
-    console.log("AuthWrapper: Before verifyToken")
-     verifyToken();
+    console.log("AuthWrapper: Before verifyToken");
+    verifyToken();
   }, []);
 
   const passedContext = {
@@ -61,7 +61,7 @@ console.log('User ID from response:', response.data.userId);
   };
 
   if (isPageLoading) {
-    return <MoonLoader style={{ color: 'rgba(199, 189, 52, 0.99)' }} />;
+    return <MoonLoader style={{ color: "rgba(199, 189, 52, 0.99)" }} />;
   }
 
   return (

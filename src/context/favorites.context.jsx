@@ -1,4 +1,4 @@
-import { createContext, useContext, useState, useEffect } from 'react';
+import { createContext, useContext, useState, useEffect } from "react";
 import service from "../services/api";
 import { AuthContext } from "../context/auth.context";
 
@@ -14,7 +14,6 @@ export const FavoritesProvider = ({ children }) => {
   const [favoritedMovies, setFavoritedMovies] = useState([]);
   const [loadingFavorites, setLoadingFavorites] = useState(true);
 
-
   const isMovieFavorited = (movieId) => {
     return favoritedMovies.includes(movieId);
   };
@@ -22,12 +21,14 @@ export const FavoritesProvider = ({ children }) => {
   useEffect(() => {
     const fetchFavorites = async () => {
       try {
-        if (activeUserId) 
-          setLoadingFavorites(true);
-        const favoritesResponse = await service.get("/movies/getAllFavourites", {
-          params: { userId: activeUserId },
-        });
-  
+        if (activeUserId) setLoadingFavorites(true);
+        const favoritesResponse = await service.get(
+          "/movies/getAllFavourites",
+          {
+            params: { userId: activeUserId },
+          }
+        );
+
         if (favoritesResponse.status === 200) {
           const currentFavorites = favoritesResponse.data.favouriteItems;
           setFavoritedMovies(currentFavorites);
@@ -38,7 +39,7 @@ export const FavoritesProvider = ({ children }) => {
         setLoadingFavorites(false);
       }
     };
-  
+
     fetchFavorites();
   }, [activeUserId]);
 
@@ -85,8 +86,8 @@ export const FavoritesProvider = ({ children }) => {
     loadingFavorites,
     addToFavorites,
     removeFromFavorites,
-    isMovieFavorited
-    };
+    isMovieFavorited,
+  };
 
   return (
     <FavoritesContext.Provider value={contextValue}>

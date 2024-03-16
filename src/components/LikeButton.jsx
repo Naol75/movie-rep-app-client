@@ -6,7 +6,7 @@ const LikeButton = ({
   movieId,
   addToFavorites,
   removeFromFavorites,
-  updateFavoritedMovies,
+  heartButtonFavourite
 }) => {
   const { isMovieFavorited } = useFavoritesContext();
   const [liked, setLiked] = useState(isMovieFavorited(movieId.toString()));
@@ -32,7 +32,7 @@ const LikeButton = ({
   return (
     <div>
       <button
-        className={`heart-button ${liked ? "liked" : ""}`}
+        className={ heartButtonFavourite ? "heart-button-favourite" : "heart-button"}
         onClick={handleClick}
       >
         <svg

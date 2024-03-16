@@ -12,6 +12,7 @@ function FavouriteCard({
   addToFavorites,
   removeFromFavorites,
   showReleaseDate,
+  heartButtonFavourite,
 }) {
   const authContext = useContext(AuthContext);
   const { activeUserId } = authContext;
@@ -41,15 +42,15 @@ function FavouriteCard({
           onMouseLeave={handleMouseLeave}
         >
           
-          <div className="poster-overlay-container">
-          {activeUserId && hoveredMovieId === movie.id && (
+
                 <LikeButton
-                  className="heart-button"
                   movieId={movie.id}
                   addToFavorites={addToFavorites}
                   removeFromFavorites={removeFromFavorites}
+                  heartButtonFavourite={heartButtonFavourite}
                 />
-              )}
+
+          <div className="poster-overlay-container">
             <div className="poster-container-favourite">
               <img
                 src={getImageUrl(movie.poster_path)}

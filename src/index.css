@@ -217,14 +217,7 @@ body,
   opacity: 100%;
 }
 
-.heart-container {
-  position: absolute;
-  left: 50%;
-  bottom: 50%;
-  margin: 0;
-  padding: 0;
-  width: 1px;
-}
+
 .heart-button {
   position: absolute;
   bottom: 0;

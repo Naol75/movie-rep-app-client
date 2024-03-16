@@ -135,6 +135,22 @@
 .poster-overlay-container {
   position: relative;
 }
+.card-container-favourite:hover .heart-button-favourite {
+  opacity: 1;
+}
+
+
+
+.heart-button-favourite {
+  position: absolute;
+  bottom: 0;
+  transform: translate(76%, -150%);
+  background: none;
+  border: none;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  z-index: 1001;
+}
 
 
 .card-overlay-favourite {
@@ -158,18 +174,8 @@
 
 
 
-.heart-button-favourite {
-  position: absolute;
-  bottom: 0;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  background: none;
-  border: none;
-  transition: opacity 0.3s ease;
-}
-
-
 .card-container-favourite {
+  position: relative;
   display: flex;
   max-width: 20%;
   min-width: 440px;
@@ -188,11 +194,6 @@
   justify-content: space-between;
   align-items: center;
 }
-
-.poster-container-favourite {
-  position: relative;
-}
-
 
 
 .poster-favourite {

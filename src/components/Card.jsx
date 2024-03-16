@@ -120,7 +120,6 @@ function Card({ items, addToFavorites, removeFromFavorites, showReleaseDate }) {
           </Link>
           {activeUserId && hoveredMovieId === movie.id && (
             <LikeButton
-              className="heart-button"
               movieId={movie.id}
               addToFavorites={addToFavorites}
               removeFromFavorites={removeFromFavorites}

@@ -73,6 +73,7 @@ function FavouritesPage() {
         <HeaderCompDiscover />
       </div>
       <FavouriteCard
+        heartButtonFavourite={true}
         items={items}
         addToFavorites={addToFavorites}
         removeFromFavorites={removeFromFavorites}

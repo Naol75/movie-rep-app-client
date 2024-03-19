@@ -294,6 +294,7 @@ body,
 
 /* Movie Details Page */
 .providers-container {
+  margin-top: 3%;
   display: flex;
   flex-direction: row;
   text-align: center;
@@ -319,6 +320,14 @@ body,
 }
 .provider-logo:hover {
   cursor: pointer;
+}
+
+.heart-button-details-page {
+  padding-top: 15%;
+  background: none;
+  border: none;
+  transition: opacity 0.3s ease;
+  filter: drop-shadow(6px 6px 6px rgba(0, 0, 0, 0.7));
 }
 
 /* Providers Filter Header */

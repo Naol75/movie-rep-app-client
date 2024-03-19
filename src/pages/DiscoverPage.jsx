@@ -11,33 +11,22 @@ import Card from "../components/Card.jsx";
 
 const DiscoverPage = () => {
   const apiKey = import.meta.env.VITE_TMDB_API_KEY;
-  const ipstackApiKey = import.meta.env.VITE_IPSTACK_API_KEY;
   const authContext = useContext(AuthContext);
-  const { activeUserId } = authContext;
-  const apiUrl = `http://api.ipstack.com/check?access_key=${ipstackApiKey}`;
+  const { activeUserId, ip, userRegion } = authContext;
   const { filters, sortBy, sortOrder } = useFilter();
   const [popularMovies, setPopularMovies] = useState([]);
   const [page, setPage] = useState(1);
   const [isPageLoading, setIsPageLoading] = useState(false);
   const [isSticky, setIsSticky] = useState(false);
-  const [userRegion, setUserRegion] = useState("");
   const { addToFavorites, removeFromFavorites } =
     useFavoritesContext();
 
-  const fetchUserLocation = async () => {
-    try {
-      const response = await fetch(apiUrl);
-      const data = await response.json();
-      setUserRegion(data.country_code);
-      console.log(userRegion);
-    } catch (error) {
-      console.error("Error fetching user location by IP:", error);
-    }
-  };
 
 
   useEffect(() => {
     console.log("User id:", activeUserId);
+    console.log("User region:", userRegion)
+    console.log("User IP:", ip);
   }, []);
 
 
@@ -45,6 +34,7 @@ const DiscoverPage = () => {
   const fetchPopularMoviesOnFiltersChange = async () => {
     try {
       console.log("Current Filters:", filters);
+      console.log("User region:", userRegion)
       let response;
       if (userRegion !== "ES") {
         response = await service.get(
@@ -101,7 +91,6 @@ const DiscoverPage = () => {
 
   const handleInitialFetch = async () => {
     try {
-      await fetchUserLocation();
       await fetchPopularMoviesOnFiltersChange();
     } catch (error) {
       console.error("Error fetching user location by IP:", error);
@@ -123,7 +112,7 @@ const DiscoverPage = () => {
 
   useEffect(() => {
     handleInitialFetch();
-  }, []);
+  }, [userRegion]);
 
   useEffect(() => {
     window.addEventListener("scroll", handleScroll);

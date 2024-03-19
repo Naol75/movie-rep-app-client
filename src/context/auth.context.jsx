@@ -5,13 +5,31 @@ import { MoonLoader } from "react-spinners";
 const AuthContext = createContext();
 
 function AuthWrapper(props) {
+  const [ip, setIp] = useState('');
+  const [userRegion, setUserRegion] = useState("");
   const [isUserActive, setIsUserActive] = useState(false);
   const [activeUserId, setActiveUserId] = useState(null);
   const [isPageLoading, setIsPageLoading] = useState(true);
+  const apiUrl = `http://ip-api.com/json/`;
 
+  const fetchUserLocation = async () => {
+    try {
+      const response = await fetch(apiUrl);
+      const data = await response.json();
+      console.log("Response from IP API:", data)
+      setUserRegion(data.countryCode);
+      console.log(userRegion);
+    } catch (error) {
+      console.error("Error fetching user location by IP:", error);
+    }
+  };
   const verifyToken = async () => {
     setIsPageLoading(true);
     try {
+      const ipResponse = await service.get("auth/getIp");
+      setIp(ipResponse.data.ip);
+
+
       const authToken = localStorage.getItem("authToken");
 
       console.log("Stored Token:", authToken);
@@ -51,13 +69,19 @@ function AuthWrapper(props) {
 
   useEffect(() => {
     console.log("AuthWrapper: Before verifyToken");
-    verifyToken();
+    const fetchData = async () => {
+      await fetchUserLocation();
+      verifyToken();
+    };
+    fetchData()
   }, []);
 
   const passedContext = {
     verifyToken,
     isUserActive,
     activeUserId,
+    ip,
+    userRegion,
   };
 
   if (isPageLoading) {

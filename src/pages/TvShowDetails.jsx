@@ -1,18 +1,20 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import service from "../services/api";
 import { MoonLoader } from "react-spinners";
 import { useParams } from "react-router-dom";
 import clapperboardImage from "../assets/clapperboard.png";
 import "../styles/MovieDetails.css";
+import { AuthContext } from "../context/auth.context";
+import { useFavoritesContext } from "../context/favorites.context";
 
 function TvShowDetails() {
   const apiKey = import.meta.env.VITE_TMDB_API_KEY;
-  const ipstackApiKey = import.meta.env.VITE_IPSTACK_API_KEY;
-  const apiUrl = `http://api.ipstack.com/check?access_key=${ipstackApiKey}`;
+  const authContext = useContext(AuthContext);
+  const {userRegion} = authContext;
+  const { addToFavorites, removeFromFavorites } = useFavoritesContext();
   const [isPageLoading, setIsPageLoading] = useState(false);
   const [tvshowInfo, setTvshowInfo] = useState(null);
   const [trailerKey, setTrailerKey] = useState(null);
-  const [userRegion, setUserRegion] = useState("");
   const [streamingProviders, setStreamingProviders] = useState([]);
 
   const roundedRating = (rating) => parseFloat(rating).toFixed(2);
@@ -31,21 +33,21 @@ function TvShowDetails() {
       "Amazon Prime Video": "https://www.primevideo.com/",
       "Google Play Movies": "https://play.google.com/store/movies",
       "Microsoft Store": "https://www.microsoft.com/en-us/store/movies-and-tv",
-      YouTube: "https://www.youtube.com/",
+      "YouTube": "https://www.youtube.com/",
       "Sky Go": "https://www.sky.com/",
       "Now TV Cinema": "https://www.nowtv.com/",
-      Vudu: "https://www.vudu.com/",
+      "Vudu": "https://www.vudu.com/",
       "Rakuten TV": "https://www.rakuten.tv/",
       "HBO Max": "https://www.hbomax.com/",
-      HBO: "https://www.hbomax.com/",
+      "HBO": "https://www.hbomax.com/",
       "Movistar Plus": "https://ver.movistarplus.es/",
-      Netflix: "https://www.netflix.com/browse",
+      "Netflix": "https://www.netflix.com/browse",
       "Netflix basic with Ads": "https://www.netflix.com/browse",
-      SkyShowtime: "https://www.skyshowtime.com/",
+      "SkyShowtime": "https://www.skyshowtime.com/",
       "MGM Plus": "https://www.mgmplus.com/",
-      Hulu: "https://www.hulu.com/",
+      "Hulu": "https://www.hulu.com/",
       "Disney Plus": "https://www.disneyplus.com/",
-      Filmin: "https://www.filmin.es/",
+      "Filmin": "https://www.filmin.es/",
       "Filmin Plus": "https://www.filmin.es/",
     };
 
@@ -53,34 +55,39 @@ function TvShowDetails() {
     return providerMappings[sanitizedProviderName] || "#";
   };
 
-  const fetchUserLocation = async () => {
-    try {
-      const response = await fetch(apiUrl);
-      const data = await response.json();
-      setUserRegion(data.country_code);
-    } catch (error) {
-      console.error("Error fetching user location by IP:", error);
-    }
-  };
-
-  useEffect(() => {
-    fetchUserLocation();
-  }, []);
 
   const fetchSeriesInfo = async () => {
     try {
       setIsPageLoading(true);
-      const [tvShowResponse, videoResponse, watchResponse] = await Promise.all([
-        service.get(
-          `https://api.themoviedb.org/3/tv/${tvshowId}?api_key=${apiKey}&language=en-US`
-        ),
-        service.get(
-          `https://api.themoviedb.org/3/tv/${tvshowId}/videos?api_key=${apiKey}&language=en-US`
-        ),
-        service.get(
-          `https://api.themoviedb.org/3/tv/${tvshowId}/watch/providers?api_key=${apiKey}&language=en-US`
-        ),
-      ]);
+      let tvShowResponse;
+      let videoResponse;
+      let watchResponse;
+      if(userRegion ==! "ES") {
+        [tvShowResponse, videoResponse, watchResponse] = await Promise.all([
+          service.get(
+            `https://api.themoviedb.org/3/tv/${tvshowId}?api_key=${apiKey}&language=en-US`
+          ),
+          service.get(
+            `https://api.themoviedb.org/3/tv/${tvshowId}/videos?api_key=${apiKey}&language=en-US`
+          ),
+          service.get(
+            `https://api.themoviedb.org/3/tv/${tvshowId}/watch/providers?api_key=${apiKey}&language=en-US`
+          ),
+        ]);
+      }
+      else {
+        [tvShowResponse, videoResponse, watchResponse] = await Promise.all([
+          service.get(
+            `https://api.themoviedb.org/3/tv/${tvshowId}?api_key=${apiKey}&language=es-ES`
+          ),
+          service.get(
+            `https://api.themoviedb.org/3/tv/${tvshowId}/videos?api_key=${apiKey}&language=es-ES`
+          ),
+          service.get(
+            `https://api.themoviedb.org/3/tv/${tvshowId}/watch/providers?api_key=${apiKey}&language=es-ES`
+          ),
+        ]);
+      }
       console.log("Watch Response Results:", watchResponse.data.results);
 
       const userProviders = watchResponse.data.results[userRegion];
@@ -174,6 +181,12 @@ function TvShowDetails() {
                     </p>
                   )}
                 </div>
+                <LikeButton
+                  movieId={tvshowInfo.id}
+                  addToFavorites={addToFavorites}
+                  removeFromFavorites={removeFromFavorites}
+                  heartButtonDetailsPage={true}
+                />
               </div>
               <div className="movie-right-content">
                 {trailerKey ? (

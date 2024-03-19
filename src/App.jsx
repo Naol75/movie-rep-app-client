@@ -15,7 +15,6 @@ import AiringTodaySeriesPage from "./pages/AiringTodaySeriesPage";
 import OnTvSeriesPage from "./pages/OnTvSeriesPage";
 import TopRatedSeriesPage from "./pages/TopRatedSeriesPage";
 import TvShowDetails from "./pages/TvShowDetails";
-import Details from "./pages/Details";
 import DiscoverPage from "./pages/DiscoverPage";
 import FavouritesPage from "./pages/FavouritesPage";
 import IsPrivate from "./components/isPrivate";
@@ -72,7 +71,6 @@ function App() {
                 </IsPrivate>
               }
             />
-            <Route path="/:itemId/details" element={<Details />} />
             <Route path="/error" element={<ErrorPage />} />
             <Route path="*" element={<NotFoundPage />} />
           </Routes>

@@ -42,8 +42,8 @@ function FiltersCompDiscover() {
     "Disney Plus": 337,
     "HBO Max": 384,
     "Movistar Plus": 149,
-    Netflix: 8,
-    SkyShowtime: 1773,
+    "Netflix": 8,
+    "SkyShowtime": 1773,
   };
 
   const fetchProvidersInfo = async () => {

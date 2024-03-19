@@ -10,10 +10,10 @@ import FavouriteCard from "../components/FavouriteCard.jsx";
 function FavouritesPage() {
   const apiKey = import.meta.env.VITE_TMDB_API_KEY;
   const authContext = useContext(AuthContext);
-  const { activeUserId } = authContext;
-  const [isHovered, setIsHovered] = useState(false);
+  const { activeUserId, userRegion } = authContext;
   const [items, setItems] = useState([]);
   const [isPageLoading, setIsPageLoading] = useState(false);
+  const [streamingProviders, setStreamingProviders] = useState([])
   const { addToFavorites, removeFromFavorites, favoritedMovies } =
     useFavoritesContext();
 
@@ -30,6 +30,7 @@ function FavouritesPage() {
           console.log("Titles:", favouriteItems);
           setIsPageLoading(true);
           fetchItemsData(favouriteItems);
+          console.log("Favourite Items:", favouriteItems)
         }
       } catch (error) {
         console.error("Error getting User's favourites", error);
@@ -42,21 +43,55 @@ function FavouritesPage() {
         if (ids) {
           const itemsDataPromises = ids.map(async (id) => {
             let response;
-            if (id.length > 5) {
-              response = await service.get(
-                `https://api.themoviedb.org/3/movie/${id}?api_key=${apiKey}`
-              );
-            } else {
-              response = await service.get(
-                `https://api.themoviedb.org/3/tv/${id}?api_key=${apiKey}`
-              );
+            console.log("id:", id)
+            try {
+              if (userRegion === "ES") {
+                if (id.length < 5) {
+                  response = await service.get(
+                    `https://api.themoviedb.org/3/tv/${id}?api_key=${apiKey}&language=es-ES`
+                  );
+                } else {
+                  response = await service.get(
+                    `https://api.themoviedb.org/3/movie/${id}?api_key=${apiKey}&language=es-ES`
+                  );
+                }
+              }
+              else {
+                if (id.length < 5) {
+                  response = await service.get(
+                    `https://api.themoviedb.org/3/tv/${id}?api_key=${apiKey}&language=en-US`
+                  );
+                } else {
+                  response = await service.get(
+                    `https://api.themoviedb.org/3/movie/${id}?api_key=${apiKey}&language=en-US`
+                  );
+                }
+              }
+
+              console.log("response:", response.data);
+              return response.data;
+            } catch (error) {
+              if (error.response && error.response.status === 404) {
+                console.log("Error 404: Item not found. Trying alternative API...");
+                if (id.length < 5) {
+                  response = await service.get(
+                    `https://api.themoviedb.org/3/movie/${id}?api_key=${apiKey}&language=${userRegion}-ES`
+                  );
+                } else {
+                  response = await service.get(
+                    `https://api.themoviedb.org/3/tv/${id}?api_key=${apiKey}&language=${userRegion}-ES`
+                  );
+                }
+                console.log("Alternative API response:", response.data);
+                return response.data;
+              } else {
+                console.error("Error fetching item data", error);
+                return null;
+              }
             }
-            console.log("response:", response.data);
-            return response.data;
           });
           const itemsDataResults = await Promise.all(itemsDataPromises);
-          setItems(itemsDataResults);
-          console.log("Items:", itemsDataResults);
+          setItems(itemsDataResults.filter(item => item !== null));
           setIsPageLoading(false);
         }
       } catch (error) {
@@ -65,19 +100,27 @@ function FavouritesPage() {
     };
 
     fetchFavouriteItems();
-  }, [activeUserId, apiKey, favoritedMovies]);
+  }, [activeUserId, apiKey, userRegion, favoritedMovies]);
 
   return (
     <div>
       <div className="discover-header">
         <HeaderCompDiscover />
       </div>
-      <FavouriteCard
-        heartButtonFavourite={true}
-        items={items}
-        addToFavorites={addToFavorites}
-        removeFromFavorites={removeFromFavorites}
-      />
+      <div className="favourite-grid">
+      {items.map((movie) => (
+        <FavouriteCard
+        key={movie.id}
+        movie={movie}
+          heartButtonFavourite={true}
+          items={items}
+          addToFavorites={addToFavorites}
+          removeFromFavorites={removeFromFavorites}
+          streamingProviders={streamingProviders}
+        />
+      )
+      )}
+      </div>
       {isPageLoading && (
         <div
           className="loader-container"

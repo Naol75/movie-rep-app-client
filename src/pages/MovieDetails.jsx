@@ -18,13 +18,15 @@ function MovieDetails() {
   const [movieInfo, setMovieInfo] = useState(null);
   const [trailerKey, setTrailerKey] = useState(null);
   const [streamingProviders, setStreamingProviders] = useState([]);
+  const [smallScreen, setSmallScreen] = useState(false)
 
   const roundedRating = (rating) => parseFloat(rating).toFixed(2);
   const getDefaultImageUrl = () => clapperboardImage;
-  const getBackdropUrl = (path) => {
-    const baseUrl = "https://image.tmdb.org/t/p/original";
+  const getBackdropUrl = (path, resolution) => {
+    const baseUrl = `https://image.tmdb.org/t/p/${resolution}`;
     return path ? `${baseUrl}${path}` : getDefaultImageUrl();
   };
+
 
   const { movieId } = useParams();
 
@@ -56,6 +58,19 @@ function MovieDetails() {
     const sanitizedProviderName = providerName.trim();
     return providerMappings[sanitizedProviderName] || "#";
   };
+
+  const handleResize = () => {
+    const screenWidth = window.innerWidth;
+    setSmallScreen(screenWidth < 480)
+  }
+  
+  useEffect(() => {
+    window.addEventListener("resize", handleResize);
+    handleResize()
+    return () => {
+      window.removeEventListener("resize", handleResize)
+    }
+  }, [])
 
   const fetchMovieInfo = async () => {
     try {
@@ -92,7 +107,6 @@ function MovieDetails() {
       console.log("Watch Response Results:", watchResponse.data.results);
 
       const userProviders = watchResponse.data.results[userRegion];
-      console.log("streaming providers after fetching", userProviders);
 
       if (userProviders) {
         const flatrateProviders = userProviders.flatrate || [];
@@ -130,8 +144,8 @@ function MovieDetails() {
         right: "0",
         bottom: "0",
         left: "0",
-        background: movieInfo && `url(${getBackdropUrl(movieInfo.backdrop_path)})no-repeat fixed center`,
-        backgroundSize: "cover",
+        background: movieInfo && !smallScreen ? `url(${getBackdropUrl(movieInfo.backdrop_path, "original")}) no-repeat fixed center` : 
+              `url(${getBackdropUrl(movieInfo.backdrop_path, "w1280")}) no-repeat fixed center`,
         opacity: "0.85",
       }}
     >

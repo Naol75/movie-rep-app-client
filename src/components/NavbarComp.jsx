@@ -217,7 +217,7 @@ const NavbarComp = () => {
                   <div ref={inputRef} id="searched-items-display">
                     {searchResults.map((item) => (
                       <Link
-                        to={`/${item.id}/details`}
+                        to={`/${item.id}/movie-details`}
                         className="searched-item-link"
                         key={item.id}
                       >

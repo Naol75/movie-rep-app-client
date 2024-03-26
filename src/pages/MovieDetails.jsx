@@ -24,7 +24,7 @@ function MovieDetails() {
   const getDefaultImageUrl = () => clapperboardImage;
   const getBackdropUrl = (path, resolution) => {
     const baseUrl = `https://image.tmdb.org/t/p/${resolution}`;
-    return path ? `${baseUrl}${path}` : getDefaultImageUrl();
+    return path && `${baseUrl}${path}`;
   };
 
 

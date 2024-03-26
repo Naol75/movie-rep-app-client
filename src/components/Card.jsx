@@ -3,18 +3,35 @@ import LikeButton from "./LikeButton.jsx";
 import "../styles/LikeButton.css";
 import "../styles/Card.css";
 import clapperboardImage from "../assets/clapperboard.png";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { AuthContext } from "../context/auth.context.jsx";
 import { useContext } from "react";
+import ProgressBar from "./ProgressBar.jsx";
 
 function Card({ items, addToFavorites, removeFromFavorites, showReleaseDate }) {
   const authContext = useContext(AuthContext);
   const { activeUserId } = authContext;
+  const [showMovieInfo, setShowMovieInfo] = useState(true);
+  const [showVoteCount, setShowVoteCount] = useState(true);
   const [hoveredMovieId, setHoveredMovieId] = useState(null);
 
   const handleMouseEnter = (movieId) => {
     setHoveredMovieId(movieId);
   };
+
+  const handleResize = () => {
+    const screenWidth = window.innerWidth;
+    setShowMovieInfo(screenWidth > 450);
+    setShowVoteCount(screenWidth > 590);
+  };
+
+  useEffect(() => {
+    window.addEventListener("resize", handleResize);
+    handleResize();
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
 
   const handleMouseLeave = () => {
     setHoveredMovieId(null);
@@ -59,74 +76,128 @@ function Card({ items, addToFavorites, removeFromFavorites, showReleaseDate }) {
 
   return (
     <div className="grid">
-      {items.map((movie) => (
-        <div
-          onClick={() => console.log(movie.id)}
-          className="card-container"
-          key={movie.id}
-          onMouseEnter={() => handleMouseEnter(movie.id)}
-          onMouseLeave={handleMouseLeave}
-        >
-          <Link className="link" to={`/${movie.id}/movie-details`}>
-            <div className="card-overlay">
-              <div className="overview-in-overlay">
-                <p>{movie.overview}</p>
-              </div>
-            </div>
-            <img
-              src={getImageUrl(movie.poster_path)}
-              alt={`${movie.title} Poster`}
-              className="poster"
-              style={
-                hoveredMovieId === movie.id
-                  ? { objectFit: "cover", height: "100%" }
-                  : {}
-              }
-            />
-            {hoveredMovieId !== movie.id && (
-              <div className="info">
-                {movie.title ? (
-                  <h3>
-                    {movie.title} (
-                    {movie.release_date && movie.release_date.substring(0, 4)})
-                  </h3>
-                ) : (
-                  <h3>
-                    {movie.name} (
-                    {movie.first_air_date &&
-                      movie.first_air_date.substring(0, 4)}
-                    )
-                  </h3>
-                )}
+      {showMovieInfo
+        ? items.map((movie) => (
+            <div
+              onClick={() => console.log(movie.id)}
+              className="card-container"
+              key={movie.id}
+              onMouseEnter={() => handleMouseEnter(movie.id)}
+              onMouseLeave={handleMouseLeave}
+            >
+              <Link className="link" to={`/${movie.id}/movie-details`}>
+                <div className="card-overlay">
+                  <div className="overview-in-overlay">
+                    <p>{movie.overview}</p>
+                  </div>
+                </div>
+                <img
+                  src={getImageUrl(movie.poster_path)}
+                  alt={`${movie.title} Poster`}
+                  className="poster"
+                  style={
+                    hoveredMovieId === movie.id
+                      ? { objectFit: "cover", height: "100%" }
+                      : {}
+                  }
+                />
+                {hoveredMovieId !== movie.id && (
+                  <div className="info">
+                    {movie.title ? (
+                      <div className="movie-title">
+                        <h3>
+                          {movie.title} (
+                          {movie.release_date &&
+                            movie.release_date.substring(0, 4)}
+                          )
+                        </h3>
+                      </div>
+                    ) : (
+                      <div className="movie-title">
+                        <h3>
+                          {movie.name} (
+                          {movie.first_air_date &&
+                            movie.first_air_date.substring(0, 4)}
+                          )
+                        </h3>
+                      </div>
+                    )}
+                    <div className="votes-rating-genres">
+                      {movie.genre_ids ? (
+                        <div className="genres">
+                          <p id="genres">
+                            {mapGenreIdsToNames(movie.genre_ids)}
+                          </p>
+                        </div>
+                      ) : (
+                        <div className="genres">
+                          <p id="genres">
+                            {mapGenreIdsToNames(
+                              movie.genres.map((genre) => genre.id)
+                            )}
+                          </p>
+                        </div>
+                      )}
 
-                {movie.genre_ids ? (
-                  <p id="genres">{mapGenreIdsToNames(movie.genre_ids)}</p>
-                ) : (
-                  <p id="genres">
-                    {mapGenreIdsToNames(movie.genres.map((genre) => genre.id))}
-                  </p>
-                )}
-                <p className="rating">⭐ {roundedRating(movie.vote_average)}</p>
-                <p className="vote-count">({movie.vote_count} Votes)</p>
-                {showReleaseDate && (
-                  <div className="release-date">
-                    <h6 className="neonred">
-                      Released On: {`(${movie.release_date})`}
-                    </h6>
+                      <p className="rating">
+                        ⭐ {roundedRating(movie.vote_average)}
+                      </p>
+                      {showVoteCount && (
+                        <p className="vote-count">({movie.vote_count} Votes)</p>
+                      )}
+                    </div>
+                    {showReleaseDate && (
+                      <div className="release-date">
+                        <h6 className="neonred">
+                          Released On: {`(${movie.release_date})`}
+                        </h6>
+                      </div>
+                    )}
                   </div>
                 )}
+              </Link>
+              {activeUserId && hoveredMovieId === movie.id && (
+                <LikeButton
+                  movieId={movie.id}
+                  addToFavorites={addToFavorites}
+                  removeFromFavorites={removeFromFavorites}
+                />
+              )}
+            </div>
+          ))
+        : items.map((movie) => (
+            <Link
+              className="link"
+              to={`/${movie.id}/movie-details`}
+              key={movie.id}
+              style={{ margin: "10% 8%", position: "relative" }}
+            >
+              <div className="card-overlay">
+                <div className="overview-in-overlay">
+                  <p>{movie.overview}</p>
+                </div>
               </div>
-            )}
-          </Link>
-          {activeUserId && hoveredMovieId === movie.id && (
-            <LikeButton
-              movieId={movie.id}
-              addToFavorites={addToFavorites}
-              removeFromFavorites={removeFromFavorites}
-            />
-          )}
-        </div>
-      ))}
+              <div style={{ position: "relative" }}>
+                <div className="circle-container">
+                <ProgressBar percent={(movie.vote_average / 10) * 100}/>
+                </div>
+                <img
+                  src={getImageUrl(movie.poster_path)}
+                  alt={`${movie.title} Poster`}
+                  className="poster"
+                  style={
+                    hoveredMovieId === movie.id
+                      ? { objectFit: "cover", height: "100%" }
+                      : {
+                          maxWidth: "fit-content",
+                          height: "auto",
+                          borderRadius: "3%",
+                        }
+                  }
+                />
+              </div>
+            </Link>
+          ))}
     </div>
   );
 }

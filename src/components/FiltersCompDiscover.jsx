@@ -84,7 +84,7 @@ function FiltersCompDiscover() {
     if (!sameProvider) {
       updateStreamingProvider(providerId);
     } else {
-      updateStreamingProvider("all");
+      updateStreamingProvider("");
     }
     console.log("Current Filters after update:", filters);
   };

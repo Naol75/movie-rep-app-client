@@ -41,6 +41,11 @@ body,
   margin-right: 7px;
 }
 
+
+.navbar-toggle {
+  order: -1;
+  margin-left: 4%;
+}
 .navbar-toggle,
 .navbar-toggler-icon {
   background-color: white;
@@ -63,9 +68,9 @@ body,
   top: 0;
   width: 100%;
   margin-bottom: 0;
-  padding: 0 40px 0 30px;
+  padding: 0 2.5rem 0 2em;
   z-index: 1001;
-  transition: trasnform 3s ease;
+  transition: transform 3s ease;
 }
 
 .dropdown-item {
@@ -259,7 +264,7 @@ body,
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh; /* O ajusta la altura según tus necesidades */
+  height: 100vh;
 }
 .grid {
   margin-top: 72px;
@@ -269,6 +274,9 @@ body,
   margin-left: 0.1%;
   position: relative;
   z-index: 999;
+  @media (max-width: 641px) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
 }
 
 /* New Releases - Movies*/
@@ -276,7 +284,7 @@ body,
   padding-top: 15px;
   display: flex;
   flex-direction: row;
-  align-items: flex-end;
+  align-items: flex-end; 
   justify-content: center;
   height: 100%;
 }
@@ -356,7 +364,7 @@ body,
 @media (max-width: 480px) {
   .grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     padding-left: 0;
     margin-right: 0;
     position: relative;
@@ -394,37 +402,27 @@ body,
 }
 
 @media (max-width: 768px) {
-  .form-div {
-    height: 60%;
-    width: 80%;
-    margin: 0;
-    margin-top: 9vh;
+  .navbar {
+    padding: 10px;
   }
 
-  .navbar {
-    padding: 17px;
+  .logo-img {
+    width: 120px;
   }
-  .navbar-toggler {
-    order: -1;
-    margin-right: 0;
-    padding-right: 0;
+
+  .search-icon {
+    width: 1.2vw;
+    margin-left: 0.5vw;
+    margin-right: 0.5vw;
   }
 
   .navbar-brand {
     margin: 0 auto;
   }
 
-  .navbar-collapse {
-    flex-basis: 100%;
-  }
-
   .navbar-nav {
     width: 100%;
     flex-direction: column;
-  }
-
-  .logo-img {
-    width: 150px;
   }
 
   .user-icon-container {
@@ -442,3 +440,4 @@ body,
     padding-right: 35px;
   }
 }
+

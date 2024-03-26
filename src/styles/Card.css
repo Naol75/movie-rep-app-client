@@ -24,7 +24,7 @@
 
 .poster {
   width: 100%;
-  height: auto;
+  height: 69%;
   border-bottom: 1px solid black;
 }
 
@@ -51,6 +51,9 @@
   margin-bottom: 12px;
   margin-right: 0.7rem;
 }
+.rating {
+  margin-bottom: 5px;
+}
 
 .info h3 {
   padding-left: 0.4rem;
@@ -61,6 +64,17 @@
 .vote-count {
   margin: 0;
 }
+
+.genres {
+  padding-top: 12px;
+  height: 60px;
+}
+
+.movie-title {
+  height: 40px;
+}
+
+
 
 @media (max-width: 480px) {
   .card-container {

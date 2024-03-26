@@ -97,6 +97,10 @@ const DiscoverPage = () => {
     }
   };
 
+  const handleResize = () => {
+    
+  }
+
   const handleScroll = () => {
     const scrollTop =
       document.documentElement.scrollTop || document.body.scrollTop;

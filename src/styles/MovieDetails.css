@@ -410,22 +410,38 @@ p {
   }
 }
 
-@media screen and (max-height: 667px) {
+@media screen and (max-height: 737px) {
+  .background-image {
+    background: cover;
+  }
+  .trailer {
+    width: 80%;
+    height: 70%;
+    margin: 20px auto;
+  }
+  .trailer iframe{
+    margin-top: 15%;
+  }
   .movie-right-content {
     width: 100%;
     margin: 0 auto;
     order: 1;
     text-align: center;
-    margin-top: 0;
+    margin-top: 30%;
   }
 
   .movie-left-content{
-    margin-bottom: 50%;
+    margin-bottom: 117%;
   }
 
   .movie-left-content h1,
   .movie-left-content h2 {
     font-size: 4vw;
+  }
+  .movie-left-content h1
+ {
+    font-size: 4vw;
+    margin-top: 5px;
   }
 
   p,
@@ -433,6 +449,7 @@ p {
     font-size: 3vw;
     margin-right: 10px;
     margin-left: 10px;
+    margin-bottom: 3px;
   }
 
   .providers-container p {

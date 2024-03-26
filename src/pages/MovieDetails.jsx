@@ -145,7 +145,7 @@ function MovieDetails() {
         bottom: "0",
         left: "0",
         background: movieInfo && !smallScreen ? `url(${getBackdropUrl(movieInfo.backdrop_path, "original")}) no-repeat fixed center` : movieInfo &&
-              `url(${getBackdropUrl(movieInfo.backdrop_path, "w1280")}) no-repeat fixed center`,
+              `url(${getBackdropUrl(movieInfo.backdrop_path, "original")}) no-repeat fixed center`,
         opacity: "0.85",
       }}
     >

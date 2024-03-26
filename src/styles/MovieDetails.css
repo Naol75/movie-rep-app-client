@@ -416,6 +416,26 @@ p {
     margin: 0 auto;
     order: 1;
     text-align: center;
-    margin-top: 25%;
+    margin-top: 0;
+  }
+
+  .movie-left-content{
+    margin-bottom: 50%;
+  }
+
+  .movie-left-content h1,
+  .movie-left-content h2 {
+    font-size: 4vw;
+  }
+
+  p,
+  .movie-left-content p {
+    font-size: 3vw;
+    margin-right: 10px;
+    margin-left: 10px;
+  }
+
+  .providers-container p {
+    font-size: 3vw;
   }
 }

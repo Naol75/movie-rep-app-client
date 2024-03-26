@@ -11,6 +11,7 @@ import ProgressBar from "./ProgressBar.jsx";
 function Card({ items, addToFavorites, removeFromFavorites, showReleaseDate }) {
   const authContext = useContext(AuthContext);
   const { activeUserId } = authContext;
+  const [smallestScreen, setSmallestScreen] = useState(false)
   const [showMovieInfo, setShowMovieInfo] = useState(true);
   const [showVoteCount, setShowVoteCount] = useState(true);
   const [hoveredMovieId, setHoveredMovieId] = useState(null);
@@ -21,6 +22,7 @@ function Card({ items, addToFavorites, removeFromFavorites, showReleaseDate }) {
 
   const handleResize = () => {
     const screenWidth = window.innerWidth;
+    setSmallestScreen(screenWidth < 261)
     setShowMovieInfo(screenWidth > 450);
     setShowVoteCount(screenWidth > 590);
   };
@@ -75,7 +77,7 @@ function Card({ items, addToFavorites, removeFromFavorites, showReleaseDate }) {
   };
 
   return (
-    <div className="grid">
+    <div className="grid" style={smallestScreen ? {marginTop: "80px"} : {}}>
       {showMovieInfo
         ? items.map((movie) => (
             <div

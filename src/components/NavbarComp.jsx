@@ -17,6 +17,7 @@ const NavbarComp = () => {
   const apiKey = import.meta.env.VITE_TMDB_API_KEY;
   const [isLoadingResults, setIsLoadingResults] = useState(false);
   const [showUserIcon, setShowUserIcon] = useState(true);
+  const [smallScreen, setSmallScreen] = useState(false)
   const [searchVisible, setSearchVisible] = useState(false);
   const [elevation, setElevation] = useState(0);
   const [isPageLoading, setIsPageLoading] = useState(false);
@@ -108,6 +109,7 @@ const NavbarComp = () => {
 
   const handleResize = () => {
     const screenWidth = window.innerWidth;
+    setSmallScreen(screenWidth < 261)
     setShowUserIcon(screenWidth > 576);
   };
 
@@ -126,7 +128,7 @@ const NavbarComp = () => {
   }, []);
 
   return (
-    <Navbar expand="lg" className="navbar">
+    <Navbar expand="sm" className="navbar">
       <Navbar.Brand href="/movies/popular" className="navbar-brand">
         <img className="logo-img" src={logo} alt="logo" />
       </Navbar.Brand>
@@ -176,15 +178,26 @@ const NavbarComp = () => {
           <Nav.Link href="/discover" style={{ color: "white" }}>
             DISCOVER
           </Nav.Link>
+          {smallScreen && !isUserActive &&
+          <Nav.Link href="/login" style={{ color: "white" }}>
+            LOGIN
+          </Nav.Link>
+          }
+          {smallScreen && isUserActive &&
+          <Nav.Link href="/account" style={{ color: "white" }}>
+            MY ACCOUNT
+          </Nav.Link>
+          }
           {isUserActive && (
             <Nav.Link href="/my-favourites" style={{ color: "white" }}>
               MY FAVOURITES
             </Nav.Link>
           )}
+          
           <div className="search-bar" onMouseLeave={handleMouseLeave}>
             <img
               className="search-icon"
-              style={{ width: "1.4vw", marginLeft: "0.7vw" }}
+              style={{ marginLeft: "0.7vw", width: "1.2em" }}
               onClick={toggleSearch}
               src={searchIcon}
               alt="search"
@@ -235,13 +248,15 @@ const NavbarComp = () => {
           </div>
         </Nav>
       </Navbar.Collapse>
-      <NavLink className="login-btn" to="/account" style={{ color: "white" }}>
-        {isUserActive ? (
+      {!smallScreen && 
+      <NavLink className="login-btn" to="/login" style={{ color: "white" }}>
+        {smallScreen &&  isUserActive ? (
           <img className="user-icon" src={userIcon} alt="user-icon" />
         ) : (
           "LOGIN"
         )}
       </NavLink>
+      }
     </Navbar>
   );
 };

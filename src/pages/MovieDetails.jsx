@@ -208,9 +208,11 @@ function MovieDetails() {
                   heartButtonDetailsPage={true}
                 />
               </div>
-              <div className="movie-right-content">
+              <div className="movie-right-content"
+              >
                 {trailerKey ? (
-                  <div className="trailer">
+                  <div className="trailer"
+                  >
                     <iframe
                       title="Trailer"
                       src={`https://www.youtube.com/embed/${trailerKey}?autoplay=1&mute=1`}

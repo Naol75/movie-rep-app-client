@@ -309,43 +309,6 @@ body,
   text-decoration: none;
 }
 
-/* Movie Details Page */
-.providers-container {
-  margin-top: 3%;
-  display: flex;
-  flex-direction: row;
-  text-align: center;
-  align-items: center;
-  gap: 15px;
-}
-.providers-container p {
-  text-shadow: 1px 1px 2px red;
-  font-size: 1vw;
-  letter-spacing: 1px;
-}
-
-.providers {
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  gap: 20px;
-}
-
-.provider-logo {
-  width: 60px;
-  border-radius: 20%;
-}
-.provider-logo:hover {
-  cursor: pointer;
-}
-
-.heart-button-details-page {
-  padding-top: 15%;
-  background: none;
-  border: none;
-  transition: opacity 0.3s ease;
-  filter: drop-shadow(6px 6px 6px rgba(0, 0, 0, 0.7));
-}
 
 /* Providers Filter Header */
 

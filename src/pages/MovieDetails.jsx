@@ -20,7 +20,7 @@ function MovieDetails() {
   const [streamingProviders, setStreamingProviders] = useState([]);
 
   const roundedRating = (rating) => parseFloat(rating).toFixed(2);
-  const getDefaultImageUrl = () => "/assets/clapperboard.png";
+  const getDefaultImageUrl = () => clapperboardImage;
   const getBackdropUrl = (path) => {
     const baseUrl = "https://image.tmdb.org/t/p/original";
     return path ? `${baseUrl}${path}` : getDefaultImageUrl();
@@ -122,15 +122,20 @@ function MovieDetails() {
 
   return (
     <div
-      className="background-image cover-background"
+      className="background-image"
       style={{
-        backgroundImage: movieInfo
-          ? `url(${getBackdropUrl(movieInfo.backdrop_path)})`
-          : "",
+        position: "fixed",
+        content: "",
+        top: "0",
+        right: "0",
+        bottom: "0",
+        left: "0",
+        background: `url(${getBackdropUrl(movieInfo.backdrop_path)})no-repeat fixed center`,
         backgroundSize: "cover",
-        backgroundPosition: "center",
+        opacity: "0.85",
       }}
     >
+      <div className="overlay"></div>
       {isPageLoading ? (
         <MoonLoader color="red" size={50} loading={true} />
       ) : (
@@ -177,7 +182,7 @@ function MovieDetails() {
                       )}
                     </div>
                   ) : (
-                    <p className="no-streaming-paragraph">
+                    <p className="no-streaming-paragraph-movie-details">
                       No streaming providers available for your region.
                     </p>
                   )}

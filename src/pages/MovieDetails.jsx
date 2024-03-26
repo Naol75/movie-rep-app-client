@@ -130,7 +130,7 @@ function MovieDetails() {
         right: "0",
         bottom: "0",
         left: "0",
-        background: `url(${getBackdropUrl(movieInfo.backdrop_path)})no-repeat fixed center`,
+        background: movieInfo && `url(${getBackdropUrl(movieInfo.backdrop_path)})no-repeat fixed center`,
         backgroundSize: "cover",
         opacity: "0.85",
       }}

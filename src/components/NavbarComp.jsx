@@ -109,7 +109,7 @@ const NavbarComp = () => {
 
   const handleResize = () => {
     const screenWidth = window.innerWidth;
-    setSmallScreen(screenWidth < 261)
+    setSmallScreen(screenWidth < 376)
     setShowUserIcon(screenWidth > 576);
   };
 
@@ -190,7 +190,7 @@ const NavbarComp = () => {
           }
           {isUserActive && (
             <Nav.Link href="/my-favourites" style={{ color: "white" }}>
-              MY FAVOURITES
+              FAVOURITES
             </Nav.Link>
           )}
           

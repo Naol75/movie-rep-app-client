@@ -189,9 +189,8 @@ body,
   position: sticky;
   top: 68px;
   background-color: #202020;
-  padding: 5px 8px 22px 8px;
+  padding: 5px 8px 0 8px;
   z-index: 1000;
-  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
   transition: transform 3s ease;
 }
 
@@ -316,7 +315,7 @@ body,
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  gap: 4rem;
+  gap: 2rem;
 }
 
 .provider-logo-header {
@@ -370,14 +369,28 @@ body,
     flex-direction: column;
   }
 
+  .navbar-toggle,
+.navbar-toggler-icon {
+  background-color: white;
+  font-size: 102%;
+  color: #ffffff;
+  padding: 0;
+  z-index: 1001;
+  margin: 2.2%;
+}
+
   .logo-img {
     position: relative;
     left: -9%;
     width: 150px;
   }
+  .providers-header {
+    gap: 1.5rem;
+  }
+  
 }
 
-@media (max-width: 768px) {
+@media screen and (max-width: 768px) {
   .navbar {
     padding: 10px;
   }
@@ -405,8 +418,36 @@ body,
     margin-left: auto;
     margin-top: -10px;
   }
+  .provider-logo-header {
+    width: 4vw;
+    margin-bottom: 0;
+  }
+}
+@media screen and (max-width: 1457px) {
+  .provider-logo-header {
+    width: 5vw;
+    margin-bottom: 0;
+  }
+  .providers-header {
+    gap: 1.5rem;
+  }
+}
+@media screen and (max-width: 901px) {
+  .provider-logo-header {
+    width: 8.5vw;
+    margin-bottom: 1.7vh;
+  }
+}
+@media (max-width: 1100px) {
+  .search-icon {
+    width: 1.7vw;
+  }
 }
 @media (max-width: 1201) {
+  .provider-logo-header {
+    margin-bottom: 1.7vh;
+  }
+  
   .form-div {
     height: 60%;
     width: 80%;
@@ -420,9 +461,6 @@ body,
   }
 }
 
-@media (max-width: 1100px) {
-  .search-icon {
-    width: 1.7vw;
-  }
-}
+
+
 

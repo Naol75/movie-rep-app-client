@@ -42,8 +42,8 @@ function FiltersCompDiscover() {
     "Disney Plus": 337,
     "HBO Max": 384,
     "Movistar Plus": 149,
-    "Netflix": 8,
-    "SkyShowtime": 1773,
+    Netflix: 8,
+    SkyShowtime: 1773,
   };
 
   const fetchProvidersInfo = async () => {
@@ -114,63 +114,78 @@ function FiltersCompDiscover() {
   };
 
   return (
-    <section className="filters">
-      <div>
-        <label htmlFor="year">Released On</label>
-        <select id="year" value={filters.minYear} onChange={handleYearChange}>
-          <option value="">All</option>
-          {[...Array(currentYear - 1900 + 1).keys()].map((year) => (
-            <option key={year} value={year + 1900}>
-              {year + 1900}
-            </option>
-          ))}
-        </select>
-
-        <label htmlFor="genre">Genre</label>
-        <select id="genre" value={filters.genre} onChange={handleGenreChange}>
-          <option value="">Select Genre</option>
-          {Object.entries(genreMap).map(([genreId, genreName]) => (
-            <option key={genreId} value={genreId}>
-              {genreName}
-            </option>
-          ))}
-        </select>
-      </div>
-      <div className="providers-container-header">
-        <div className="providers-header">
-          {filteredProviders.map((provider) => (
-            <img
-              key={provider.provider_id}
-              src={`https://image.tmdb.org/t/p/original${provider.logo_path}`}
-              alt={provider.provider_name}
-              onClick={() =>
-                handleStreamingProviderChange(provider.provider_id)
-              }
-              className={
-                filters.streamingProvider === provider.provider_id
-                  ? "selected provider-logo-header"
-                  : "provider-logo-header"
-              }
-            />
-          ))}
+    <div className="filters-providers-container">
+      <section className="filters">
+        <div className="providers-container-header">
+          <div className="providers-padding">
+            <div className="providers-header">
+              {filteredProviders.map((provider) => (
+                <img
+                  key={provider.provider_id}
+                  src={`https://image.tmdb.org/t/p/original${provider.logo_path}`}
+                  alt={provider.provider_name}
+                  onClick={() =>
+                    handleStreamingProviderChange(provider.provider_id)
+                  }
+                  className={
+                    filters.streamingProvider === provider.provider_id
+                      ? "selected provider-logo-header"
+                      : "provider-logo-header"
+                  }
+                />
+              ))}
+            </div>
+          </div>
         </div>
-      </div>
-      <div>
-        <label>Sort By:</label>
-        <select value={sortBy} onChange={handleSortByChange}>
-          <option value="popularity">Popularity</option>
-          <option value="release_date">Release Date</option>
-          <option value="vote_average">Rating</option>
-          <option value="vote_count">Vote Count</option>
-        </select>
+        <div className="filters-sort-container">
+        <div className="released-genres-container">
+          <label htmlFor="year">Released On</label>
+          <select
+            id="year"
+            value={filters.minYear}
+            onChange={handleYearChange}
+          >
+            <option value="">All</option>
+            {[...Array(currentYear - 1900 + 1).keys()].map((year) => (
+              <option key={year} value={year + 1900}>
+                {year + 1900}
+              </option>
+            ))}
+          </select>
 
-        <label>Sort Order:</label>
-        <select value={sortOrder} onChange={handleSortOrderChange}>
-          <option value="asc">Ascending</option>
-          <option value="desc">Descending</option>
-        </select>
-      </div>
-    </section>
+          <label htmlFor="genre">Genre</label>
+          <select
+            id="genre"
+            value={filters.genre}
+            onChange={handleGenreChange}
+          >
+            <option value="">Select Genre</option>
+            {Object.entries(genreMap).map(([genreId, genreName]) => (
+              <option key={genreId} value={genreId}>
+                {genreName}
+              </option>
+            ))}
+          </select>
+        </div>
+        
+        <div className="sort-container">
+          <label>Sort By:</label>
+          <select value={sortBy} onChange={handleSortByChange}>
+            <option value="popularity">Popularity</option>
+            <option value="release_date">Release Date</option>
+            <option value="vote_average">Rating</option>
+            <option value="vote_count">Vote Count</option>
+          </select>
+
+          <label>Sort Order:</label>
+          <select value={sortOrder} onChange={handleSortOrderChange}>
+            <option value="asc">Ascending</option>
+            <option value="desc">Descending</option>
+          </select>
+        </div>
+        </div>
+      </section>
+    </div>
   );
 }
 

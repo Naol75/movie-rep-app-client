@@ -32,7 +32,7 @@ const DiscoverPage = () => {
 
   const handleResize = () => {
     const screenWidth = window.innerWidth;
-    const newShowMovieInfo = screenWidth > 450;
+    const newShowMovieInfo = screenWidth > 518;
     setShowMovieInfo(newShowMovieInfo);
   };
   useEffect(() => {

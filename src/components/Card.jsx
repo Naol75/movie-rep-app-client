@@ -23,7 +23,7 @@ function Card({ items, addToFavorites, removeFromFavorites, showReleaseDate, sho
 
   const handleResize = () => {
     const screenWidth = window.innerWidth;
-    setShowMovieInformation(screenWidth > 450);
+    setShowMovieInformation(screenWidth > 518);
     
   };
 

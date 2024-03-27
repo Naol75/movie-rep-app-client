@@ -48,11 +48,11 @@
 }
 .info > .rating {
   padding-bottom: 0;
-  margin-bottom: 12px;
-  margin-right: 0.7rem;
+
 }
 .rating {
   margin-bottom: 5px;
+  margin-right: 5.1%;
 }
 
 .info h3 {
@@ -118,6 +118,9 @@
     width: 600;
     height: auto;
     max-width: fit-content;
+  }
+  .rating {
+    margin-right: 13%;
   }
 }
 

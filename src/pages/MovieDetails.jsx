@@ -165,7 +165,7 @@ function MovieDetails() {
                   <p>{movieInfo.overview}</p>
                 </div>
                 <div className="rating-container">
-                  <p className="rating">
+                  <p className="rating-movie-details">
                     ⭐ {roundedRating(movieInfo.vote_average)}
                   </p>
                   <p className="vote-count">({movieInfo.vote_count} Votes)</p>

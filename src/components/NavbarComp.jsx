@@ -179,6 +179,11 @@ const NavbarComp = () => {
             DISCOVER
           </Nav.Link>
           {smallScreen && !isUserActive &&
+          <Nav.Link href="/register" style={{ color: "white" }}>
+            REGISTER
+          </Nav.Link>
+          }
+          {smallScreen && !isUserActive &&
           <Nav.Link href="/login" style={{ color: "white" }}>
             LOGIN
           </Nav.Link>

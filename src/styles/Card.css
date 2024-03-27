@@ -114,6 +114,11 @@
     transform: scale(1.1) !important;
     cursor: pointer;
   }
+  .card-container img {
+    width: 600;
+    height: auto;
+    max-width: fit-content;
+  }
 }
 
 @media (max-width: 1201) {

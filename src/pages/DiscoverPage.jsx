@@ -18,6 +18,7 @@ const DiscoverPage = () => {
   const [page, setPage] = useState(1);
   const [isPageLoading, setIsPageLoading] = useState(false);
   const [isSticky, setIsSticky] = useState(false);
+  const [showMovieInfo, setShowMovieInfo] = useState(window.innerWidth > 450);
   const { addToFavorites, removeFromFavorites } =
     useFavoritesContext();
 
@@ -29,6 +30,19 @@ const DiscoverPage = () => {
     console.log("User IP:", ip);
   }, []);
 
+  const handleResize = () => {
+    const screenWidth = window.innerWidth;
+    const newShowMovieInfo = screenWidth > 450;
+    setShowMovieInfo(newShowMovieInfo);
+  };
+  useEffect(() => {
+
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
 
   
   const fetchPopularMoviesOnFiltersChange = async () => {
@@ -97,9 +111,6 @@ const DiscoverPage = () => {
     }
   };
 
-  const handleResize = () => {
-    
-  }
 
   const handleScroll = () => {
     const scrollTop =
@@ -154,6 +165,7 @@ const DiscoverPage = () => {
       items={popularMovies}
       addToFavorites={addToFavorites}
       removeFromFavorites={removeFromFavorites}
+      showMovieInfo={showMovieInfo}
       />
       {isPageLoading && (
         <div

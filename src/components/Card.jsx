@@ -8,11 +8,11 @@ import { AuthContext } from "../context/auth.context.jsx";
 import { useContext } from "react";
 import ProgressBar from "./ProgressBar.jsx";
 
-function Card({ items, addToFavorites, removeFromFavorites, showReleaseDate }) {
+function Card({ items, addToFavorites, removeFromFavorites, showReleaseDate, showMovieInfo }) {
   const authContext = useContext(AuthContext);
   const { activeUserId } = authContext;
   const [smallestScreen, setSmallestScreen] = useState(false)
-  const [showMovieInfo, setShowMovieInfo] = useState(true);
+  const [showMovieInformation, setShowMovieInformation] = useState(true);
   const [showVoteCount, setShowVoteCount] = useState(true);
   const [hoveredMovieId, setHoveredMovieId] = useState(null);
 
@@ -22,9 +22,8 @@ function Card({ items, addToFavorites, removeFromFavorites, showReleaseDate }) {
 
   const handleResize = () => {
     const screenWidth = window.innerWidth;
-    setSmallestScreen(screenWidth < 261)
-    setShowMovieInfo(screenWidth > 450);
-    setShowVoteCount(screenWidth > 590);
+    setShowMovieInformation(screenWidth > 450);
+    
   };
 
   useEffect(() => {
@@ -76,9 +75,13 @@ function Card({ items, addToFavorites, removeFromFavorites, showReleaseDate }) {
     return genreIds.map((genreId) => genreMap[genreId]).join(", ");
   };
 
+  useEffect(() => {
+    console.log("Handle Resize called. Show movie info:", showMovieInfo);
+  }, [])
+
   return (
     <div className="grid" style={smallestScreen ? {marginTop: "80px"} : {}}>
-      {showMovieInfo
+      {showMovieInformation && showMovieInfo
         ? items.map((movie) => (
             <div
               onClick={() => console.log(movie.id)}

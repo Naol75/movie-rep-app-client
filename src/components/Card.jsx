@@ -14,6 +14,7 @@ function Card({ items, addToFavorites, removeFromFavorites, showReleaseDate, sho
   const [smallestScreen, setSmallestScreen] = useState(false)
   const [showMovieInformation, setShowMovieInformation] = useState(true);
   const [showVoteCount, setShowVoteCount] = useState(true);
+  const [asynchronousMovieInfo, setAsynchronousMovieInfo] = useState(null)
   const [hoveredMovieId, setHoveredMovieId] = useState(null);
 
   const handleMouseEnter = (movieId) => {
@@ -33,6 +34,10 @@ function Card({ items, addToFavorites, removeFromFavorites, showReleaseDate, sho
       window.removeEventListener("resize", handleResize);
     };
   }, []);
+
+  useEffect(() => {
+    setShowMovieInformation(showMovieInfo);
+  }, [showMovieInfo]);
 
   const handleMouseLeave = () => {
     setHoveredMovieId(null);
@@ -81,7 +86,7 @@ function Card({ items, addToFavorites, removeFromFavorites, showReleaseDate, sho
 
   return (
     <div className="grid" style={smallestScreen ? {marginTop: "80px"} : {}}>
-      {showMovieInformation && showMovieInfo
+      {showMovieInformation || showMovieInfo
         ? items.map((movie) => (
             <div
               onClick={() => console.log(movie.id)}

@@ -4,13 +4,14 @@ import { MoonLoader } from "react-spinners";
 import { useParams } from "react-router-dom";
 import clapperboardImage from "../assets/clapperboard.png";
 import "../styles/MovieDetails.css";
+import LikeButton from "../components/LikeButton";
 import { AuthContext } from "../context/auth.context";
 import { useFavoritesContext } from "../context/favorites.context";
 
 function TvShowDetails() {
   const apiKey = import.meta.env.VITE_TMDB_API_KEY;
   const authContext = useContext(AuthContext);
-  const {userRegion} = authContext;
+  const { userRegion } = authContext;
   const { addToFavorites, removeFromFavorites } = useFavoritesContext();
   const [isPageLoading, setIsPageLoading] = useState(false);
   const [tvshowInfo, setTvshowInfo] = useState(null);
@@ -33,21 +34,21 @@ function TvShowDetails() {
       "Amazon Prime Video": "https://www.primevideo.com/",
       "Google Play Movies": "https://play.google.com/store/movies",
       "Microsoft Store": "https://www.microsoft.com/en-us/store/movies-and-tv",
-      "YouTube": "https://www.youtube.com/",
+      YouTube: "https://www.youtube.com/",
       "Sky Go": "https://www.sky.com/",
       "Now TV Cinema": "https://www.nowtv.com/",
-      "Vudu": "https://www.vudu.com/",
+      Vudu: "https://www.vudu.com/",
       "Rakuten TV": "https://www.rakuten.tv/",
       "HBO Max": "https://www.hbomax.com/",
-      "HBO": "https://www.hbomax.com/",
+      HBO: "https://www.hbomax.com/",
       "Movistar Plus": "https://ver.movistarplus.es/",
-      "Netflix": "https://www.netflix.com/browse",
+      Netflix: "https://www.netflix.com/browse",
       "Netflix basic with Ads": "https://www.netflix.com/browse",
-      "SkyShowtime": "https://www.skyshowtime.com/",
+      SkyShowtime: "https://www.skyshowtime.com/",
       "MGM Plus": "https://www.mgmplus.com/",
-      "Hulu": "https://www.hulu.com/",
+      Hulu: "https://www.hulu.com/",
       "Disney Plus": "https://www.disneyplus.com/",
-      "Filmin": "https://www.filmin.es/",
+      Filmin: "https://www.filmin.es/",
       "Filmin Plus": "https://www.filmin.es/",
     };
 
@@ -55,14 +56,13 @@ function TvShowDetails() {
     return providerMappings[sanitizedProviderName] || "#";
   };
 
-
   const fetchSeriesInfo = async () => {
     try {
       setIsPageLoading(true);
       let tvShowResponse;
       let videoResponse;
       let watchResponse;
-      if(userRegion ==! "ES") {
+      if (userRegion == !"ES") {
         [tvShowResponse, videoResponse, watchResponse] = await Promise.all([
           service.get(
             `https://api.themoviedb.org/3/tv/${tvshowId}?api_key=${apiKey}&language=en-US`
@@ -74,8 +74,7 @@ function TvShowDetails() {
             `https://api.themoviedb.org/3/tv/${tvshowId}/watch/providers?api_key=${apiKey}&language=en-US`
           ),
         ]);
-      }
-      else {
+      } else {
         [tvShowResponse, videoResponse, watchResponse] = await Promise.all([
           service.get(
             `https://api.themoviedb.org/3/tv/${tvshowId}?api_key=${apiKey}&language=es-ES`

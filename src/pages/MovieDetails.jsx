@@ -18,15 +18,13 @@ function MovieDetails() {
   const [movieInfo, setMovieInfo] = useState(null);
   const [trailerKey, setTrailerKey] = useState(null);
   const [streamingProviders, setStreamingProviders] = useState([]);
-  const [smallScreen, setSmallScreen] = useState(false)
+  const [smallScreen, setSmallScreen] = useState(false);
 
   const roundedRating = (rating) => parseFloat(rating).toFixed(2);
-  const getDefaultImageUrl = () => clapperboardImage;
   const getBackdropUrl = (path, resolution) => {
     const baseUrl = `https://image.tmdb.org/t/p/${resolution}`;
     return path && `${baseUrl}${path}`;
   };
-
 
   const { movieId } = useParams();
 
@@ -37,21 +35,21 @@ function MovieDetails() {
       "Amazon Prime Video": "https://www.primevideo.com/",
       "Google Play Movies": "https://play.google.com/store/movies",
       "Microsoft Store": "https://www.microsoft.com/en-us/store/movies-and-tv",
-      "YouTube": "https://www.youtube.com/",
+      YouTube: "https://www.youtube.com/",
       "Sky Go": "https://www.sky.com/",
       "Now TV Cinema": "https://www.nowtv.com/",
-      "Vudu": "https://www.vudu.com/",
+      Vudu: "https://www.vudu.com/",
       "Rakuten TV": "https://www.rakuten.tv/",
       "HBO Max": "https://www.hbomax.com/",
-      "HBO": "https://www.hbomax.com/",
+      HBO: "https://www.hbomax.com/",
       "Movistar Plus": "https://ver.movistarplus.es/",
-      "Netflix": "https://www.netflix.com/browse",
+      Netflix: "https://www.netflix.com/browse",
       "Netflix basic with Ads": "https://www.netflix.com/browse",
-      "SkyShowtime": "https://www.skyshowtime.com/",
+      SkyShowtime: "https://www.skyshowtime.com/",
       "MGM Plus": "https://www.mgmplus.com/",
-      "Hulu": "https://www.hulu.com/",
+      Hulu: "https://www.hulu.com/",
       "Disney Plus": "https://www.disneyplus.com/",
-      "Filmin": "https://www.filmin.es/",
+      Filmin: "https://www.filmin.es/",
       "Filmin Plus": "https://www.filmin.es/",
     };
 
@@ -61,16 +59,16 @@ function MovieDetails() {
 
   const handleResize = () => {
     const screenWidth = window.innerWidth;
-    setSmallScreen(screenWidth < 480)
-  }
-  
+    setSmallScreen(screenWidth < 480);
+  };
+
   useEffect(() => {
     window.addEventListener("resize", handleResize);
-    handleResize()
+    handleResize();
     return () => {
-      window.removeEventListener("resize", handleResize)
-    }
-  }, [])
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
 
   const fetchMovieInfo = async () => {
     try {
@@ -103,7 +101,7 @@ function MovieDetails() {
           ),
         ]);
       }
-      console.log(userRegion)
+      console.log(userRegion);
       console.log("Watch Response Results:", watchResponse.data.results);
 
       const userProviders = watchResponse.data.results[userRegion];
@@ -144,8 +142,17 @@ function MovieDetails() {
         right: "0",
         bottom: "0",
         left: "0",
-        background: movieInfo && !smallScreen ? `url(${getBackdropUrl(movieInfo.backdrop_path, "original")}) no-repeat fixed center` : movieInfo &&
-              `url(${getBackdropUrl(movieInfo.backdrop_path, "original")}) no-repeat fixed center`,
+        background:
+          movieInfo && !smallScreen
+            ? `url(${getBackdropUrl(
+                movieInfo.backdrop_path,
+                "original"
+              )}) no-repeat fixed center`
+            : movieInfo &&
+              `url(${getBackdropUrl(
+                movieInfo.backdrop_path,
+                "original"
+              )}) no-repeat fixed center`,
         opacity: "0.85",
       }}
     >
@@ -208,11 +215,9 @@ function MovieDetails() {
                   heartButtonDetailsPage={true}
                 />
               </div>
-              <div className="movie-right-content"
-              >
+              <div className="movie-right-content">
                 {trailerKey ? (
-                  <div className="trailer"
-                  >
+                  <div className="trailer">
                     <iframe
                       title="Trailer"
                       src={`https://www.youtube.com/embed/${trailerKey}?autoplay=1&mute=1`}

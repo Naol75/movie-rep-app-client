@@ -21,7 +21,7 @@ svg {
   #heart {
     transform: scale(1);
     fill: #e2264d;
-    animation: animateHeart 0.3s linear forwards 0.05s; /* Ajuste en el retraso */
+    animation: animateHeart 0.3s linear forwards 0.05s;
   }
   #main-circ {
     transition: all 2s;

@@ -19,7 +19,7 @@ function FavouriteCard({
   const { userRegion } = authContext;
   const { activeUserId } = authContext;
   const [hoveredMovieId, setHoveredMovieId] = useState(null);
-  const [streamingProviders, setStreamingProviders] = useState([])
+  const [streamingProviders, setStreamingProviders] = useState([]);
 
   const getProviderUrl = (providerName) => {
     const providerMappings = {
@@ -28,23 +28,23 @@ function FavouriteCard({
       "Amazon Prime Video": "https://www.primevideo.com/",
       "Google Play Movies": "https://play.google.com/store/movies",
       "Microsoft Store": "https://www.microsoft.com/en-us/store/movies-and-tv",
-      "YouTube": "https://www.youtube.com/",
+      YouTube: "https://www.youtube.com/",
       "Sky Go": "https://www.sky.com/",
       "Now TV Cinema": "https://www.nowtv.com/",
-      "Vudu": "https://www.vudu.com/",
+      Vudu: "https://www.vudu.com/",
       "Rakuten TV": "https://www.rakuten.tv/",
       "HBO Max": "https://www.hbomax.com/",
-      "HBO": "https://www.hbomax.com/",
+      HBO: "https://www.hbomax.com/",
       "Movistar Plus": "https://ver.movistarplus.es/",
-      "Netflix": "https://www.netflix.com/browse",
+      Netflix: "https://www.netflix.com/browse",
       "Netflix basic with Ads": "https://www.netflix.com/browse",
-      "SkyShowtime": "https://www.skyshowtime.com/",
+      SkyShowtime: "https://www.skyshowtime.com/",
       "MGM Plus": "https://www.mgmplus.com/",
-      "Hulu": "https://www.hulu.com/",
+      Hulu: "https://www.hulu.com/",
       "Disney Plus": "https://www.disneyplus.com/",
-      "Filmin": "https://www.filmin.es/",
+      Filmin: "https://www.filmin.es/",
       "Filmin Plus": "https://www.filmin.es/",
-      "Tivify": "https://www.tivify.es/es/",
+      Tivify: "https://www.tivify.es/es/",
     };
 
     const sanitizedProviderName = providerName.trim();
@@ -60,8 +60,7 @@ function FavouriteCard({
       if (providers) {
         const flatrateProviders = providers.flatrate || [];
         setStreamingProviders(flatrateProviders);
-      }
-      else {
+      } else {
         setStreamingProviders([]);
       }
     } catch (error) {
@@ -86,90 +85,88 @@ function FavouriteCard({
   const getImageUrl = (path) =>
     path ? `https://image.tmdb.org/t/p/w780${path}` : getDefaultImageUrl();
 
-
-
   useEffect(() => {
     console.log("streamingProviders en FavouriteCard:", streamingProviders);
-  }, [])
+  }, []);
 
   return (
-        <div
-          onClick={() => console.log(movie.id)}
-          className="card-container-favourite"
-          key={movie.id}
-          onMouseEnter={() => handleMouseEnter(movie.id)}
-          onMouseLeave={handleMouseLeave}
-        >
-          <LikeButton
-            movieId={movie.id}
-            addToFavorites={addToFavorites}
-            removeFromFavorites={removeFromFavorites}
-            heartButtonFavourite={heartButtonFavourite}
-          />
+    <div
+      onClick={() => console.log(movie.id)}
+      className="card-container-favourite"
+      key={movie.id}
+      onMouseEnter={() => handleMouseEnter(movie.id)}
+      onMouseLeave={handleMouseLeave}
+    >
+      <LikeButton
+        movieId={movie.id}
+        addToFavorites={addToFavorites}
+        removeFromFavorites={removeFromFavorites}
+        heartButtonFavourite={heartButtonFavourite}
+      />
 
-          <div className="poster-overlay-container">
-            <div className="poster-container-favourite">
-              <img
-                src={getImageUrl(movie.poster_path)}
-                alt={movie.name}
-                className="poster-favourite"
-              />
-            </div>
-            <div className="card-overlay-favourite"></div>
-          </div>
-          <div className="flex-center-container">
-            <div className="info-container-favourite">
-              <Link className="link" to={`/${movie.id}/movie-details`}>
-                {movie.title ? (
-                  <h5>
-                    {movie.title} (
-                    {movie.release_date && movie.release_date.substring(0, 4)})
-                  </h5>
-                ) : (
-                  <h5>
-                    {movie.name} (
-                    {movie.first_air_date &&
-                      movie.first_air_date.substring(0, 4)}
-                    )
-                  </h5>
-                )}
-              </Link>
-              <p>{movie.overview.substring(0, 100)}...</p>
-              <p className="rating-favourite">⭐ {roundedRating(movie.vote_average)}</p>
-                  {streamingProviders && streamingProviders.length > 0 ? (
-                    <div className="providers-container-fav">
-                          <div className="providers-fav">
-                      {streamingProviders.map(
-                        (provider) =>
-                        provider &&
-                        provider.provider_name && (
-                          <a
-                              key={provider.provider_id}
-                              href={getProviderUrl(provider.provider_name)}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              className="provider-fav"
-                            >
-                              {provider.logo_path && (
-                                <img
-                                  src={`https://image.tmdb.org/t/p/original${provider.logo_path}`}
-                                  alt={provider.provider_name}
-                                  className="provider-logo-fav"
-                                />
-                              )}
-                            </a>
-                          )
-                          )}
-                          </div>
-                          </div>
-                  ) : (
-                    <p className="no-streaming-paragraph-fav">
-                      No streaming providers available for your region.
-                    </p>
-                  )}
-            </div>
-          </div>
+      <div className="poster-overlay-container">
+        <div className="poster-container-favourite">
+          <img
+            src={getImageUrl(movie.poster_path)}
+            alt={movie.name}
+            className="poster-favourite"
+          />
         </div>
+        <div className="card-overlay-favourite"></div>
+      </div>
+      <div className="flex-center-container">
+        <div className="info-container-favourite">
+          <Link className="link" to={`/${movie.id}/movie-details`}>
+            {movie.title ? (
+              <h5>
+                {movie.title} (
+                {movie.release_date && movie.release_date.substring(0, 4)})
+              </h5>
+            ) : (
+              <h5>
+                {movie.name} (
+                {movie.first_air_date && movie.first_air_date.substring(0, 4)})
+              </h5>
+            )}
+          </Link>
+          <p>{movie.overview.substring(0, 100)}...</p>
+          <p className="rating-favourite">
+            ⭐ {roundedRating(movie.vote_average)}
+          </p>
+          {streamingProviders && streamingProviders.length > 0 ? (
+            <div className="providers-container-fav">
+              <div className="providers-fav">
+                {streamingProviders.map(
+                  (provider) =>
+                    provider &&
+                    provider.provider_name && (
+                      <a
+                        key={provider.provider_id}
+                        href={getProviderUrl(provider.provider_name)}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="provider-fav"
+                      >
+                        {provider.logo_path && (
+                          <img
+                            src={`https://image.tmdb.org/t/p/original${provider.logo_path}`}
+                            alt={provider.provider_name}
+                            className="provider-logo-fav"
+                          />
+                        )}
+                      </a>
+                    )
+                )}
+              </div>
+            </div>
+          ) : (
+            <p className="no-streaming-paragraph-fav">
+              No streaming providers available for your region.
+            </p>
+          )}
+        </div>
+      </div>
+    </div>
   );
 }
 

@@ -17,7 +17,7 @@ const NavbarComp = () => {
   const apiKey = import.meta.env.VITE_TMDB_API_KEY;
   const [isLoadingResults, setIsLoadingResults] = useState(false);
   const [showUserIcon, setShowUserIcon] = useState(true);
-  const [smallScreen, setSmallScreen] = useState(false)
+  const [smallScreen, setSmallScreen] = useState(false);
   const [searchVisible, setSearchVisible] = useState(false);
   const [elevation, setElevation] = useState(0);
   const [isPageLoading, setIsPageLoading] = useState(false);
@@ -109,7 +109,7 @@ const NavbarComp = () => {
 
   const handleResize = () => {
     const screenWidth = window.innerWidth;
-    setSmallScreen(screenWidth < 376)
+    setSmallScreen(screenWidth < 376);
     setShowUserIcon(screenWidth > 576);
   };
 
@@ -178,27 +178,27 @@ const NavbarComp = () => {
           <Nav.Link href="/discover" style={{ color: "white" }}>
             DISCOVER
           </Nav.Link>
-          {smallScreen && !isUserActive &&
-          <Nav.Link href="/register" style={{ color: "white" }}>
-            REGISTER
-          </Nav.Link>
-          }
-          {smallScreen && !isUserActive &&
-          <Nav.Link href="/login" style={{ color: "white" }}>
-            LOGIN
-          </Nav.Link>
-          }
-          {smallScreen && isUserActive &&
-          <Nav.Link href="/account" style={{ color: "white" }}>
-            MY ACCOUNT
-          </Nav.Link>
-          }
+          {smallScreen && !isUserActive && (
+            <Nav.Link href="/register" style={{ color: "white" }}>
+              REGISTER
+            </Nav.Link>
+          )}
+          {smallScreen && !isUserActive && (
+            <Nav.Link href="/login" style={{ color: "white" }}>
+              LOGIN
+            </Nav.Link>
+          )}
           {isUserActive && (
             <Nav.Link href="/my-favourites" style={{ color: "white" }}>
               FAVOURITES
             </Nav.Link>
           )}
-          
+          {smallScreen && isUserActive && (
+            <Nav.Link href="/account" style={{ color: "white" }}>
+              MY ACCOUNT
+            </Nav.Link>
+          )}
+
           <div className="search-bar" onMouseLeave={handleMouseLeave}>
             <img
               className="search-icon"
@@ -238,14 +238,6 @@ const NavbarComp = () => {
                         </div>
                       </Link>
                     ))}
-                    {isPageLoading && (
-                      <div
-                        className="loader-container"
-                        style={{ textAlign: "center", marginTop: "20px" }}
-                      >
-                        <MoonLoader color="red" size={50} loading={true} />
-                      </div>
-                    )}
                   </div>
                 )}
               </div>
@@ -253,15 +245,17 @@ const NavbarComp = () => {
           </div>
         </Nav>
       </Navbar.Collapse>
-      {!smallScreen && 
       <NavLink className="login-btn" to="/login" style={{ color: "white" }}>
-        {smallScreen &&  isUserActive ? (
-          <img className="user-icon" src={userIcon} alt="user-icon" />
-        ) : (
-          "LOGIN"
-        )}
+        {!isUserActive && "LOGIN"}
       </NavLink>
-      }
+      {isPageLoading && (
+        <div
+          className="loader-container"
+          style={{ textAlign: "center", marginTop: "20px" }}
+        >
+          <MoonLoader color="red" size={50} loading={true} />
+        </div>
+      )}
     </Navbar>
   );
 };

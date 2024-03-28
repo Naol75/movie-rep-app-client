@@ -8,8 +8,7 @@ import "../styles/Card.css";
 
 function NowPlayingPage() {
   const apiKey = import.meta.env.VITE_TMDB_API_KEY;
-  const { addToFavorites, removeFromFavorites } =
-  useFavoritesContext();
+  const { addToFavorites, removeFromFavorites } = useFavoritesContext();
   const [popularMovies, setPopularMovies] = useState([]);
   const [page, setPage] = useState(1);
   const [isPageLoading, setIsPageLoading] = useState(false);
@@ -24,9 +23,10 @@ function NowPlayingPage() {
 
       setPopularMovies((prevMovies) => {
         const uniqueMovies = response.data.results.filter(
-          (newMovie) => !prevMovies.some((prevMovie) => prevMovie.id === newMovie.id)
+          (newMovie) =>
+            !prevMovies.some((prevMovie) => prevMovie.id === newMovie.id)
         );
-  
+
         return [...prevMovies, ...uniqueMovies];
       });
 
@@ -66,10 +66,10 @@ function NowPlayingPage() {
 
   return (
     <div>
-           <Card
-      items={popularMovies}
-      addToFavorites={addToFavorites}
-      removeFromFavorites={removeFromFavorites}
+      <Card
+        items={popularMovies}
+        addToFavorites={addToFavorites}
+        removeFromFavorites={removeFromFavorites}
       />
       {isPageLoading && (
         <div
@@ -81,7 +81,6 @@ function NowPlayingPage() {
       )}
       <ScrollButton />
     </div>
-    
   );
 }
 

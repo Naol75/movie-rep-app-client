@@ -8,8 +8,7 @@ import Card from "../components/Card.jsx";
 
 function PopularSeriesPage() {
   const apiKey = import.meta.env.VITE_TMDB_API_KEY;
-  const { addToFavorites, removeFromFavorites } =
-  useFavoritesContext();
+  const { addToFavorites, removeFromFavorites } = useFavoritesContext();
   const [popularTvShows, setPopularTvShows] = useState([]);
   const [isPageLoading, setIsPageLoading] = useState(false);
   const [renderedSeries, setRenderedSeries] = useState(new Set());
@@ -68,10 +67,10 @@ function PopularSeriesPage() {
 
   return (
     <div>
-            <Card
-      items={popularTvShows}
-      addToFavorites={addToFavorites}
-      removeFromFavorites={removeFromFavorites}
+      <Card
+        items={popularTvShows}
+        addToFavorites={addToFavorites}
+        removeFromFavorites={removeFromFavorites}
       />
       {isPageLoading && (
         <div
@@ -81,7 +80,7 @@ function PopularSeriesPage() {
           <MoonLoader color="red" size={50} loading={true} />
         </div>
       )}
-            <ScrollButton />
+      <ScrollButton />
     </div>
   );
 }

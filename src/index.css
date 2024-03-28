@@ -32,7 +32,7 @@ body,
 
 .user-icon {
   margin-right: 1px;
-  width: 40px;
+  width: 33px;
 }
 
 .me-auto,
@@ -40,8 +40,6 @@ body,
   padding-top: 2px;
   margin-right: 5px;
 }
-
-
 
 .navbar-toggle {
   order: -1;
@@ -230,7 +228,6 @@ body,
   opacity: 100%;
 }
 
-
 .heart-button {
   position: absolute;
   bottom: 0;
@@ -292,7 +289,7 @@ body,
   padding-top: 15px;
   display: flex;
   flex-direction: row;
-  align-items: flex-end; 
+  align-items: flex-end;
   justify-content: center;
   height: 100%;
 }
@@ -307,7 +304,6 @@ body,
 .link {
   text-decoration: none;
 }
-
 
 /* Providers Filter Header */
 
@@ -344,10 +340,10 @@ body,
   }
 
   .form-div {
-    height: 60%;
+    height: 476px;
     width: 80%;
     margin: 0;
-    margin-top: 14vh;
+    margin-top: 12vh;
   }
 
   .navbar {
@@ -355,7 +351,6 @@ body,
     padding-right: 35px;
   }
 
-  
   .navbar-brand {
     margin: 0;
   }
@@ -370,29 +365,31 @@ body,
   }
 
   .navbar-toggle,
-.navbar-toggler-icon {
-  background-color: white;
-  font-size: 102%;
-  color: #ffffff;
-  padding: 0;
-  z-index: 1001;
-  margin: 2.2%;
-}
+  .navbar-toggler-icon {
+    background-color: white;
+    font-size: 102%;
+    color: #ffffff;
+    padding: 0;
+    z-index: 1001;
+    margin: 2.2%;
+  }
 
   .logo-img {
     position: relative;
-    left: -9%;
+    left: -16%;
     width: 150px;
+  }
+  .user-icon {
+    width: 30px;
   }
   .providers-header {
     gap: 1.5rem;
   }
-  
 }
 
 @media screen and (max-width: 768px) {
   .navbar {
-    padding: 10px;
+    padding: 5px;
   }
 
   .logo-img {
@@ -447,7 +444,7 @@ body,
   .provider-logo-header {
     margin-bottom: 1.7vh;
   }
-  
+
   .form-div {
     height: 60%;
     width: 80%;
@@ -460,7 +457,3 @@ body,
     width: 1.4vw;
   }
 }
-
-
-
-

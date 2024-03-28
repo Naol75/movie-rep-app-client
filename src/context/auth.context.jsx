@@ -5,18 +5,18 @@ import { MoonLoader } from "react-spinners";
 const AuthContext = createContext();
 
 function AuthWrapper(props) {
-  const [ip, setIp] = useState('');
+  const [ip, setIp] = useState("");
   const [userRegion, setUserRegion] = useState("");
   const [isUserActive, setIsUserActive] = useState(false);
   const [activeUserId, setActiveUserId] = useState(null);
   const [isPageLoading, setIsPageLoading] = useState(true);
-  const apiUrl = `http://ip-api.com/json/`;
+  const apiUrl = `https://ip-api.com/json/`;
 
   const fetchUserLocation = async () => {
     try {
       const response = await fetch(apiUrl);
       const data = await response.json();
-      console.log("Response from IP API:", data)
+      console.log("Response from IP API:", data);
       setUserRegion(data.countryCode);
       console.log(userRegion);
     } catch (error) {
@@ -28,7 +28,6 @@ function AuthWrapper(props) {
     try {
       const ipResponse = await service.get("auth/getIp");
       setIp(ipResponse.data.ip);
-
 
       const authToken = localStorage.getItem("authToken");
 
@@ -73,7 +72,7 @@ function AuthWrapper(props) {
       await fetchUserLocation();
       verifyToken();
     };
-    fetchData()
+    fetchData();
   }, []);
 
   const passedContext = {

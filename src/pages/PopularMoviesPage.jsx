@@ -6,15 +6,12 @@ import "../styles/Card.css";
 import { useFavoritesContext } from "../context/favorites.context";
 import Card from "../components/Card.jsx";
 
-
 function PopularMoviesPage() {
   const apiKey = import.meta.env.VITE_TMDB_API_KEY;
-  const { addToFavorites, removeFromFavorites } =
-  useFavoritesContext();
+  const { addToFavorites, removeFromFavorites } = useFavoritesContext();
   const [popularMovies, setPopularMovies] = useState([]);
   const [page, setPage] = useState(1);
   const [isPageLoading, setIsPageLoading] = useState(false);
-
 
   const fetchPopularMovies = async () => {
     try {
@@ -24,12 +21,12 @@ function PopularMoviesPage() {
       );
       console.log("API Response:", response.data);
 
-
       setPopularMovies((prevMovies) => {
         const uniqueMovies = response.data.results.filter(
-          (newMovie) => !prevMovies.some((prevMovie) => prevMovie.id === newMovie.id)
+          (newMovie) =>
+            !prevMovies.some((prevMovie) => prevMovie.id === newMovie.id)
         );
-  
+
         return [...prevMovies, ...uniqueMovies];
       });
       console.log("Current page before setPage (fetchFunction):", page);
@@ -73,10 +70,10 @@ function PopularMoviesPage() {
 
   return (
     <div>
-            <Card
-      items={popularMovies}
-      addToFavorites={addToFavorites}
-      removeFromFavorites={removeFromFavorites}
+      <Card
+        items={popularMovies}
+        addToFavorites={addToFavorites}
+        removeFromFavorites={removeFromFavorites}
       />
       {isPageLoading && (
         <div
@@ -86,7 +83,7 @@ function PopularMoviesPage() {
           <MoonLoader color="red" size={50} loading={true} />
         </div>
       )}
-            <ScrollButton />
+      <ScrollButton />
     </div>
   );
 }

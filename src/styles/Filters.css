@@ -1,4 +1,3 @@
-
 .filters {
   display: flex;
   flex-direction: row;
@@ -9,8 +8,6 @@
   padding: 10px 1.8vw 0 1.7vw;
   font-size: 16px;
 }
-
-
 
 .filters > div {
   display: flex;
@@ -76,9 +73,8 @@ select option {
     flex-direction: column;
   }
 
-
   .released-genres-container {
-    width: 100%; 
+    width: 100%;
   }
 
   .sort-container {
@@ -89,7 +85,6 @@ select option {
     width: calc(50% - 5px);
     margin-right: 10px;
   }
-  
 }
 @media screen and (max-width: 415px) {
   .filters {
@@ -116,6 +111,3 @@ select option {
     font-size: 68%;
   }
 }
-
-
-

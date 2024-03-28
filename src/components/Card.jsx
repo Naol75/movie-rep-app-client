@@ -8,13 +8,19 @@ import { AuthContext } from "../context/auth.context.jsx";
 import { useContext } from "react";
 import ProgressBar from "./ProgressBar.jsx";
 
-function Card({ items, addToFavorites, removeFromFavorites, showReleaseDate, showMovieInfo }) {
+function Card({
+  items,
+  addToFavorites,
+  removeFromFavorites,
+  showReleaseDate,
+  showMovieInfo,
+}) {
   const authContext = useContext(AuthContext);
   const { activeUserId } = authContext;
-  const [smallestScreen, setSmallestScreen] = useState(false)
+  const [smallestScreen, setSmallestScreen] = useState(false);
   const [showMovieInformation, setShowMovieInformation] = useState(true);
   const [showVoteCount, setShowVoteCount] = useState(true);
-  const [asynchronousMovieInfo, setAsynchronousMovieInfo] = useState(null)
+  const [asynchronousMovieInfo, setAsynchronousMovieInfo] = useState(null);
   const [hoveredMovieId, setHoveredMovieId] = useState(null);
 
   const handleMouseEnter = (movieId) => {
@@ -24,7 +30,6 @@ function Card({ items, addToFavorites, removeFromFavorites, showReleaseDate, sho
   const handleResize = () => {
     const screenWidth = window.innerWidth;
     setShowMovieInformation(screenWidth > 518);
-    
   };
 
   useEffect(() => {
@@ -82,10 +87,10 @@ function Card({ items, addToFavorites, removeFromFavorites, showReleaseDate, sho
 
   useEffect(() => {
     console.log("Handle Resize called. Show movie info:", showMovieInfo);
-  }, [])
+  }, []);
 
   return (
-    <div className="grid" style={smallestScreen ? {marginTop: "80px"} : {}}>
+    <div className="grid" style={smallestScreen ? { marginTop: "80px" } : {}}>
       {showMovieInformation || showMovieInfo
         ? items.map((movie) => (
             <div
@@ -189,7 +194,7 @@ function Card({ items, addToFavorites, removeFromFavorites, showReleaseDate, sho
               </div>
               <div style={{ position: "relative" }}>
                 <div className="circle-container">
-                <ProgressBar percent={(movie.vote_average / 10) * 100}/>
+                  <ProgressBar percent={(movie.vote_average / 10) * 100} />
                 </div>
                 <img
                   src={getImageUrl(movie.poster_path)}

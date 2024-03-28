@@ -1,6 +1,6 @@
 .background-image {
   position: relative;
-  background-size: "cover",
+  background-size: "cover";
 }
 
 .overlay {
@@ -12,7 +12,6 @@
   background-color: rgba(0, 0, 0, 0.5);
   z-index: 1;
 }
-
 
 .providers-container {
   margin-top: 3%;
@@ -152,7 +151,6 @@ p {
   gap: 7rem;
 }
 
-
 @media screen and (max-width: 1470px) {
   .movie-left-content h1,
   .movie-left-content h2 {
@@ -281,9 +279,7 @@ p {
   .trailer {
     width: 90%;
     height: auto;
-
   }
-
 
   .movie-left-content {
     width: 100%;
@@ -419,7 +415,7 @@ p {
     height: 70%;
     margin: 20px auto;
   }
-  .trailer iframe{
+  .trailer iframe {
     margin-top: 15%;
   }
   .movie-right-content {
@@ -430,7 +426,7 @@ p {
     margin-top: 30%;
   }
 
-  .movie-left-content{
+  .movie-left-content {
     margin-bottom: 117%;
   }
 
@@ -438,8 +434,7 @@ p {
   .movie-left-content h2 {
     font-size: 4vw;
   }
-  .movie-left-content h1
- {
+  .movie-left-content h1 {
     font-size: 4vw;
     margin-top: 5px;
   }
@@ -458,13 +453,12 @@ p {
 }
 
 @media screen and (max-height: 591px) {
-
   .trailer {
-    width: 70%;
+    width: 93%;
     height: 70%;
-    margin: 20px auto;
+    margin: 0 auto 20px auto;
   }
-  .trailer iframe{
+  .trailer iframe {
     margin-top: 30%;
   }
   .movie-right-content {
@@ -475,7 +469,8 @@ p {
     margin-top: 30%;
   }
 
-  .movie-left-content{
+  .movie-left-content {
+    padding-top: 7%;
     margin-bottom: 117%;
   }
 
@@ -483,8 +478,7 @@ p {
   .movie-left-content h2 {
     font-size: 4vw;
   }
-  .movie-left-content h1
- {
+  .movie-left-content h1 {
     font-size: 4vw;
     margin-top: 5px;
   }

@@ -1,6 +1,5 @@
 import { useEffect, useState, useContext } from "react";
 import { MoonLoader } from "react-spinners";
-import HeaderCompDiscover from "../components/HeaderCompDiscover.jsx";
 import service from "../services/api";
 import "../styles/Card.css";
 import { AuthContext } from "../context/auth.context";
@@ -13,7 +12,7 @@ function FavouritesPage() {
   const { activeUserId, userRegion } = authContext;
   const [items, setItems] = useState([]);
   const [isPageLoading, setIsPageLoading] = useState(false);
-  const [streamingProviders, setStreamingProviders] = useState([])
+  const [streamingProviders, setStreamingProviders] = useState([]);
   const { addToFavorites, removeFromFavorites, favoritedMovies } =
     useFavoritesContext();
 
@@ -30,7 +29,7 @@ function FavouritesPage() {
           console.log("Titles:", favouriteItems);
           setIsPageLoading(true);
           fetchItemsData(favouriteItems);
-          console.log("Favourite Items:", favouriteItems)
+          console.log("Favourite Items:", favouriteItems);
         }
       } catch (error) {
         console.error("Error getting User's favourites", error);
@@ -43,7 +42,7 @@ function FavouritesPage() {
         if (ids) {
           const itemsDataPromises = ids.map(async (id) => {
             let response;
-            console.log("id:", id)
+            console.log("id:", id);
             try {
               if (userRegion === "ES") {
                 if (id.length < 5) {
@@ -55,8 +54,7 @@ function FavouritesPage() {
                     `https://api.themoviedb.org/3/movie/${id}?api_key=${apiKey}&language=es-ES`
                   );
                 }
-              }
-              else {
+              } else {
                 if (id.length < 5) {
                   response = await service.get(
                     `https://api.themoviedb.org/3/tv/${id}?api_key=${apiKey}&language=en-US`
@@ -72,7 +70,9 @@ function FavouritesPage() {
               return response.data;
             } catch (error) {
               if (error.response && error.response.status === 404) {
-                console.log("Error 404: Item not found. Trying alternative API...");
+                console.log(
+                  "Error 404: Item not found. Trying alternative API..."
+                );
                 if (id.length < 5) {
                   response = await service.get(
                     `https://api.themoviedb.org/3/movie/${id}?api_key=${apiKey}&language=${userRegion}-ES`
@@ -91,7 +91,7 @@ function FavouritesPage() {
             }
           });
           const itemsDataResults = await Promise.all(itemsDataPromises);
-          setItems(itemsDataResults.filter(item => item !== null));
+          setItems(itemsDataResults.filter((item) => item !== null));
           setIsPageLoading(false);
         }
       } catch (error) {
@@ -104,22 +104,18 @@ function FavouritesPage() {
 
   return (
     <div>
-      <div className="discover-header">
-        <HeaderCompDiscover />
-      </div>
       <div className="favourite-grid">
-      {items.map((movie) => (
-        <FavouriteCard
-        key={movie.id}
-        movie={movie}
-          heartButtonFavourite={true}
-          items={items}
-          addToFavorites={addToFavorites}
-          removeFromFavorites={removeFromFavorites}
-          streamingProviders={streamingProviders}
-        />
-      )
-      )}
+        {items.map((movie) => (
+          <FavouriteCard
+            key={movie.id}
+            movie={movie}
+            heartButtonFavourite={true}
+            items={items}
+            addToFavorites={addToFavorites}
+            removeFromFavorites={removeFromFavorites}
+            streamingProviders={streamingProviders}
+          />
+        ))}
       </div>
       {isPageLoading && (
         <div

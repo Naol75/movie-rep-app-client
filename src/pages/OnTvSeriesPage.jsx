@@ -8,13 +8,11 @@ import "../styles/Card.css";
 
 function OnTvPage() {
   const apiKey = import.meta.env.VITE_TMDB_API_KEY;
-  const { addToFavorites, removeFromFavorites } =
-  useFavoritesContext();
+  const { addToFavorites, removeFromFavorites } = useFavoritesContext();
   const [popularTvShows, setPopularTvShows] = useState([]);
   const [isPageLoading, setIsPageLoading] = useState(false);
   const [renderedSeries, setRenderedSeries] = useState(new Set());
   const [page, setPage] = useState(1);
-
 
   const fetchPopularTvShows = async () => {
     try {
@@ -70,9 +68,9 @@ function OnTvPage() {
   return (
     <div>
       <Card
-      items={popularTvShows}
-      addToFavorites={addToFavorites}
-      removeFromFavorites={removeFromFavorites}
+        items={popularTvShows}
+        addToFavorites={addToFavorites}
+        removeFromFavorites={removeFromFavorites}
       />
       {isPageLoading && (
         <div

@@ -19,14 +19,11 @@ const DiscoverPage = () => {
   const [isPageLoading, setIsPageLoading] = useState(false);
   const [isSticky, setIsSticky] = useState(false);
   const [showMovieInfo, setShowMovieInfo] = useState(window.innerWidth > 450);
-  const { addToFavorites, removeFromFavorites } =
-    useFavoritesContext();
-
-
+  const { addToFavorites, removeFromFavorites } = useFavoritesContext();
 
   useEffect(() => {
     console.log("User id:", activeUserId);
-    console.log("User region:", userRegion)
+    console.log("User region:", userRegion);
     console.log("User IP:", ip);
   }, []);
 
@@ -36,7 +33,6 @@ const DiscoverPage = () => {
     setShowMovieInfo(newShowMovieInfo);
   };
   useEffect(() => {
-
     window.addEventListener("resize", handleResize);
 
     return () => {
@@ -44,11 +40,10 @@ const DiscoverPage = () => {
     };
   }, []);
 
-  
   const fetchPopularMoviesOnFiltersChange = async () => {
     try {
       console.log("Current Filters:", filters);
-      console.log("User region:", userRegion)
+      console.log("User region:", userRegion);
       let response;
       if (userRegion !== "ES") {
         response = await service.get(
@@ -111,7 +106,6 @@ const DiscoverPage = () => {
     }
   };
 
-
   const handleScroll = () => {
     const scrollTop =
       document.documentElement.scrollTop || document.body.scrollTop;
@@ -162,10 +156,10 @@ const DiscoverPage = () => {
         <HeaderCompDiscover />
       </div>
       <Card
-      items={popularMovies}
-      addToFavorites={addToFavorites}
-      removeFromFavorites={removeFromFavorites}
-      showMovieInfo={showMovieInfo}
+        items={popularMovies}
+        addToFavorites={addToFavorites}
+        removeFromFavorites={removeFromFavorites}
+        showMovieInfo={showMovieInfo}
       />
       {isPageLoading && (
         <div

@@ -9,13 +9,11 @@ import "../styles/Card.css";
 
 function NewReleasesPage() {
   const apiKey = import.meta.env.VITE_TMDB_API_KEY;
-  const { addToFavorites, removeFromFavorites } =
-  useFavoritesContext();
+  const { addToFavorites, removeFromFavorites } = useFavoritesContext();
   const [popularMovies, setPopularMovies] = useState([]);
   const [page, setPage] = useState(1);
   const [isPageLoading, setIsPageLoading] = useState(false);
   const [renderedMovies, setRenderedMovies] = useState(new Set());
-
 
   const fetchPopularMovies = async () => {
     try {
@@ -79,10 +77,10 @@ function NewReleasesPage() {
   return (
     <div>
       <Card
-            items={popularMovies}
-            addToFavorites={addToFavorites}
-            removeFromFavorites={removeFromFavorites}
-            showReleaseDate={true}
+        items={popularMovies}
+        addToFavorites={addToFavorites}
+        removeFromFavorites={removeFromFavorites}
+        showReleaseDate={true}
       />
       {isPageLoading && (
         <div

@@ -70,7 +70,6 @@ function TopRated() {
     };
   }, [page, isPageLoading]);
 
-  // Initial fetch
   useEffect(() => {
     fetchPopularMovies();
   }, []);

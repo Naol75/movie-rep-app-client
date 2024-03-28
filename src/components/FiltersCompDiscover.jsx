@@ -138,51 +138,51 @@ function FiltersCompDiscover() {
           </div>
         </div>
         <div className="filters-sort-container">
-        <div className="released-genres-container">
-          <label htmlFor="year">Released On</label>
-          <select
-            id="year"
-            value={filters.minYear}
-            onChange={handleYearChange}
-          >
-            <option value="">All</option>
-            {[...Array(currentYear - 1900 + 1).keys()].map((year) => (
-              <option key={year} value={year + 1900}>
-                {year + 1900}
-              </option>
-            ))}
-          </select>
+          <div className="released-genres-container">
+            <label htmlFor="year">Released On</label>
+            <select
+              id="year"
+              value={filters.minYear}
+              onChange={handleYearChange}
+            >
+              <option value="">All</option>
+              {[...Array(currentYear - 1900 + 1).keys()].map((year) => (
+                <option key={year} value={year + 1900}>
+                  {year + 1900}
+                </option>
+              ))}
+            </select>
 
-          <label htmlFor="genre">Genre</label>
-          <select
-            id="genre"
-            value={filters.genre}
-            onChange={handleGenreChange}
-          >
-            <option value="">Select Genre</option>
-            {Object.entries(genreMap).map(([genreId, genreName]) => (
-              <option key={genreId} value={genreId}>
-                {genreName}
-              </option>
-            ))}
-          </select>
-        </div>
-        
-        <div className="sort-container">
-          <label>Sort By:</label>
-          <select value={sortBy} onChange={handleSortByChange}>
-            <option value="popularity">Popularity</option>
-            <option value="release_date">Release Date</option>
-            <option value="vote_average">Rating</option>
-            <option value="vote_count">Vote Count</option>
-          </select>
+            <label htmlFor="genre">Genre</label>
+            <select
+              id="genre"
+              value={filters.genre}
+              onChange={handleGenreChange}
+            >
+              <option value="">Select Genre</option>
+              {Object.entries(genreMap).map(([genreId, genreName]) => (
+                <option key={genreId} value={genreId}>
+                  {genreName}
+                </option>
+              ))}
+            </select>
+          </div>
 
-          <label>Sort Order:</label>
-          <select value={sortOrder} onChange={handleSortOrderChange}>
-            <option value="asc">Ascending</option>
-            <option value="desc">Descending</option>
-          </select>
-        </div>
+          <div className="sort-container">
+            <label>Sort By:</label>
+            <select value={sortBy} onChange={handleSortByChange}>
+              <option value="popularity">Popularity</option>
+              <option value="release_date">Release Date</option>
+              <option value="vote_average">Rating</option>
+              <option value="vote_count">Vote Count</option>
+            </select>
+
+            <label>Sort Order:</label>
+            <select value={sortOrder} onChange={handleSortOrderChange}>
+              <option value="asc">Ascending</option>
+              <option value="desc">Descending</option>
+            </select>
+          </div>
         </div>
       </section>
     </div>

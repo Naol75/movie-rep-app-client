@@ -63,14 +63,7 @@ function App() {
               element={<TvShowDetails />}
             />
             <Route path="/discover" element={<DiscoverPage />} />
-            <Route
-              path="/my-favourites"
-              element={
-                <IsPrivate>
-                  <FavouritesPage />
-                </IsPrivate>
-              }
-            />
+            <Route path="/my-favourites" element={<FavouritesPage />} />
             <Route path="/error" element={<ErrorPage />} />
             <Route path="*" element={<NotFoundPage />} />
           </Routes>

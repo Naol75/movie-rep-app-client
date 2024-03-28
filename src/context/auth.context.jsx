@@ -1,6 +1,7 @@
 import { createContext, useEffect, useState } from "react";
 import service from "../services/api";
 import { MoonLoader } from "react-spinners";
+import axios from "axios";
 
 const AuthContext = createContext();
 
@@ -10,17 +11,17 @@ function AuthWrapper(props) {
   const [isUserActive, setIsUserActive] = useState(false);
   const [activeUserId, setActiveUserId] = useState(null);
   const [isPageLoading, setIsPageLoading] = useState(true);
-  const apiUrl = `https://ip-api.com/json/`;
 
   const fetchUserLocation = async () => {
     try {
-      const response = await fetch(apiUrl);
-      const data = await response.json();
-      console.log("Response from IP API:", data);
-      setUserRegion(data.countryCode);
-      console.log(userRegion);
+      const response = await axios.get("https://ip-api.io/json/");
+      const data = response.data;
+      setUserRegion(data.country_code);
+      console.log("response from ip api:", data);
     } catch (error) {
       console.error("Error fetching user location by IP:", error);
+    } finally {
+      setIsPageLoading(false);
     }
   };
   const verifyToken = async () => {
@@ -69,10 +70,10 @@ function AuthWrapper(props) {
   useEffect(() => {
     console.log("AuthWrapper: Before verifyToken");
     const fetchData = async () => {
-      await fetchUserLocation();
       verifyToken();
     };
     fetchData();
+    fetchUserLocation();
   }, []);
 
   const passedContext = {

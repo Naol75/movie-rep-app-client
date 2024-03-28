@@ -183,11 +183,6 @@ const NavbarComp = () => {
               REGISTER
             </Nav.Link>
           )}
-          {smallScreen && !isUserActive && (
-            <Nav.Link href="/login" style={{ color: "white" }}>
-              LOGIN
-            </Nav.Link>
-          )}
           {isUserActive && (
             <Nav.Link href="/my-favourites" style={{ color: "white" }}>
               FAVOURITES

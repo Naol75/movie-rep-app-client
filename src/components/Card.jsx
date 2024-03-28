@@ -40,10 +40,6 @@ function Card({
     };
   }, []);
 
-  useEffect(() => {
-    setShowMovieInformation(showMovieInfo);
-  }, [showMovieInfo]);
-
   const handleMouseLeave = () => {
     setHoveredMovieId(null);
   };

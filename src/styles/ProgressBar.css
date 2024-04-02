@@ -1,6 +1,6 @@
-.percent {
-  position: absolute;
-  top: -8%;
+.circle-container {
+  position: relative;
+  top: 8%;
   left: -8%;
   display: flex;
   justify-content: center;
@@ -8,6 +8,7 @@
   width: 30%;
   height: auto;
 }
+
 
 .percent svg {
   max-width: 100%;

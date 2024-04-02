@@ -73,6 +73,10 @@
   height: 40px;
 }
 
+.card-container-small {
+  margin: 0 9%;
+}
+
 @media (max-width: 480px) {
   .card-container {
     border: 1px solid rgba(black, black, black, 0.9);

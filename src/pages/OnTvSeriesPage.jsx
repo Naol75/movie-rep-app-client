@@ -72,6 +72,7 @@ function OnTvPage() {
         addToFavorites={addToFavorites}
         removeFromFavorites={removeFromFavorites}
       />
+      <ScrollButton />
       {isPageLoading && (
         <div
           className="loader-container"
@@ -80,7 +81,6 @@ function OnTvPage() {
           <MoonLoader color="red" size={50} loading={true} />
         </div>
       )}
-      <ScrollButton />
     </div>
   );
 }

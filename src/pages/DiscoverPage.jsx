@@ -161,6 +161,7 @@ const DiscoverPage = () => {
         removeFromFavorites={removeFromFavorites}
         showMovieInfo={showMovieInfo}
       />
+        <ScrollButton />
       {isPageLoading && (
         <div
           className="loader-container"
@@ -169,7 +170,6 @@ const DiscoverPage = () => {
           <MoonLoader color="red" size={50} loading={true} />
         </div>
       )}
-      <ScrollButton />
     </div>
   );
 };

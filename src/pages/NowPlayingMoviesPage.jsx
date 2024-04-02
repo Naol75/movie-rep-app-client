@@ -71,6 +71,7 @@ function NowPlayingPage() {
         addToFavorites={addToFavorites}
         removeFromFavorites={removeFromFavorites}
       />
+      <ScrollButton />
       {isPageLoading && (
         <div
           className="loader-container"
@@ -79,7 +80,6 @@ function NowPlayingPage() {
           <MoonLoader color="red" size={50} loading={true} />
         </div>
       )}
-      <ScrollButton />
     </div>
   );
 }

@@ -75,6 +75,7 @@ function PopularMoviesPage() {
         addToFavorites={addToFavorites}
         removeFromFavorites={removeFromFavorites}
       />
+      <ScrollButton />
       {isPageLoading && (
         <div
           className="loader-container"
@@ -83,7 +84,6 @@ function PopularMoviesPage() {
           <MoonLoader color="red" size={50} loading={true} />
         </div>
       )}
-      <ScrollButton />
     </div>
   );
 }

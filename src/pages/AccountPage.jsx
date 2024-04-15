@@ -20,7 +20,6 @@ function AccountPage() {
       const authToken = localStorage.getItem("authToken");
 
       if (!authToken) {
-        console.log("No token found. Redirect to login or handle accordingly.");
         return;
       }
       const response = await service.get("/auth/getProfile", {
@@ -37,7 +36,6 @@ function AccountPage() {
         password: "",
         repeatPassword: "",
       }));
-      console.log("Datos del usuario después de setUserData:", userData);
     } catch (error) {
       console.error("Error fetching user data", error);
     }
@@ -61,11 +59,10 @@ function AccountPage() {
 
   const handleSave = async () => {
     try {
-      const response = await service.patch("auth/profileEdit", userData);
+      await service.patch("auth/profileEdit", userData);
       setIsEditing(false);
     } catch (error) {
       if (error.response && error.response.status === 400) {
-        console.log(error.response.data);
         setErrorMessage(error.response.data.errorMessage);
       } else {
         navigate("/error");

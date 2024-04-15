@@ -101,8 +101,6 @@ function MovieDetails() {
           ),
         ]);
       }
-      console.log(userRegion);
-      console.log("Watch Response Results:", watchResponse.data.results);
 
       const userProviders = watchResponse.data.results[userRegion];
 

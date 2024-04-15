@@ -87,8 +87,6 @@ function TvShowDetails() {
           ),
         ]);
       }
-      console.log("Watch Response Results:", watchResponse.data.results);
-
       const userProviders = watchResponse.data.results[userRegion];
 
       if (userProviders) {
@@ -115,7 +113,6 @@ function TvShowDetails() {
 
   useEffect(() => {
     fetchSeriesInfo();
-    console.log(streamingProviders);
   }, [tvshowId, userRegion]);
 
   return (

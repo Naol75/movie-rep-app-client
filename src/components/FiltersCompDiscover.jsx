@@ -79,18 +79,14 @@ function FiltersCompDiscover() {
 
   const handleStreamingProviderChange = (providerId) => {
     const sameProvider = filters.streamingProvider === providerId;
-    console.log("New Streaming Provider:", providerId);
-    console.log("Current Filters before update:", filters);
     if (!sameProvider) {
       updateStreamingProvider(providerId);
     } else {
       updateStreamingProvider("");
     }
-    console.log("Current Filters after update:", filters);
   };
 
   const handleYearChange = (event) => {
-    console.log("Year changed:", event.target.value);
     setFilters((prevFilters) => ({
       ...prevFilters,
       minYear: parseInt(event.target.value),
@@ -98,7 +94,6 @@ function FiltersCompDiscover() {
   };
 
   const handleGenreChange = (event) => {
-    console.log("Genre changed:", event.target.value);
     setFilters((prevFilters) => ({
       ...prevFilters,
       genre: event.target.value,

@@ -2,6 +2,7 @@ import { createContext, useEffect, useState } from "react";
 import service from "../services/api";
 import { MoonLoader } from "react-spinners";
 import axios from "axios";
+import PropTypes from 'prop-types';
 
 const AuthContext = createContext();
 
@@ -17,7 +18,6 @@ function AuthWrapper(props) {
       const response = await axios.get("https://ip-api.io/json/");
       const data = response.data;
       setUserRegion(data.country_code);
-      console.log("response from ip api:", data);
     } catch (error) {
       console.error("Error fetching user location by IP:", error);
     } finally {
@@ -31,11 +31,7 @@ function AuthWrapper(props) {
       setIp(ipResponse.data.ip);
 
       const authToken = localStorage.getItem("authToken");
-
-      console.log("Stored Token:", authToken);
-
       if (!authToken) {
-        console.log("Token is not defined. Aborting verification.");
         setIsUserActive(false);
         setIsPageLoading(false);
         setActiveUserId(null);
@@ -47,9 +43,6 @@ function AuthWrapper(props) {
           Authorization: `Bearer ${authToken}`,
         },
       });
-
-      console.log("API Response:", response.data);
-      console.log("User ID from response:", response.data.userId);
 
       setIsUserActive(true);
       setActiveUserId(response.data.userId);
@@ -68,7 +61,6 @@ function AuthWrapper(props) {
   };
 
   useEffect(() => {
-    console.log("AuthWrapper: Before verifyToken");
     const fetchData = async () => {
       verifyToken();
     };
@@ -95,4 +87,7 @@ function AuthWrapper(props) {
   );
 }
 
+AuthWrapper.propTypes = {
+  children: PropTypes.node,
+};
 export { AuthContext, AuthWrapper };

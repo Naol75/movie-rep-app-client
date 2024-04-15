@@ -7,6 +7,7 @@ import { useEffect, useState } from "react";
 import { AuthContext } from "../context/auth.context.jsx";
 import { useContext } from "react";
 import ProgressBar from "./ProgressBar.jsx";
+import PropTypes from 'prop-types';
 
 function Card({
   items,
@@ -20,11 +21,9 @@ function Card({
   const [smallestScreen, setSmallestScreen] = useState(false);
   const [showMovieInformation, setShowMovieInformation] = useState(true);
   const [showVoteCount, setShowVoteCount] = useState(true);
-  const [asynchronousMovieInfo, setAsynchronousMovieInfo] = useState(null);
   const [hoveredMovieId, setHoveredMovieId] = useState(null);
 
   const handleMouseEnter = (movieId) => {
-    console.log("Mouse enter Movie ID:", movieId);
     setHoveredMovieId(movieId);
   };
 
@@ -82,10 +81,6 @@ function Card({
     return genreIds.map((genreId) => genreMap[genreId]).join(", ");
   };
 
-  useEffect(() => {
-    console.log("Handle Resize called. Show movie info:", showMovieInfo);
-  }, []);
-
   return (
     <div className="grid" style={smallestScreen ? { marginTop: "80px" } : {}}>
       {showMovieInformation || showMovieInfo
@@ -97,7 +92,7 @@ function Card({
               onMouseLeave={handleMouseLeave}
             >
               <Link className="link" to={`/${movie.id}/movie-details`}>
-                <div onClick={() => console.log(movie.id)}>
+                <div>
                   <div className="card-overlay">
                     <div className="overview-in-overlay">
                       <p>{movie.overview}</p>
@@ -218,5 +213,13 @@ function Card({
     </div>
   );
 }
+Card.propTypes = {
+  items: PropTypes.array,
+  addToFavorites: PropTypes.func,
+  removeFromFavorites: PropTypes.func,
+  showReleaseDate: PropTypes.bool,
+  showMovieInfo: PropTypes.bool,
+};
+
 
 export default Card;

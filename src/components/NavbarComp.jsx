@@ -5,7 +5,6 @@ import logo from "../assets/logo.png";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { useEffect, useState, useRef, useContext } from "react";
 import { AuthContext } from "../context/auth.context";
-import userIcon from "../assets/user-icon.png";
 import { NavLink } from "react-router-dom";
 import searchIcon from "../assets/lupa.png";
 import service from "../services/api";
@@ -19,7 +18,6 @@ const NavbarComp = () => {
   const [showUserIcon, setShowUserIcon] = useState(true);
   const [smallScreen, setSmallScreen] = useState(false);
   const [searchVisible, setSearchVisible] = useState(false);
-  const [elevation, setElevation] = useState(0);
   const [isPageLoading, setIsPageLoading] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
   const { isUserActive } = useContext(AuthContext);
@@ -32,7 +30,6 @@ const NavbarComp = () => {
   const inputRef = useRef(null);
 
   const toggleSearch = () => {
-    console.log("Toggle Search");
     setSearchResults([]);
     setSearchTerm("");
     setSearchVisible(!searchVisible);
@@ -53,7 +50,6 @@ const NavbarComp = () => {
     const term = event.target.value;
     setSearchTerm(term);
     setPage(1);
-    console.log("Search term changed. Fetching results...");
     handleSearch();
   };
 
@@ -74,11 +70,9 @@ const NavbarComp = () => {
   const fetchSearchResults = async () => {
     try {
       setIsPageLoading(true);
-      console.log(`Loading page ${page}...`);
       const response = await service.get(
         `https://api.themoviedb.org/3/search/multi?query=${searchTerm}&api_key=${apiKey}&page=${page}`
       );
-      console.log("Fetched results:", response.data.results);
       setSearchResults((prevResults) => [
         ...prevResults,
         ...response.data.results,

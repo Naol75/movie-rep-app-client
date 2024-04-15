@@ -7,6 +7,7 @@ import { useEffect, useState } from "react";
 import { AuthContext } from "../context/auth.context.jsx";
 import { useContext } from "react";
 import axios from "axios";
+import PropTypes from 'prop-types';
 
 function FavouriteCard({
   movie,
@@ -85,13 +86,10 @@ function FavouriteCard({
   const getImageUrl = (path) =>
     path ? `https://image.tmdb.org/t/p/w780${path}` : getDefaultImageUrl();
 
-  useEffect(() => {
-    console.log("streamingProviders en FavouriteCard:", streamingProviders);
-  }, []);
+
 
   return (
     <div
-      onClick={() => console.log(movie.id)}
       className="card-container-favourite"
       key={movie.id}
       onMouseEnter={() => handleMouseEnter(movie.id)}
@@ -169,5 +167,12 @@ function FavouriteCard({
     </div>
   );
 }
+
+FavouriteCard.propTypes = {
+  movie: PropTypes.object,
+  addToFavorites: PropTypes.func,
+  removeFromFavorites: PropTypes.func,
+  heartButtonFavourite: PropTypes.bool,
+};
 
 export default FavouriteCard;

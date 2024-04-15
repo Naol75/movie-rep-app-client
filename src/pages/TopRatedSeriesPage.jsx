@@ -20,8 +20,6 @@ function TopRatedSeriesPage() {
       const response = await service.get(
         `https://api.themoviedb.org/3/tv/top_rated?api_key=${apiKey}&language=en-US&page=${page}`
       );
-      console.log("API Response:", response.data);
-
       const newTvShows = response.data.results.filter(
         (tvShow) => !renderedSeries.has(tvShow.id)
       );

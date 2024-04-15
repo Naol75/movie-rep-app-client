@@ -1,6 +1,7 @@
 import { createContext, useContext, useState, useEffect } from "react";
 import service from "../services/api";
 import { AuthContext } from "../context/auth.context";
+import PropTypes from 'prop-types';
 
 const FavoritesContext = createContext();
 
@@ -45,7 +46,6 @@ export const FavoritesProvider = ({ children }) => {
 
   const addToFavorites = async (movieId) => {
     try {
-      console.log("Añadiendo a favoritos:", movieId);
       const response = await service.post("/movies/addToFavourites", {
         userId: activeUserId,
         movieId: movieId,
@@ -64,7 +64,6 @@ export const FavoritesProvider = ({ children }) => {
 
   const removeFromFavorites = async (movieId) => {
     try {
-      console.log("Quitando de favoritos:", movieId);
       const response = await service.post("/movies/deleteFromFavourites", {
         userId: activeUserId,
         movieId: movieId,
@@ -94,4 +93,9 @@ export const FavoritesProvider = ({ children }) => {
       {children}
     </FavoritesContext.Provider>
   );
+
+};
+
+FavoritesProvider.propTypes = {
+  children: PropTypes.node,
 };

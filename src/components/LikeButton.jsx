@@ -17,7 +17,6 @@ const LikeButton = ({
   }, [movieId, isMovieFavorited]);
 
   const handleClick = async () => {
-    console.log("id sent to backend", movieId);
     if (liked) {
       await removeFromFavorites(movieId.toString());
     } else {

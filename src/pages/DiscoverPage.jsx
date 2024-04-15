@@ -21,12 +21,6 @@ const DiscoverPage = () => {
   const [showMovieInfo, setShowMovieInfo] = useState(window.innerWidth > 450);
   const { addToFavorites, removeFromFavorites } = useFavoritesContext();
 
-  useEffect(() => {
-    console.log("User id:", activeUserId);
-    console.log("User region:", userRegion);
-    console.log("User IP:", ip);
-  }, []);
-
   const handleResize = () => {
     const screenWidth = window.innerWidth;
     const newShowMovieInfo = screenWidth > 518;
@@ -42,8 +36,6 @@ const DiscoverPage = () => {
 
   const fetchPopularMoviesOnFiltersChange = async () => {
     try {
-      console.log("Current Filters:", filters);
-      console.log("User region:", userRegion);
       let response;
       if (userRegion !== "ES") {
         response = await service.get(
@@ -71,7 +63,6 @@ const DiscoverPage = () => {
   const fetchPopularMoviesOnScroll = async () => {
     try {
       setIsPageLoading(true);
-      console.log("Current Filters:", filters);
       let response;
       if (userRegion !== "ES") {
         response = await service.get(

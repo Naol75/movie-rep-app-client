@@ -23,13 +23,10 @@ function FavouritesPage() {
         const response = await service.get("/movies/getAllFavourites", {
           params: { userId },
         });
-        console.log("Response from getAllFavourites:", response.data);
         if (response.status === 200) {
           const favouriteItems = response.data.favouriteItems;
-          console.log("Titles:", favouriteItems);
           setIsPageLoading(true);
           fetchItemsData(favouriteItems);
-          console.log("Favourite Items:", favouriteItems);
         }
       } catch (error) {
         console.error("Error getting User's favourites", error);
@@ -38,11 +35,9 @@ function FavouritesPage() {
 
     const fetchItemsData = async (ids) => {
       try {
-        console.log("IDs received for fetching data:", ids);
         if (ids) {
           const itemsDataPromises = ids.map(async (id) => {
             let response;
-            console.log("id:", id);
             try {
               if (userRegion === "ES") {
                 if (id.length < 5) {
@@ -65,14 +60,9 @@ function FavouritesPage() {
                   );
                 }
               }
-
-              console.log("response:", response.data);
               return response.data;
             } catch (error) {
               if (error.response && error.response.status === 404) {
-                console.log(
-                  "Error 404: Item not found. Trying alternative API..."
-                );
                 if (id.length < 5) {
                   response = await service.get(
                     `https://api.themoviedb.org/3/movie/${id}?api_key=${apiKey}&language=${userRegion}-ES`
@@ -82,7 +72,6 @@ function FavouritesPage() {
                     `https://api.themoviedb.org/3/tv/${id}?api_key=${apiKey}&language=${userRegion}-ES`
                   );
                 }
-                console.log("Alternative API response:", response.data);
                 return response.data;
               } else {
                 console.error("Error fetching item data", error);

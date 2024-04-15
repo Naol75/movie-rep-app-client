@@ -21,7 +21,6 @@ export default function LoginPage() {
     e.preventDefault();
     try {
       const response = await service.post("auth/login", formData);
-      console.log("Received Token:", response.data.token);
 
       localStorage.setItem("authToken", response.data.token);
 
@@ -30,7 +29,6 @@ export default function LoginPage() {
       navigate("/");
     } catch (error) {
       if (error.response && error.response.status !== 200) {
-        console.log(error.response.data);
         setErrorMessage(error.response.data.errorMessage);
       }
     }

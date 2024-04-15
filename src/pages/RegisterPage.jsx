@@ -24,19 +24,13 @@ function RegisterPage() {
 
     try {
       const formDataToSend = new FormData();
-
-      // Append all form data fields
       Object.keys(formData).forEach((key) => {
         formDataToSend.append(key, formData[key]);
       });
-
-      console.log("formDataToSend before sending:", formDataToSend);
-      console.log("FormData before sending:", formData);
-      const response = await service.post("/auth/register", formDataToSend);
+      await service.post("/auth/register", formDataToSend);
       navigate("/login");
     } catch (error) {
       if (error.response && error.response.status === 400) {
-        console.log(error.response.data);
         setErrorMessage(error.response.data.errorMessage);
       } else {
         navigate("/error");

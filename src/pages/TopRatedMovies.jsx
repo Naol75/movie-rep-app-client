@@ -20,8 +20,6 @@ function TopRated() {
       const response = await service.get(
         `https://api.themoviedb.org/3/movie/top_rated?api_key=${apiKey}&language=en-US&page=${page}`
       );
-      console.log("API Response:", response.data);
-
       const newMovies = response.data.results.filter(
         (movie) => !renderedMovies.has(movie.id)
       );
@@ -50,8 +48,6 @@ function TopRated() {
   };
 
   useEffect(() => {
-    console.log("Current page:", page);
-
     const handleScroll = () => {
       const scrollTop =
         document.documentElement.scrollTop || document.body.scrollTop;

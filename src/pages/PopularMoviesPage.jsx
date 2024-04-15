@@ -19,7 +19,6 @@ function PopularMoviesPage() {
       const response = await service.get(
         `https://api.themoviedb.org/3/movie/popular?api_key=${apiKey}&language=en-US&page=${page}`
       );
-      console.log("API Response:", response.data);
 
       setPopularMovies((prevMovies) => {
         const uniqueMovies = response.data.results.filter(
@@ -29,9 +28,7 @@ function PopularMoviesPage() {
 
         return [...prevMovies, ...uniqueMovies];
       });
-      console.log("Current page before setPage (fetchFunction):", page);
       setPage((prevPage) => prevPage + 1);
-      console.log("Current page after setPage (fetchFunction):", page);
     } catch (error) {
       console.error("Error fetching popular movies:", error);
     } finally {
@@ -40,8 +37,6 @@ function PopularMoviesPage() {
   };
 
   useEffect(() => {
-    console.log("Current page scroll effect:", page);
-
     const handleScroll = () => {
       const scrollTop =
         document.documentElement.scrollTop || document.body.scrollTop;
@@ -63,9 +58,7 @@ function PopularMoviesPage() {
   // Initial fetch
   useEffect(() => {
     setPopularMovies([]);
-    console.log("Current page before fetchFunction (initial Fetch):", page);
     fetchPopularMovies();
-    console.log("Current page after fetchFunction (initial Fetch):", page);
   }, []);
 
   return (

@@ -84,9 +84,9 @@ function Card({
   return (
     <div className="grid" style={smallestScreen ? { marginTop: "80px" } : {}}>
       {showMovieInformation || showMovieInfo
-        ? items.map((movie) => (
+        ? items.map((movie, index) => (
             <div
-              key={movie.id}
+              key={`info-${movie.id}-index${index}`}
               className="card-container"
               onMouseEnter={() => handleMouseEnter(movie.id)}
               onMouseLeave={handleMouseLeave}
@@ -175,10 +175,10 @@ function Card({
               )}
             </div>
           ))
-        : items.map((movie) => (
+        : items.map((movie, index) => (
             <>
               <div
-                key={movie.id}
+                key={`small-${movie.id}-index${index}`}
                 className="card-container-small"
                 onMouseEnter={() => handleMouseEnter(movie.id)}
                 onMouseLeave={handleMouseLeave}

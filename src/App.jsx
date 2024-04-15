@@ -1,4 +1,5 @@
 import { Routes, Route } from "react-router-dom";
+import ScrollToTopOnPageChange from "./components/ScrollToTpOnPageChange";
 import RegisterPage from "./pages/RegisterPage";
 import LoginPage from "./pages/LoginPage";
 import ErrorPage from "./pages/ErrorPage";
@@ -26,6 +27,7 @@ function App() {
   return (
     <>
       <NavbarComp />
+      <ScrollToTopOnPageChange/>
       <FilterProvider>
         <FavoritesProvider>
           <Routes>

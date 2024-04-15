@@ -86,7 +86,7 @@ function Card({
       {showMovieInformation || showMovieInfo
         ? items.map((movie, index) => (
             <div
-              key={`info-${movie.id}-index${index}`}
+              key={`info-${movie.id}-index${index}-smallestScreen`}
               className="card-container"
               onMouseEnter={() => handleMouseEnter(movie.id)}
               onMouseLeave={handleMouseLeave}
@@ -197,13 +197,7 @@ function Card({
                     alt={`${movie.title} Poster`}
                     className="poster"
                     style={
-                      hoveredMovieId === movie.id
-                        ? { objectFit: "cover", height: "100%" }
-                        : {
-                            maxWidth: "fit-content",
-                            height: "auto",
-                            borderRadius: "3%",
-                          }
+                      { objectFit: "cover", height: "85%", borderRadius: "5px" }
                     }
                   />
                 </Link>

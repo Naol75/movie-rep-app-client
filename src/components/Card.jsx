@@ -92,12 +92,6 @@ function Card({
               onMouseLeave={handleMouseLeave}
             >
               <Link className="link" to={`/${movie.id}/movie-details`}>
-                <div>
-                  <div className="card-overlay">
-                    <div className="overview-in-overlay">
-                      <p>{movie.overview}</p>
-                    </div>
-                  </div>
                   <img
                     src={getImageUrl(movie.poster_path)}
                     alt={`${movie.title} Poster`}
@@ -108,6 +102,12 @@ function Card({
                         : {}
                     }
                   />
+                <div>
+                  <div className="card-overlay">
+                    <div className="overview-in-overlay">
+                      <p>{movie.overview}</p>
+                    </div>
+                  </div>
                   {hoveredMovieId !== movie.id && (
                     <div className="info">
                       {movie.title ? (
